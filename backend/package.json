@@ -1,0 +1,16 @@
+{
+  "name": "student-digital-hub-backend",
+  "version": "1.0.0",
+  "description": "Student Digital Hub custom authentication backend",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.0",
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0"
+  }
+}
