@@ -1,3 +1,4 @@
+const path = require("path");
 require("dotenv").config();
 
 const express = require("express");
@@ -71,6 +72,14 @@ app.use(
 );
 
 app.use(cookieParser());
+
+/* =========================================
+   SERVE FRONTEND
+========================================= */
+
+const frontendPath = path.join(__dirname, "..");
+
+app.use(express.static(frontendPath));
 
 
 /* =========================================
