@@ -472,6 +472,7 @@ app.post(
             } = await supabase
                 .from("profiles")
                 .insert({
+                    id: crypto.randomUUID(),
                     full_name: fullName,
                     username: username
                 })
