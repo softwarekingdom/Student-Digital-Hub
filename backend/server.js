@@ -466,13 +466,15 @@ app.post(
                CREATE PROFILE
             ----------------------------- */
 
+            const profileId = crypto.randomUUID();
+            console.log("PROFILE ID GENERATED:", profileId);
             const {
                 data: profile,
                 error: profileError
             } = await supabase
                 .from("profiles")
                 .insert({
-                    id: crypto.randomUUID(),
+                    id: profileId,
                     full_name: fullName,
                     username: username
                 })
