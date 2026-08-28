@@ -1,0 +1,237 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Complete Your Profile | Student Digital Hub</title>
+
+<link rel="stylesheet" href="../css/profile.css">
+
+</head><body><main class="profile-container">
+
+    <section class="profile-card">
+
+        <div class="profile-header">
+            <div class="profile-icon">👤</div>
+
+            <h1>Complete Your Profile</h1>
+
+            <p>
+                Tell us a little more about yourself
+            </p>
+        </div>
+
+
+        <form id="profileForm">
+
+            <!-- PROFILE PICTURE -->
+            <div class="avatar-section">
+
+                <div class="avatar-preview" id="avatarPreview">
+                    👤
+                </div>
+
+                <input
+                    type="url"
+                    id="avatar_url"
+                    name="avatar_url"
+                    placeholder="Profile picture URL"
+                >
+
+                <small>
+                    Optional — paste an image URL
+                </small>
+
+            </div>
+
+
+            <!-- BIO -->
+            <div class="form-group">
+
+                <label for="bio">
+                    Bio
+                </label>
+
+                <textarea
+                    id="bio"
+                    name="bio"
+                    rows="3"
+                    placeholder="Tell us something about yourself..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- GRADE -->
+            <div class="form-group">
+
+                <label for="grade">
+                    Grade / Class
+                </label>
+
+                <input
+                    type="text"
+                    id="grade"
+                    name="grade"
+                    placeholder="Example: Grade 10 / 10A"
+                >
+
+            </div>
+
+
+            <!-- SCHOOL -->
+            <div class="form-group">
+
+                <label for="school">
+                    School
+                </label>
+
+                <input
+                    type="text"
+                    id="school"
+                    name="school"
+                    placeholder="Enter your school name"
+                >
+
+            </div>
+
+
+            <!-- DISTRICT -->
+            <div class="form-group">
+
+                <label for="district">
+                    District
+                </label>
+
+                <input
+                    type="text"
+                    id="district"
+                    name="district"
+                    placeholder="Enter your district"
+                >
+
+            </div>
+
+
+            <!-- AMBITION -->
+            <div class="form-group">
+
+                <label for="ambition">
+                    Ambition
+                </label>
+
+                <input
+                    type="text"
+                    id="ambition"
+                    name="ambition"
+                    placeholder="Example: AI Security Researcher"
+                >
+
+            </div>
+
+
+            <!-- HOBBY -->
+            <div class="form-group">
+
+                <label for="hobby">
+                    Hobby
+                </label>
+
+                <input
+                    type="text"
+                    id="hobby"
+                    name="hobby"
+                    placeholder="Example: Coding, Reading, Gaming"
+                >
+
+            </div>
+
+
+            <!-- GENDER -->
+            <div class="form-group">
+
+                <label for="gender">
+                    Gender
+                </label>
+
+                <select
+                    id="gender"
+                    name="gender"
+                >
+
+                    <option value="">
+                        Select your gender
+                    </option>
+
+                    <option value="Male">
+                        Male
+                    </option>
+
+                    <option value="Female">
+                        Female
+                    </option>
+
+                    <option value="Other">
+                        Other
+                    </option>
+
+                    <option value="Prefer not to say">
+                        Prefer not to say
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- OTHER DETAILS -->
+            <div class="form-group">
+
+                <label for="other_details">
+                    Other Details
+                </label>
+
+                <textarea
+                    id="other_details"
+                    name="other_details"
+                    rows="4"
+                    placeholder="Anything else you want to tell us..."
+                ></textarea>
+
+            </div>
+
+
+            <!-- MESSAGE -->
+            <div
+                id="profileMessage"
+                class="profile-message"
+            ></div>
+
+
+            <!-- SUBMIT -->
+            <button
+                type="submit"
+                id="saveProfileBtn"
+            >
+                <span id="buttonText">
+                    Save Profile & Continue
+                </span>
+
+                <span
+                    id="buttonLoader"
+                    class="loader hidden"
+                >
+                    Saving...
+                </span>
+
+            </button>
+
+        </form>
+
+    </section>
+
+</main>
+
+
+<script src="../js/profile.js"></script>
+
+</body>
+</html>
