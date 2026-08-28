@@ -466,15 +466,12 @@ app.post(
                CREATE PROFILE
             ----------------------------- */
 
-            const profileId = crypto.randomUUID();
-            console.log("PROFILE ID GENERATED:", profileId);
             const {
                 data: profile,
                 error: profileError
             } = await supabase
                 .from("profiles")
                 .insert({
-                    id: profileId,
                     full_name: fullName,
                     username: username
                 })
@@ -995,6 +992,105 @@ app.get(
                     false
 
             });
+        }
+
+    }
+);
+
+/* =========================================
+   PROFILE API
+========================================= */
+
+app.get(
+    "/api/auth/profile",
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+
+                    success: false,
+
+                    authenticated: false,
+
+                    message:
+                        "Not authenticated."
+
+                });
+            }
+
+            const {
+                data: profile,
+                error
+            } = await supabase
+                .from("profiles")
+                .select("*")
+                .eq(
+                    "id",
+                    session.profile_id
+                )
+                .maybeSingle();
+
+            if (error) {
+
+                console.error(
+                    "Profile API error:",
+                    error
+                );
+
+                return res.status(500).json({
+
+                    success: false,
+
+                    message:
+                        "Unable to load profile."
+
+                });
+            }
+
+            if (!profile) {
+
+                return res.status(404).json({
+
+                    success: false,
+
+                    message:
+                        "Profile not found."
+
+                });
+            }
+
+            return res.json({
+
+                success: true,
+
+                authenticated: true,
+
+                profile: profile
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Profile API exception:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    "Something went wrong."
+
+            });
+
         }
 
     }
