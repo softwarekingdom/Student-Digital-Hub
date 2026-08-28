@@ -5,6 +5,7 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
+const multer = require("multer");
 
 const {
     createClient
@@ -12,6 +13,35 @@ const {
 
 
 const app = express();
+
+/* =========================================
+   PROFILE PHOTO UPLOAD
+========================================= */
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    },
+    fileFilter: function (req, file, cb) {
+
+        const allowedTypes = [
+            "image/jpeg",
+            "image/png"
+        ];
+
+        if (allowedTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else {
+            cb(
+                new Error(
+                    "Only JPG and PNG photos are allowed."
+                )
+            );
+        }
+    }
+});
+
 
 const PORT =
     process.env.PORT || 3000;
@@ -1095,6 +1125,231 @@ app.get(
 
     }
 );
+
+/* =========================================
+   UPDATE PROFILE API
+========================================= */
+
+app.put(
+    "/api/auth/profile",
+    upload.single("avatar"),
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+
+                    success: false,
+
+                    authenticated: false,
+
+                    message:
+                        "Not authenticated."
+
+                });
+            }
+
+
+            const profileId =
+                session.profile_id;
+
+
+            const {
+                bio,
+                grade,
+                school,
+                district,
+                ambition
+            } = req.body;
+
+
+            let avatarUrl = null;
+
+
+            /* =========================================
+               PHOTO UPLOAD
+            ========================================= */
+
+            if (req.file) {
+
+                const extension =
+                    req.file.mimetype === "image/png"
+                        ? "png"
+                        : "jpg";
+
+
+                const filePath =
+                    profileId + "." + extension;
+
+
+                const {
+                    error: uploadError
+                } = await supabase
+                    .storage
+                    .from("profile-photos")
+                    .upload(
+                        filePath,
+                        req.file.buffer,
+                        {
+                            contentType:
+                                req.file.mimetype,
+
+                            upsert: true
+                        }
+                    );
+
+
+                if (uploadError) {
+
+                    console.error(
+                        "Profile photo upload error:",
+                        uploadError
+                    );
+
+                    return res.status(500).json({
+
+                        success: false,
+
+                        message:
+                            "Unable to upload profile photo."
+
+                    });
+                }
+
+
+                const {
+                    data: publicUrlData
+                } = supabase
+                    .storage
+                    .from("profile-photos")
+                    .getPublicUrl(
+                        filePath
+                    );
+
+
+                avatarUrl =
+                    publicUrlData.publicUrl;
+            }
+
+
+            /* =========================================
+               PROFILE UPDATE
+            ========================================= */
+
+            const updateData = {
+
+                bio:
+                    typeof bio === "string"
+                        ? bio.trim()
+                        : "",
+
+                grade:
+                    typeof grade === "string"
+                        ? grade.trim()
+                        : "",
+
+                school:
+                    typeof school === "string"
+                        ? school.trim()
+                        : "",
+
+                district:
+                    typeof district === "string"
+                        ? district.trim()
+                        : "",
+
+                ambition:
+                    typeof ambition === "string"
+                        ? ambition.trim()
+                        : "",
+
+                updated_at:
+                    new Date().toISOString()
+
+            };
+
+
+            if (avatarUrl) {
+
+                updateData.avatar_url =
+                    avatarUrl;
+
+            }
+
+
+            const {
+                data: updatedProfile,
+                error: updateError
+            } = await supabase
+                .from("profiles")
+                .update(updateData)
+                .eq(
+                    "id",
+                    profileId
+                )
+                .select("*")
+                .single();
+
+
+            if (updateError) {
+
+                console.error(
+                    "Profile update error:",
+                    updateError
+                );
+
+                return res.status(500).json({
+
+                    success: false,
+
+                    message:
+                        "Unable to save profile."
+
+                });
+            }
+
+
+            return res.json({
+
+                success: true,
+
+                authenticated: true,
+
+                message:
+                    "Profile saved successfully.",
+
+                profile:
+                    updatedProfile
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Profile PUT API error:",
+                error
+            );
+
+            return res.status(500).json({
+
+                success: false,
+
+                message:
+                    error.message ||
+                    "Something went wrong."
+
+            });
+
+        }
+
+    }
+);
+
 /* =========================================
    LOGOUT
 ========================================= */

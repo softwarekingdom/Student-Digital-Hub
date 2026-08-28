@@ -23,25 +23,33 @@
         <form id="profileForm">
 
             <!-- PROFILE PICTURE -->
-            <div class="avatar-section">
+<div class="avatar-section">
 
-                <div class="avatar-preview" id="avatarPreview">
-                    👤
-                </div>
+    <div class="avatar-preview" id="avatarPreview">
+        👤
+    </div>
 
-                <input
-                    type="url"
-                    id="avatar_url"
-                    name="avatar_url"
-                    placeholder="Profile picture URL"
-                >
+    <label
+        for="avatar_file"
+        class="avatar-upload-btn"
+    >
+        📷 Choose Profile Picture
+    </label>
 
-                <small>
-                    Optional — paste an image URL
-                </small>
+    <input
+        type="file"
+        id="avatar_file"
+        name="avatar_file"
+        accept="image/jpeg,image/png"
+        hidden
+    >
 
-            </div>
+    <small>
+        Choose a JPG or PNG photo from your Gallery / Album.
+        Maximum 5 MB.
+    </small>
 
+</div>
 
             <!-- BIO -->
             <div class="form-group">

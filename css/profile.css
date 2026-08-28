@@ -366,3 +366,51 @@ button {
 }
 
 }
+
+/* ================================
+   PROFILE PHOTO UPLOAD BUTTON
+================================ */
+
+.avatar-upload-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 11px 18px;
+
+    margin-bottom: 8px;
+
+    border-radius: 10px;
+
+    background: var(--accent);
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.avatar-upload-btn:hover {
+    background: var(--accent-dark);
+
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 6px 16px rgba(79, 70, 229, 0.20);
+}
+
+.avatar-upload-btn:active {
+    transform: translateY(0);
+}
+
+.avatar-upload-btn:focus {
+    outline: 3px solid rgba(79, 70, 229, 0.15);
+}
