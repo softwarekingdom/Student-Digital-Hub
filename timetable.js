@@ -2566,8 +2566,66 @@ if (generateBtn) {
 
 }
 
+
+
+let tamilFontBase64 = null;
+
+function arrayBufferToBase64(buffer) {
+    let binary = "";
+    const bytes = new Uint8Array(buffer);
+    const chunkSize = 0x8000;
+
+    for (
+        let i = 0;
+        i < bytes.length;
+        i += chunkSize
+    ) {
+        const chunk =
+            bytes.subarray(
+                i,
+                Math.min(
+                    i + chunkSize,
+                    bytes.length
+                )
+            );
+
+        binary += String.fromCharCode(
+            ...chunk
+        );
+    }
+
+    return btoa(binary);
+}
+
+async function loadTamilFont() {
+
+    if (tamilFontBase64) {
+        return tamilFontBase64;
+    }
+
+    const response =
+        await fetch(
+            "assets/fonts/NotoSansTamil-Regular.ttf"
+        );
+
+    if (!response.ok) {
+        throw new Error(
+            "Tamil font could not be loaded."
+        );
+    }
+
+    const buffer =
+        await response.arrayBuffer();
+
+    tamilFontBase64 =
+        arrayBufferToBase64(buffer);
+
+    return tamilFontBase64;
+}
+
+
 /* =========================================
-   PDF DOWNLOAD
+   PDF DOWNLOAD - TIMETABLE GRID
 ========================================= */
 
 const downloadPdfBtn =
@@ -2578,7 +2636,7 @@ if (downloadPdfBtn) {
 
     downloadPdfBtn.addEventListener(
         "click",
-        function () {
+        async function () {
 
             if (
                 !generatedTimetable ||
@@ -2602,84 +2660,422 @@ if (downloadPdfBtn) {
                 } = window.jspdf;
 
 
-                const pdf =
-                    new jsPDF();
+                const tamilFont =
+                    await loadTamilFont();
 
+
+                const pdf =
+                    new jsPDF({
+                        orientation: "landscape",
+                        unit: "mm",
+                        format: "a4"
+                    });
+
+
+                pdf.addFileToVFS(
+                    "NotoSansTamil-Regular.ttf",
+                    tamilFont
+                );
+
+
+                pdf.addFont(
+                    "NotoSansTamil-Regular.ttf",
+                    "NotoSansTamil",
+                    "normal"
+                );
+
+
+                pdf.setFont(
+                    "NotoSansTamil",
+                    "normal"
+                );
+
+
+                const pageWidth =
+                    pdf.internal.pageSize.getWidth();
+
+                const pageHeight =
+                    pdf.internal.pageSize.getHeight();
+
+
+                /* ---------------------------------
+                   TITLE
+                --------------------------------- */
 
                 pdf.setFontSize(18);
 
                 pdf.text(
                     "AI Study Timetable",
-                    20,
-                    20
+                    pageWidth / 2,
+                    15,
+                    {
+                        align: "center"
+                    }
                 );
 
 
-                pdf.setFontSize(11);
+                pdf.setFontSize(10);
 
                 pdf.text(
                     "Student Digital Hub",
-                    20,
-                    28
+                    pageWidth / 2,
+                    22,
+                    {
+                        align: "center"
+                    }
                 );
 
 
-                let y = 42;
+                /* ---------------------------------
+                   DAYS
+                --------------------------------- */
+
+                const days = [
+                    "Monday",
+                    "Tuesday",
+                    "Wednesday",
+                    "Thursday",
+                    "Friday",
+                    "Saturday",
+                    "Sunday"
+                ];
+
+
+                const dayAliases = {
+                    "monday": "Monday",
+                    "tuesday": "Tuesday",
+                    "wednesday": "Wednesday",
+                    "thursday": "Thursday",
+                    "friday": "Friday",
+                    "saturday": "Saturday",
+                    "sunday": "Sunday"
+                };
+
+
+                /* ---------------------------------
+                   COLLECT TIME ROWS
+                --------------------------------- */
+
+                const timeMap = {};
 
 
                 generatedTimetable.forEach(
-                    function (item, index) {
+                    function (item) {
 
-                        if (y > 270) {
+                        const start =
+                            item.start_time || "";
 
-                            pdf.addPage();
+                        const end =
+                            item.end_time || "";
 
-                            y = 20;
+                        const timeKey =
+                            `${start}-${end}`;
+
+
+                        if (start && end) {
+
+                            timeMap[timeKey] = {
+                                start: start,
+                                end: end
+                            };
 
                         }
 
+                    }
+                );
 
-                        pdf.setFontSize(12);
 
-                        pdf.text(
-                            `${index + 1}. ${item.day_of_week || ""}`,
-                            20,
-                            y
+                const timeRows =
+                    Object.values(timeMap);
+
+
+                timeRows.sort(
+                    function (a, b) {
+
+                        return (
+                            String(a.start)
+                                .localeCompare(
+                                    String(b.start)
+                                )
+                        );
+
+                    }
+                );
+
+
+                /* ---------------------------------
+                   TABLE DIMENSIONS
+                --------------------------------- */
+
+                const tableX = 8;
+
+                const tableY = 30;
+
+                const tableWidth =
+                    pageWidth - 16;
+
+                const timeColumnWidth = 27;
+
+                const dayColumnWidth =
+                    (
+                        tableWidth -
+                        timeColumnWidth
+                    ) / days.length;
+
+
+                const headerHeight = 12;
+
+                const rowHeight = 27;
+
+
+                /* ---------------------------------
+                   HEADER
+                --------------------------------- */
+
+                pdf.setFontSize(9);
+
+
+                pdf.rect(
+                    tableX,
+                    tableY,
+                    timeColumnWidth,
+                    headerHeight
+                );
+
+
+                pdf.text(
+                    "TIME",
+                    tableX +
+                    timeColumnWidth / 2,
+                    tableY + 7,
+                    {
+                        align: "center"
+                    }
+                );
+
+
+                days.forEach(
+                    function (day, index) {
+
+                        const x =
+                            tableX +
+                            timeColumnWidth +
+                            (
+                                index *
+                                dayColumnWidth
+                            );
+
+
+                        pdf.rect(
+                            x,
+                            tableY,
+                            dayColumnWidth,
+                            headerHeight
                         );
 
 
-                        pdf.setFontSize(10);
-
                         pdf.text(
-                            `Subject: ${item.subject_name || ""}`,
-                            25,
-                            y + 7
+                            day,
+                            x +
+                            dayColumnWidth / 2,
+                            tableY + 7,
+                            {
+                                align: "center"
+                            }
+                        );
+
+                    }
+                );
+
+
+                /* ---------------------------------
+                   TABLE ROWS
+                --------------------------------- */
+
+                timeRows.forEach(
+                    function (time, rowIndex) {
+
+                        const y =
+                            tableY +
+                            headerHeight +
+                            (
+                                rowIndex *
+                                rowHeight
+                            );
+
+
+                        /* TIME CELL */
+
+                        pdf.rect(
+                            tableX,
+                            y,
+                            timeColumnWidth,
+                            rowHeight
                         );
 
 
+                        pdf.setFontSize(8);
+
                         pdf.text(
-                            `Time: ${item.start_time || ""} - ${item.end_time || ""}`,
-                            25,
-                            y + 14
+                            `${time.start} - ${time.end}`,
+                            tableX +
+                            timeColumnWidth / 2,
+                            y + 10,
+                            {
+                                align: "center"
+                            }
                         );
 
 
-                        pdf.text(
-                            `Duration: ${item.duration_minutes || 0} minutes`,
-                            25,
-                            y + 21
+                        /* DAY CELLS */
+
+                        days.forEach(
+                            function (day, dayIndex) {
+
+                                const x =
+                                    tableX +
+                                    timeColumnWidth +
+                                    (
+                                        dayIndex *
+                                        dayColumnWidth
+                                    );
+
+
+                                pdf.rect(
+                                    x,
+                                    y,
+                                    dayColumnWidth,
+                                    rowHeight
+                                );
+
+
+                                const dayKey =
+                                    day.toLowerCase();
+
+
+                                const item =
+                                    generatedTimetable.find(
+                                        function (entry) {
+
+                                            const entryDay =
+                                                String(
+                                                    entry.day_of_week ||
+                                                    ""
+                                                )
+                                                    .trim()
+                                                    .toLowerCase();
+
+
+                                            return (
+                                                dayAliases[
+                                                    entryDay
+                                                ] === day &&
+                                                String(
+                                                    entry.start_time ||
+                                                    ""
+                                                ) ===
+                                                String(
+                                                    time.start
+                                                ) &&
+                                                String(
+                                                    entry.end_time ||
+                                                    ""
+                                                ) ===
+                                                String(
+                                                    time.end
+                                                )
+                                            );
+
+                                        }
+                                    );
+
+
+                                if (!item) {
+                                    return;
+                                }
+
+
+                                pdf.setFontSize(8);
+
+
+                                const subject =
+                                    String(
+                                        item.subject_name ||
+                                        ""
+                                    );
+
+
+                                const activity =
+                                    String(
+                                        item.activity_type ||
+                                        ""
+                                    );
+
+
+                                pdf.text(
+                                    subject,
+                                    x + 2,
+                                    y + 7,
+                                    {
+                                        maxWidth:
+                                            dayColumnWidth - 4
+                                    }
+                                );
+
+
+                                pdf.setFontSize(7);
+
+
+                                if (activity) {
+
+                                    pdf.text(
+                                        activity,
+                                        x + 2,
+                                        y + 14,
+                                        {
+                                            maxWidth:
+                                                dayColumnWidth - 4
+                                        }
+                                    );
+
+                                }
+
+
+                                if (
+                                    item.duration_minutes
+                                ) {
+
+                                    pdf.text(
+                                        `${item.duration_minutes} min`,
+                                        x + 2,
+                                        y + 21,
+                                        {
+                                            maxWidth:
+                                                dayColumnWidth - 4
+                                        }
+                                    );
+
+                                }
+
+                            }
                         );
 
-
-                        pdf.text(
-                            `Activity: ${item.activity_type || ""}`,
-                            25,
-                            y + 28
-                        );
+                    }
+                );
 
 
-                        y += 38;
+                /* ---------------------------------
+                   FOOTER
+                --------------------------------- */
 
+                pdf.setFontSize(8);
+
+                pdf.text(
+                    "Generated by Student Digital Hub AI",
+                    pageWidth / 2,
+                    pageHeight - 7,
+                    {
+                        align: "center"
                     }
                 );
 
@@ -2708,6 +3104,8 @@ if (downloadPdfBtn) {
     );
 
 }
+
+
 /* ================================= */
 /* END OF TIMETABLE.JS */
 /* ================================= */
