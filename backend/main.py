@@ -724,16 +724,20 @@ def generate_timetable_api(
             default="14:00"
         )
 
-        daily_study_minutes = get_value(
+        daily_study_minutes = planner_data.get(
             "dailyStudyMinutes",
-            "daily_study_minutes",
-            default=120
+            planner_data.get(
+                "daily_study_minutes",
+                120
+            )
         )
 
-        break_minutes = get_value(
+        break_minutes = planner_data.get(
             "breakMinutes",
-            "break_minutes",
-            default=10
+            planner_data.get(
+                "break_minutes",
+                10
+            )
         )
 
         try:
