@@ -1,11 +1,10 @@
 const path = require("path");
-require("dotenv").config();
+require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const express = require("express");
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
-const multer = require("multer");
 
 const {
     createClient
@@ -13,35 +12,6 @@ const {
 
 
 const app = express();
-
-/* =========================================
-   PROFILE PHOTO UPLOAD
-========================================= */
-
-const upload = multer({
-    storage: multer.memoryStorage(),
-    limits: {
-        fileSize: 5 * 1024 * 1024
-    },
-    fileFilter: function (req, file, cb) {
-
-        const allowedTypes = [
-            "image/jpeg",
-            "image/png"
-        ];
-
-        if (allowedTypes.includes(file.mimetype)) {
-            cb(null, true);
-        } else {
-            cb(
-                new Error(
-                    "Only JPG and PNG photos are allowed."
-                )
-            );
-        }
-    }
-});
-
 
 const PORT =
     process.env.PORT || 3000;
@@ -1127,12 +1097,13 @@ app.get(
 );
 
 /* =========================================
-   UPDATE PROFILE API
+   ASSIGNMENTS API
 ========================================= */
 
-app.put(
-    "/api/auth/profile",
-    upload.single("avatar"),
+/* GET ASSIGNMENTS */
+
+app.get(
+    "/api/assignments",
     async function (req, res) {
 
         try {
@@ -1143,174 +1114,301 @@ app.put(
             if (!session) {
 
                 return res.status(401).json({
-
                     success: false,
-
                     authenticated: false,
-
-                    message:
-                        "Not authenticated."
-
+                    message: "Not authenticated."
                 });
+
             }
 
+            const {
+                data: assignments,
+                error
+            } = await supabase
+                .from("assignments")
+                .select("*")
+                .eq(
+                    "student_id",
+                    session.profile_id
+                )
+                .order(
+                    "due_date",
+                    {
+                        ascending: true,
+                        nullsFirst: false
+                    }
+                );
 
-            const profileId =
-                session.profile_id;
+            if (error) {
 
+                console.error(
+                    "Assignments GET error:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Unable to load assignments."
+                });
+
+            }
+
+            return res.json({
+                success: true,
+                assignments: assignments || []
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Assignments GET exception:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: "Something went wrong."
+            });
+
+        }
+
+    }
+);
+
+
+/* CREATE ASSIGNMENT */
+
+app.post(
+    "/api/assignments",
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+                    success: false,
+                    authenticated: false,
+                    message: "Not authenticated."
+                });
+
+            }
 
             const {
-                bio,
-                grade,
-                school,
-                district,
-                ambition
+                title,
+                description,
+                subject,
+                due_date,
+                priority,
+                status
             } = req.body;
 
 
-            let avatarUrl = null;
+            if (
+                typeof title !== "string" ||
+                !title.trim()
+            ) {
 
+                return res.status(400).json({
+                    success: false,
+                    message: "Assignment title is required."
+                });
 
-            /* =========================================
-               PHOTO UPLOAD
-            ========================================= */
-
-            if (req.file) {
-
-                const extension =
-                    req.file.mimetype === "image/png"
-                        ? "png"
-                        : "jpg";
-
-
-                const filePath =
-                    profileId + "." + extension;
-
-
-                const {
-                    error: uploadError
-                } = await supabase
-                    .storage
-                    .from("profile-photos")
-                    .upload(
-                        filePath,
-                        req.file.buffer,
-                        {
-                            contentType:
-                                req.file.mimetype,
-
-                            upsert: true
-                        }
-                    );
-
-
-                if (uploadError) {
-
-                    console.error(
-                        "Profile photo upload error:",
-                        uploadError
-                    );
-
-                    return res.status(500).json({
-
-                        success: false,
-
-                        message:
-                            "Unable to upload profile photo."
-
-                    });
-                }
-
-
-                const {
-                    data: publicUrlData
-                } = supabase
-                    .storage
-                    .from("profile-photos")
-                    .getPublicUrl(
-                        filePath
-                    );
-
-
-                avatarUrl =
-                    publicUrlData.publicUrl;
             }
 
 
-            /* =========================================
-               PROFILE UPDATE
-            ========================================= */
+            const assignmentData = {
 
-            const updateData = {
+                student_id:
+                    session.profile_id,
 
-                bio:
-                    typeof bio === "string"
-                        ? bio.trim()
-                        : "",
+                title:
+                    title.trim(),
 
-                grade:
-                    typeof grade === "string"
-                        ? grade.trim()
-                        : "",
+                description:
+                    typeof description === "string"
+                        ? description.trim()
+                        : null,
 
-                school:
-                    typeof school === "string"
-                        ? school.trim()
-                        : "",
+                subject:
+                    typeof subject === "string"
+                        ? subject.trim()
+                        : null,
 
-                district:
-                    typeof district === "string"
-                        ? district.trim()
-                        : "",
+                due_date:
+                    due_date || null,
 
-                ambition:
-                    typeof ambition === "string"
-                        ? ambition.trim()
-                        : "",
+                priority:
+                    priority || "medium",
 
-                updated_at:
-                    new Date().toISOString()
+                status:
+                    status || "pending"
 
             };
 
 
-            if (avatarUrl) {
+            const {
+                data: assignment,
+                error
+            } = await supabase
+                .from("assignments")
+                .insert(assignmentData)
+                .select("*")
+                .single();
 
-                updateData.avatar_url =
-                    avatarUrl;
+
+            if (error) {
+
+                console.error(
+                    "Assignment CREATE error:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Unable to create assignment."
+                });
 
             }
 
 
+            return res.status(201).json({
+
+                success: true,
+
+                message:
+                    "Assignment created successfully.",
+
+                assignment:
+                    assignment
+
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Assignment CREATE exception:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: "Something went wrong."
+            });
+
+        }
+
+    }
+);
+
+
+/* UPDATE ASSIGNMENT */
+
+app.put(
+    "/api/assignments/:id",
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+                    success: false,
+                    authenticated: false,
+                    message: "Not authenticated."
+                });
+
+            }
+
+
+            const assignmentId =
+                req.params.id;
+
+
             const {
-                data: updatedProfile,
-                error: updateError
+                title,
+                description,
+                subject,
+                due_date,
+                priority,
+                status
+            } = req.body;
+
+
+            const updateData = {};
+
+
+            if (typeof title === "string") {
+                updateData.title =
+                    title.trim();
+            }
+
+            if (typeof description === "string") {
+                updateData.description =
+                    description.trim();
+            }
+
+            if (typeof subject === "string") {
+                updateData.subject =
+                    subject.trim();
+            }
+
+            if (due_date !== undefined) {
+                updateData.due_date =
+                    due_date || null;
+            }
+
+            if (priority !== undefined) {
+                updateData.priority =
+                    priority;
+            }
+
+            if (status !== undefined) {
+                updateData.status =
+                    status;
+            }
+
+
+            updateData.updated_at =
+                new Date().toISOString();
+
+
+            const {
+                data: assignment,
+                error
             } = await supabase
-                .from("profiles")
+                .from("assignments")
                 .update(updateData)
                 .eq(
                     "id",
-                    profileId
+                    assignmentId
+                )
+                .eq(
+                    "student_id",
+                    session.profile_id
                 )
                 .select("*")
                 .single();
 
 
-            if (updateError) {
+            if (error) {
 
                 console.error(
-                    "Profile update error:",
-                    updateError
+                    "Assignment UPDATE error:",
+                    error
                 );
 
                 return res.status(500).json({
-
                     success: false,
-
-                    message:
-                        "Unable to save profile."
-
+                    message: "Unable to update assignment."
                 });
+
             }
 
 
@@ -1318,31 +1416,107 @@ app.put(
 
                 success: true,
 
-                authenticated: true,
-
                 message:
-                    "Profile saved successfully.",
+                    "Assignment updated successfully.",
 
-                profile:
-                    updatedProfile
+                assignment:
+                    assignment
 
             });
 
         } catch (error) {
 
             console.error(
-                "Profile PUT API error:",
+                "Assignment UPDATE exception:",
                 error
             );
 
             return res.status(500).json({
-
                 success: false,
+                message: "Something went wrong."
+            });
+
+        }
+
+    }
+);
+
+
+/* DELETE ASSIGNMENT */
+
+app.delete(
+    "/api/assignments/:id",
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+                    success: false,
+                    authenticated: false,
+                    message: "Not authenticated."
+                });
+
+            }
+
+
+            const assignmentId =
+                req.params.id;
+
+
+            const {
+                error
+            } = await supabase
+                .from("assignments")
+                .delete()
+                .eq(
+                    "id",
+                    assignmentId
+                )
+                .eq(
+                    "student_id",
+                    session.profile_id
+                );
+
+
+            if (error) {
+
+                console.error(
+                    "Assignment DELETE error:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Unable to delete assignment."
+                });
+
+            }
+
+
+            return res.json({
+
+                success: true,
 
                 message:
-                    error.message ||
-                    "Something went wrong."
+                    "Assignment deleted successfully."
 
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Assignment DELETE exception:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message: "Something went wrong."
             });
 
         }
@@ -1516,6 +1690,84 @@ app.post(
 
                 message:
                     "Cleanup failed."
+
+            });
+
+        }
+
+    }
+);
+
+
+/* =========================================
+   FASTAPI TIMETABLE PROXY
+========================================= */
+
+app.use(
+    "/api/timetable",
+    async function (req, res) {
+
+        try {
+
+            const targetUrl =
+                "http://127.0.0.1:8000" +
+                req.originalUrl;
+
+            const response =
+                await fetch(
+                    targetUrl,
+                    {
+                        method: req.method,
+
+                        headers: {
+                            "content-type":
+                                req.get("content-type") ||
+                                "application/json"
+                        },
+
+                        body:
+                            ["GET", "HEAD"].includes(req.method)
+                                ? undefined
+                                : JSON.stringify(req.body)
+                    }
+                );
+
+            const responseText =
+                await response.text();
+
+            res.status(
+                response.status
+            );
+
+            const contentType =
+                response.headers.get(
+                    "content-type"
+                );
+
+            if (contentType) {
+                res.set(
+                    "content-type",
+                    contentType
+                );
+            }
+
+            return res.send(
+                responseText
+            );
+
+        } catch (error) {
+
+            console.error(
+                "FastAPI proxy error:",
+                error
+            );
+
+            return res.status(502).json({
+
+                success: false,
+
+                message:
+                    "AI Timetable backend is unavailable."
 
             });
 

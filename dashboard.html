@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="ta">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+        Student Digital Hub | மாணவர் டிஜிட்டல் மையம்
+    </title>
+
+    <link rel="stylesheet" href="css/dashboard.css">
+
+</head>
+
+
+<body>
+
+
+    <!-- =========================================
+         APP CONTAINER
+    ========================================== -->
+
+    <div class="app-container">
+
+
+        <!-- =========================================
+             SIDEBAR
+        ========================================== -->
+
+        <aside class="sidebar">
+
+
+            <!-- Profile -->
+
+            <div class="sidebar-profile">
+
+                <div class="profile-avatar">
+
+                    <img
+                        id="sidebarProfileImage"
+                        src="assets/images/default-avatar.png"
+                        alt="மாணவர் சுயவிவரப் படம்"
+                    >
+
+                </div>
+
+
+                <div class="profile-info">
+
+                    <h3 id="sidebarStudentName">
+                        மாணவர்
+                    </h3>
+
+                    <p id="sidebarStudentGrade">
+                        மாணவர்
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <!-- Navigation -->
+
+            <nav class="sidebar-navigation">
+
+
+                <a
+                    href="dashboard.html"
+                    class="nav-item active"
+                >
+                    <span class="nav-icon">🏠</span>
+                    <span>டாஷ்போர்டு</span>
+                </a>
+
+
+                <a
+                    href="subjects.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">📚</span>
+                    <span>பாடங்கள்</span>
+                </a>
+
+
+                <a
+                    href="assignments.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">📝</span>
+                    <span>பணிகள்</span>
+                </a>
+
+
+                <a
+                    href="study-schedules.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">📅</span>
+                    <span>படிப்பு அட்டவணை</span>
+                </a>
+
+
+                <a
+                    href="goals.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">🎯</span>
+                    <span>இலக்குகள்</span>
+                </a>
+
+
+                <a
+                    href="study-sessions.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">⏱️</span>
+                    <span>படிப்பு நேரங்கள்</span>
+                </a>
+
+
+                <a
+                    href="study-progress.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">📊</span>
+                    <span>படிப்பு முன்னேற்றம்</span>
+                </a>
+
+
+                <a
+                    href="notifications.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">🔔</span>
+                    <span>அறிவிப்புகள்</span>
+                </a>
+
+
+                <a
+                    href="ai-planner.html"
+                    class="nav-item ai-nav-item"
+                >
+                    <span class="nav-icon">🤖</span>
+                    <span>AI திட்டமிடுபவர்</span>
+                </a>
+
+
+                <!-- AI Meet -->
+
+                <a
+                    href="meet.html"
+                    class="nav-item ai-nav-item"
+                >
+                    <span class="nav-icon">🤝</span>
+                    <span>AI Meet</span>
+                </a>
+
+
+                <!-- About Creator -->
+
+                <a
+                    href="creator.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">✨</span>
+                    <span>உருவாக்குநர் பற்றி</span>
+                </a>
+
+
+            </nav>
+
+
+            <!-- Sidebar Bottom -->
+
+            <div class="sidebar-bottom">
+
+
+                <a
+                    href="auth/profile.html"
+                    class="nav-item"
+                >
+                    <span class="nav-icon">👤</span>
+                    <span>எனது சுயவிவரம்</span>
+                </a>
+
+
+                <button
+                    type="button"
+                    id="logoutButton"
+                    class="logout-button"
+                >
+                    <span class="nav-icon">🚪</span>
+                    <span>வெளியேறு</span>
+                </button>
+
+
+            </div>
+
+
+        </aside>
+
+
+
+        <!-- =========================================
+             MAIN CONTENT
+        ========================================== -->
+
+        <main class="main-content">
+
+
+            <!-- =====================================
+                 TOP BAR
+            ====================================== -->
+
+            <header class="topbar">
+
+
+                <button
+                    type="button"
+                    id="menuButton"
+                    class="menu-button"
+                    aria-label="மெனுவை திறக்க"
+                >
+                    ☰
+                </button>
+
+
+                <div class="topbar-title">
+
+                    <h1>
+                        மாணவர் டாஷ்போர்டு
+                    </h1>
+
+                    <p>
+                        உங்கள் தனிப்பட்ட கற்றல் மையம்
+                    </p>
+
+                </div>
+
+
+                <div class="topbar-profile">
+
+
+                    <div class="topbar-avatar">
+
+                        <img
+                            id="topbarProfileImage"
+                            src="assets/images/default-avatar.png"
+                            alt="மாணவர் சுயவிவரப் படம்"
+                        >
+
+                    </div>
+
+
+                    <div class="topbar-student-info">
+
+                        <strong id="topbarStudentName">
+                            மாணவர்
+                        </strong>
+
+                        <span id="topbarStudentGrade">
+                            மாணவர்
+                        </span>
+
+                    </div>
+
+
+                </div>
+
+
+            </header>
+
+
+
+            <!-- =====================================
+                 DASHBOARD CONTENT
+            ====================================== -->
+
+            <section class="dashboard-content">
+
+
+                <!-- =================================
+                     WELCOME CARD
+                ================================== -->
+
+                <section class="welcome-card">
+
+
+                    <div class="welcome-text">
+
+
+                        <span class="welcome-label">
+                            மீண்டும் வருக 👋
+                        </span>
+
+
+                        <h2>
+
+                            வணக்கம்,
+
+                            <span id="welcomeStudentName">
+                                மாணவர்
+                            </span>
+
+                        </h2>
+
+
+                        <p>
+                            உங்கள் கற்றல் பயணத்தைத் தொடர
+                            தயாரா?
+                        </p>
+
+
+                    </div>
+
+
+                    <div class="welcome-profile">
+
+
+                        <div class="welcome-avatar">
+
+                            <img
+                                id="welcomeProfileImage"
+                                src="assets/images/default-avatar.png"
+                                alt="மாணவர் சுயவிவரப் படம்"
+                            >
+
+                        </div>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     STATISTICS
+                ================================== -->
+
+                <section class="statistics-grid">
+
+
+                    <article class="stat-card">
+
+
+                        <div class="stat-icon">
+                            📚
+                        </div>
+
+
+                        <div class="stat-info">
+
+                            <span>
+                                மொத்த பாடங்கள்
+                            </span>
+
+                            <strong id="totalSubjects">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <article class="stat-card">
+
+
+                        <div class="stat-icon">
+                            📝
+                        </div>
+
+
+                        <div class="stat-info">
+
+                            <span>
+                                முடிக்க வேண்டிய பணிகள்
+                            </span>
+
+                            <strong id="pendingAssignments">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <article class="stat-card">
+
+
+                        <div class="stat-icon">
+                            🎯
+                        </div>
+
+
+                        <div class="stat-info">
+
+                            <span>
+                                செயலில் உள்ள இலக்குகள்
+                            </span>
+
+                            <strong id="activeGoals">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <article class="stat-card">
+
+
+                        <div class="stat-icon">
+                            ⏱️
+                        </div>
+
+
+                        <div class="stat-info">
+
+                            <span>
+                                படிப்பு நேரம்
+                            </span>
+
+                            <strong id="studyHours">
+                                --
+                            </strong>
+
+                        </div>
+
+
+                    </article>
+
+
+                </section>
+                <!-- =================================
+                     MAIN DASHBOARD GRID
+                ================================== -->
+
+                <section class="dashboard-grid">
+
+
+                    <!-- =================================
+                         WEEKLY ACTIVITY
+                    ================================== -->
+
+                    <article class="dashboard-card weekly-activity-card">
+
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>
+                                    வாராந்திர செயல்பாடு
+                                </h3>
+
+                                <p>
+                                    இந்த வாரத்தின் உங்கள்
+                                    படிப்பு செயல்பாடு
+                                </p>
+
+                            </div>
+
+
+                            <span class="card-icon">
+                                📈
+                            </span>
+
+                        </div>
+
+
+                        <div
+                            id="weeklyActivityChart"
+                            class="chart-placeholder"
+                        >
+
+                            வாராந்திர படிப்பு
+                            வரைபடம் இங்கே தோன்றும்
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =================================
+                         STUDY PROGRESS
+                    ================================== -->
+
+                    <article class="dashboard-card progress-card">
+
+
+                        <div class="card-header">
+
+                            <div>
+
+                                <h3>
+                                    படிப்பு முன்னேற்றம்
+                                </h3>
+
+                                <p>
+                                    உங்கள் கற்றல் முன்னேற்றம்
+                                </p>
+
+                            </div>
+
+
+                            <span class="card-icon">
+                                📊
+                            </span>
+
+                        </div>
+
+
+                        <div class="progress-content">
+
+
+                            <div class="progress-circle">
+
+                                <span id="overallProgress">
+                                    --
+                                </span>
+
+                            </div>
+
+
+                            <p>
+                                மொத்த முன்னேற்றம்
+                            </p>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =================================
+                         UPCOMING ASSIGNMENTS
+                    ================================== -->
+
+                    <article class="dashboard-card assignments-card">
+
+
+                        <div class="card-header">
+
+
+                            <div>
+
+                                <h3>
+                                    வரவிருக்கும் பணிகள்
+                                </h3>
+
+                                <p>
+                                    நீங்கள் முடிக்க வேண்டிய பணிகள்
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="assignments.html"
+                                class="view-all"
+                            >
+                                அனைத்தையும் பார்க்க
+                            </a>
+
+
+                        </div>
+
+
+                        <div
+                            id="upcomingAssignments"
+                            class="empty-state"
+                        >
+
+                            <span>
+                                📝
+                            </span>
+
+
+                            <p>
+                                இன்னும் பணிகள் இல்லை
+                            </p>
+
+
+                        </div>
+
+
+                    </article>
+
+
+
+                    <!-- =================================
+                         TODAY'S SCHEDULE
+                    ================================== -->
+
+                    <article class="dashboard-card schedule-card">
+
+
+                        <div class="card-header">
+
+
+                            <div>
+
+                                <h3>
+                                    இன்றைய அட்டவணை
+                                </h3>
+
+                                <p>
+                                    இன்றைய உங்கள் படிப்பு திட்டம்
+                                </p>
+
+                            </div>
+
+
+                            <a
+                                href="study-schedules.html"
+                                class="view-all"
+                            >
+                                அனைத்தையும் பார்க்க
+                            </a>
+
+
+                        </div>
+
+
+                        <div
+                            id="todaySchedule"
+                            class="empty-state"
+                        >
+
+                            <span>
+                                📅
+                            </span>
+
+
+                            <p>
+                                இன்றைக்கு எந்த
+                                அட்டவணையும் இல்லை
+                            </p>
+
+
+                        </div>
+
+
+                    </article>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     AI SUMMARY
+                ================================== -->
+
+                <section class="ai-summary-card">
+
+
+                    <div class="ai-summary-icon">
+                        🤖
+                    </div>
+
+
+                    <div class="ai-summary-content">
+
+
+                        <span>
+                            AI கற்றல் உதவியாளர்
+                        </span>
+
+
+                        <h3>
+                            உங்கள் AI சார்ந்த
+                            கற்றல் பயணம்
+                        </h3>
+
+
+                        <p>
+
+                            படிப்பு அட்டவணை,
+                            பாட விளக்கம்,
+                            படங்கள் மற்றும் PDF புரிதல்,
+                            Programming மற்றும்
+                            Logical Reasoning போன்ற
+                            தேவைகளுக்கு பொருத்தமான
+                            AI உதவியாளரைத் தேர்வு செய்யலாம்.
+
+                        </p>
+
+
+                    </div>
+
+
+                    <a
+                        href="meet.html"
+                        class="ai-summary-button"
+                    >
+                        AI Meet திறக்க
+                    </a>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     AI TOOLS
+                ================================== -->
+
+                <section class="dashboard-grid ai-tools-section">
+
+
+
+                    <!-- =================================
+                         QWEN
+                    ================================== -->
+
+                    <article class="dashboard-card ai-tool-card">
+
+
+                        <div class="card-header">
+
+
+                            <div>
+
+                                <h3>
+                                    🥈 Qwen
+                                </h3>
+
+
+                                <p>
+                                    📅 படிப்பு அட்டவணை
+                                    திட்டமிடுபவர்
+                                </p>
+
+                            </div>
+
+
+                            <span class="card-icon">
+                                🤖
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="ai-tool-content">
+
+
+                            <p>
+
+                                உங்கள் மாணவர் விவரங்கள்,
+                                பள்ளி நேரம், ஓய்வு நேரம்,
+                                படிப்பு நேரம் மற்றும்
+                                தேவையான பாடங்களை கருத்தில்
+                                கொண்டு தனிப்பட்ட படிப்பு
+                                அட்டவணையை உருவாக்க உதவும்.
+
+                            </p>
+
+
+                        </div>
+
+
+                        <a
+                            href="timetable.html"
+                            class="view-all"
+                        >
+
+                            📅 அட்டவணை உருவாக்கு →
+
+                        </a>
+
+
+                    </article>
+
+
+
+                    <!-- =================================
+                         LLAMA
+                    ================================== -->
+
+                    <article class="dashboard-card ai-tool-card">
+
+
+                        <div class="card-header">
+
+
+                            <div>
+
+                                <h3>
+                                    🥉 Llama
+                                </h3>
+
+
+                                <p>
+                                    📚 பாட விளக்க இயந்திரம்
+                                </p>
+
+                            </div>
+
+
+                            <span class="card-icon">
+                                🧠
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="ai-tool-content">
+
+
+                            <p>
+
+                                கடினமான lessons மற்றும்
+                                புரியாத கருத்துகளை
+                                மாணவர்களுக்கு எளிமையாக
+                                தமிழ் அல்லது ஆங்கிலத்தில்
+                                புரியும்படி விளக்க உதவும்.
+
+                            </p>
+
+
+                        </div>
+
+
+                        <a
+                            href="llama.html"
+                            class="view-all"
+                        >
+
+                            📚 Llama-வை பயன்படுத்த →
+
+                        </a>
+
+
+                    </article>
+
+
+
+                    <!-- =================================
+                         GEMINI
+                    ================================== -->
+
+                    <article class="dashboard-card ai-tool-card">
+
+
+                        <div class="card-header">
+
+
+                            <div>
+
+                                <h3>
+                                    4️⃣ Gemini
+                                </h3>
+
+
+                                <p>
+                                    👁️ பல்மாதிரி
+                                    படிப்பு AI
+                                </p>
+
+                            </div>
+
+
+                            <span class="card-icon">
+                                👁️
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="ai-tool-content">
+
+
+                            <p>
+
+                                Images, PDF files,
+                                diagrams மற்றும் பிற
+                                காட்சி தகவல்களைப் புரிந்து
+                                கொண்டு அவற்றை படிப்பதற்கு
+                                எளிமையாக விளக்க உதவும்.
+
+                            </p>
+
+
+                        </div>
+
+
+                        <a
+                            href="gemini.html"
+                            class="view-all"
+                        >
+
+                            👁️ Gemini-வை பயன்படுத்த →
+
+                        </a>
+
+
+                    </article>
+
+
+
+                    <!-- =================================
+                         DEEPSEEK
+                    ================================== -->
+
+                    <article class="dashboard-card ai-tool-card">
+
+
+                        <div class="card-header">
+
+
+                            <div>
+
+                                <h3>
+                                    5️⃣ DeepSeek
+                                </h3>
+
+
+                                <p>
+                                    💻 Coding மற்றும்
+                                    Reasoning AI
+                                </p>
+
+                            </div>
+
+
+                            <span class="card-icon">
+                                💻
+                            </span>
+
+
+                        </div>
+
+
+                        <div class="ai-tool-content">
+
+
+                            <p>
+
+                                Programming problems,
+                                coding errors, debugging
+                                மற்றும் logical reasoning
+                                போன்றவற்றை புரிந்து கொண்டு
+                                தீர்வு காண உதவும்.
+
+                            </p>
+
+
+                        </div>
+
+
+                        <a
+                            href="deepseek.html"
+                            class="view-all"
+                        >
+
+                            💻 DeepSeek-ஐ பயன்படுத்த →
+
+                        </a>
+
+
+                    </article>
+
+
+                </section>
+                <!-- =================================
+                     QUICK ACTIONS
+                ================================== -->
+
+                <section class="quick-actions-section">
+
+
+                    <div class="section-title">
+
+                        <span>
+                            ⚡
+                        </span>
+
+                        <div>
+
+                            <h2>
+                                விரைவு செயல்கள்
+                            </h2>
+
+                            <p>
+                                அடிக்கடி பயன்படுத்தும்
+                                வசதிகளை விரைவாக திறக்கவும்
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="quick-actions-grid">
+
+
+                        <!-- Add Assignment -->
+
+                        <a
+                            href="assignments.html"
+                            class="quick-action-card"
+                        >
+
+                            <span class="quick-action-icon">
+                                📝
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    புதிய பணி
+                                </strong>
+
+                                <p>
+                                    Assignment சேர்க்கவும்
+                                </p>
+
+                            </div>
+
+                            <span class="quick-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+
+                        <!-- Study Schedule -->
+
+                        <a
+                            href="study-schedules.html"
+                            class="quick-action-card"
+                        >
+
+                            <span class="quick-action-icon">
+                                📅
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    படிப்பு அட்டவணை
+                                </strong>
+
+                                <p>
+                                    உங்கள் நேரத்தை திட்டமிடவும்
+                                </p>
+
+                            </div>
+
+                            <span class="quick-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+
+                        <!-- Goals -->
+
+                        <a
+                            href="goals.html"
+                            class="quick-action-card"
+                        >
+
+                            <span class="quick-action-icon">
+                                🎯
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    புதிய இலக்கு
+                                </strong>
+
+                                <p>
+                                    உங்கள் கற்றல் இலக்கை அமைக்கவும்
+                                </p>
+
+                            </div>
+
+                            <span class="quick-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+
+                        <!-- Study Session -->
+
+                        <a
+                            href="study-sessions.html"
+                            class="quick-action-card"
+                        >
+
+                            <span class="quick-action-icon">
+                                ⏱️
+                            </span>
+
+                            <div>
+
+                                <strong>
+                                    படிப்பை தொடங்கு
+                                </strong>
+
+                                <p>
+                                    புதிய படிப்பு நேரத்தை தொடங்கவும்
+                                </p>
+
+                            </div>
+
+                            <span class="quick-arrow">
+                                →
+                            </span>
+
+                        </a>
+
+
+
+                    </div>
+
+                </section>
+
+
+
+                <!-- =================================
+                     AI MEET
+                ================================== -->
+
+                <section class="ai-meet-banner">
+
+
+                    <div class="ai-meet-icon">
+                        🤝
+                    </div>
+
+
+                    <div class="ai-meet-content">
+
+                        <span>
+                            AI Meet
+                        </span>
+
+                        <h2>
+                            உங்களுக்கு தேவையான AI-ஐ தேர்வு செய்யுங்கள்
+                        </h2>
+
+                        <p>
+
+                            அட்டவணை உருவாக்க Qwen,
+                            பாடங்களை விளக்க Llama,
+                            படங்கள் மற்றும் PDF-களை புரிந்துகொள்ள Gemini,
+                            Programming மற்றும் reasoning-க்கு DeepSeek
+                            ஆகியவற்றை பயன்படுத்தலாம்.
+
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="meet.html"
+                        class="ai-meet-button"
+                    >
+
+                        🤝 AI Meet திறக்க
+
+                    </a>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     AI GUIDE
+                ================================== -->
+
+                <section class="ai-guide-section">
+
+
+                    <div class="section-title">
+
+                        <span>
+                            🤖
+                        </span>
+
+                        <div>
+
+                            <h2>
+                                எந்த AI-ஐ எப்போது பயன்படுத்தலாம்?
+                            </h2>
+
+                            <p>
+                                உங்கள் தேவைக்கு ஏற்ற AI உதவியாளரை தேர்வு செய்யுங்கள்
+                            </p>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <div class="ai-guide-grid">
+
+
+                        <!-- Qwen -->
+
+                        <a
+                            href="timetable.html"
+                            class="ai-guide-card"
+                        >
+
+                            <div class="ai-guide-number">
+                                🥈
+                            </div>
+
+                            <div class="ai-guide-info">
+
+                                <h3>
+                                    Qwen
+                                </h3>
+
+                                <strong>
+                                    📅 படிப்பு அட்டவணை திட்டமிடுபவர்
+                                </strong>
+
+                                <p>
+
+                                    உங்கள் மாணவர் விவரங்கள் மற்றும்
+                                    தினசரி நேரத்தைப் பயன்படுத்தி
+                                    தனிப்பட்ட படிப்பு அட்டவணை
+                                    உருவாக்க உதவும்.
+
+                                </p>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <!-- Llama -->
+
+                        <a
+                            href="llama.html"
+                            class="ai-guide-card"
+                        >
+
+                            <div class="ai-guide-number">
+                                🥉
+                            </div>
+
+                            <div class="ai-guide-info">
+
+                                <h3>
+                                    Llama
+                                </h3>
+
+                                <strong>
+                                    📚 பாட விளக்க இயந்திரம்
+                                </strong>
+
+                                <p>
+
+                                    கடினமான lessons மற்றும்
+                                    concepts-ஐ எளிய தமிழ் அல்லது
+                                    ஆங்கிலத்தில் விளக்க உதவும்.
+
+                                </p>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <!-- Gemini -->
+
+                        <a
+                            href="gemini.html"
+                            class="ai-guide-card"
+                        >
+
+                            <div class="ai-guide-number">
+                                4️⃣
+                            </div>
+
+                            <div class="ai-guide-info">
+
+                                <h3>
+                                    Gemini
+                                </h3>
+
+                                <strong>
+                                    👁️ பல்மாதிரி படிப்பு AI
+                                </strong>
+
+                                <p>
+
+                                    Images, PDF, diagrams போன்ற
+                                    காட்சி தகவல்களைப் புரிந்து
+                                    படிப்புக்கு உதவும்.
+
+                                </p>
+
+                            </div>
+
+                        </a>
+
+
+
+                        <!-- DeepSeek -->
+
+                        <a
+                            href="deepseek.html"
+                            class="ai-guide-card"
+                        >
+
+                            <div class="ai-guide-number">
+                                5️⃣
+                            </div>
+
+                            <div class="ai-guide-info">
+
+                                <h3>
+                                    DeepSeek
+                                </h3>
+
+                                <strong>
+                                    💻 Coding மற்றும் Reasoning AI
+                                </strong>
+
+                                <p>
+
+                                    Programming, debugging மற்றும்
+                                    logical reasoning பிரச்சினைகளில்
+                                    உதவும்.
+
+                                </p>
+
+                            </div>
+
+                        </a>
+
+
+                    </div>
+
+
+                </section>
+
+
+
+                <!-- =================================
+                     CREATOR
+                ================================== -->
+
+                <section class="creator-card">
+
+
+                    <div class="creator-icon">
+                        ✨
+                    </div>
+
+
+                    <div class="creator-content">
+
+                        <span>
+                            Student Digital Hub
+                        </span>
+
+                        <h2>
+                            இந்த திட்டத்தை உருவாக்கியவர் பற்றி
+                        </h2>
+
+                        <p>
+
+                            Student Digital Hub-ன் நோக்கம்
+                            மாணவர்களுக்கு படிப்பு,
+                            திட்டமிடல் மற்றும் AI உதவியை
+                            ஒரே இடத்தில் வழங்குவதாகும்.
+
+                        </p>
+
+                    </div>
+
+
+                    <a
+                        href="creator.html"
+                        class="creator-button"
+                    >
+
+                        ✨ உருவாக்குநர் பற்றி
+
+                    </a>
+
+
+                </section>
+
+
+            </section>
+
+
+        </main>
+
+
+    </div>
+
+
+    <!-- =========================================
+         JAVASCRIPT
+    ========================================== -->
+
+    <script src="dashboard.js"></script>
+
+
+</body>
+
+</html>

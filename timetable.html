@@ -1,0 +1,1352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>AI Timetable | Student Digital Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="timetable.css"
+    >
+</head>
+
+<body>
+
+<div class="timetable-page">
+
+    <!-- =========================================
+         HEADER
+    ========================================== -->
+
+    <header class="top-header">
+
+        <div class="brand-area">
+
+            <span class="brand-small">
+                STUDENT DIGITAL HUB
+            </span>
+
+            <h1>
+                AI Study Timetable
+            </h1>
+
+            <p>
+                உங்கள் தகவல்களின் அடிப்படையில்
+                AI உருவாக்கும் தனிப்பட்ட Time Table
+            </p>
+
+        </div>
+
+        <div class="ai-status">
+            <span class="status-dot"></span>
+            <span>AI Planner Ready</span>
+        </div>
+
+    </header>
+
+
+    <!-- =========================================
+         NARUTO HERO
+    ========================================== -->
+
+    <section class="naruto-hero">
+
+        <div class="hero-image-box">
+
+            <img
+                src="assets/images/Naruto.jpg"
+                alt="Naruto"
+                class="naruto-image"
+            >
+
+        </div>
+
+        <div class="hero-content">
+
+            <span class="hero-badge">
+                🌀 AI STUDY MODE
+            </span>
+
+            <h2>
+                உங்கள் Study Journey-க்கு
+                ஒரு Smart Timetable
+            </h2>
+
+            <p>
+                உங்கள் school time, subjects, exam dates,
+                free time மற்றும் study goals ஆகியவற்றை
+                வைத்து AI உங்களுக்கு timetable உருவாக்கும்.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         STUDENT INFORMATION
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                01
+            </span>
+
+            <div>
+                <h2>
+                    மாணவர் தகவல்கள்
+                </h2>
+
+                <p>
+                    உங்கள் study information-ஐ உள்ளிடுங்கள்
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="planner-form">
+
+            <!-- Student Name -->
+
+            <div class="input-group">
+
+                <label for="studentName">
+                    👨‍🎓 Student Name
+                </label>
+
+                <input
+                    type="text"
+                    id="studentName"
+                    placeholder="உங்கள் பெயர்"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- Grade -->
+
+            <div class="input-group">
+
+                <label for="studentGrade">
+                    🎓 Grade / Class
+                </label>
+
+                <input
+                    type="text"
+                    id="studentGrade"
+                    placeholder="உதாரணம்: Grade 10"
+                    autocomplete="off"
+                >
+
+            </div>
+
+
+            <!-- Wake Time -->
+
+            <div class="input-group">
+
+                <label for="wakeTime">
+                    🌅 Wake Up Time
+                </label>
+
+                <input
+                    type="time"
+                    id="wakeTime"
+                    value="05:30"
+                >
+
+            </div>
+
+
+            <!-- Sleep Time -->
+
+            <div class="input-group">
+
+                <label for="sleepTime">
+                    🌙 Sleep Time
+                </label>
+
+                <input
+                    type="time"
+                    id="sleepTime"
+                    value="22:00"
+                >
+
+            </div>
+
+
+            <!-- School Start -->
+
+            <div class="input-group">
+
+                <label for="schoolStart">
+                    🏫 School Start
+                </label>
+
+                <input
+                    type="time"
+                    id="schoolStart"
+                    value="07:30"
+                >
+
+            </div>
+
+
+            <!-- School End -->
+
+            <div class="input-group">
+
+                <label for="schoolEnd">
+                    🏫 School End
+                </label>
+
+                <input
+                    type="time"
+                    id="schoolEnd"
+                    value="13:30"
+                >
+
+            </div>
+
+
+            <!-- Daily Study -->
+
+            <div class="input-group">
+
+                <label for="dailyStudyMinutes">
+                    📖 Daily Study Time
+                </label>
+
+                <input
+                    type="number"
+                    id="dailyStudyMinutes"
+                    min="30"
+                    max="720"
+                    value="120"
+                    placeholder="Minutes"
+                >
+
+                <small>
+                    ஒரு நாளில் எத்தனை minutes படிக்க விரும்புகிறீர்கள்?
+                </small>
+
+            </div>
+
+
+            <!-- Break -->
+
+            <div class="input-group">
+
+                <label for="breakMinutes">
+                    ☕ Study Break
+                </label>
+
+                <input
+                    type="number"
+                    id="breakMinutes"
+                    min="5"
+                    max="60"
+                    value="10"
+                >
+
+                <small>
+                    ஒவ்வொரு study session-க்கும் இடையிலான break
+                </small>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         SUBJECTS
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                02
+            </span>
+
+            <div>
+                <h2>
+                    📚 Subjects
+                </h2>
+
+                <p>
+                    படிக்க வேண்டிய பாடங்களை சேர்க்கவும்
+                </p>
+            </div>
+
+        </div>
+
+
+        <div
+            class="subjects-container"
+            id="subjectsContainer"
+        >
+
+            <div class="subject-row">
+
+                <input
+                    type="text"
+                    class="subject-name"
+                    placeholder="Subject name"
+                >
+
+                <select class="subject-priority">
+
+                    <option value="high">
+                        ⭐ High
+                    </option>
+
+                    <option value="medium" selected>
+                        🟡 Medium
+                    </option>
+
+                    <option value="low">
+                        🟢 Low
+                    </option>
+
+                </select>
+
+                <input
+                    type="number"
+                    class="subject-minutes"
+                    value="60"
+                    min="15"
+                    max="600"
+                    placeholder="Minutes"
+                >
+
+                <input
+                    type="date"
+                    class="subject-exam-date"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="addSubjectBtn"
+            class="secondary-button"
+        >
+            ＋ Add Subject
+        </button>
+
+    </section>
+
+
+    <!-- =========================================
+         EXTRA PLANNER SETTINGS
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                03
+            </span>
+
+            <div>
+                <h2>
+                    ⚙️ Study Preferences
+                </h2>
+
+                <p>
+                    AI timetable உருவாக்க தேவையான கூடுதல் தகவல்கள்
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="preference-grid">
+
+
+            <!-- Exam Mode -->
+
+            <div class="preference-card">
+
+                <div class="preference-icon">
+                    🧠
+                </div>
+
+                <div>
+
+                    <h3>
+                        Exam Mode
+                    </h3>
+
+                    <p>
+                        தேர்வு நெருங்கும்போது revision-க்கு
+                        அதிக priority கொடுக்க AI உதவும்.
+                    </p>
+
+                </div>
+
+                <label class="switch">
+
+                    <input
+                        type="checkbox"
+                        id="examMode"
+                    >
+
+                    <span class="slider"></span>
+
+                </label>
+
+            </div>
+
+
+            <!-- Busy Time -->
+
+            <div class="preference-card">
+
+                <div class="preference-icon">
+                    🚫
+                </div>
+
+                <div>
+
+                    <h3>
+                        Busy Time
+                    </h3>
+
+                    <p>
+                        Tuition, sports, family work போன்ற
+                        busy times பின்னர் சேர்க்கலாம்.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="small-button"
+                    id="addBusyTimeBtn"
+                >
+                    ＋ Add
+                </button>
+
+            </div>
+
+
+            <!-- Break Time -->
+
+            <div class="preference-card">
+
+                <div class="preference-icon">
+                    ☕
+                </div>
+
+                <div>
+
+                    <h3>
+                        Break Time
+                    </h3>
+
+                    <p>
+                        குறிப்பிட்ட நேரங்களில் break
+                        வைக்கலாம்.
+                    </p>
+
+                </div>
+
+                <button
+                    type="button"
+                    class="small-button"
+                    id="addBreakTimeBtn"
+                >
+                    ＋ Add
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <!-- Dynamic Busy Times -->
+
+        <div
+            class="dynamic-list"
+            id="busyTimesContainer"
+        ></div>
+
+
+        <!-- Dynamic Break Times -->
+
+        <div
+            class="dynamic-list"
+            id="breakTimesContainer"
+        ></div>
+
+    </section>
+
+
+
+
+    <!-- =========================================
+         INITIAL / TOP TIMETABLE
+    ========================================== -->
+
+    <section class="timetable-preview-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                04
+            </span>
+
+            <div>
+
+                <h2>
+                    📋 Timetable Preview
+                </h2>
+
+                <p>
+                    AI உருவாக்கும் timetable இங்கே ஆரம்பத்தில் காட்டப்படும்
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="timetable-preview"
+            id="topTimetablePreview"
+        >
+
+            <div class="empty-timetable">
+
+                <div class="empty-icon">
+                    🗓️
+                </div>
+
+                <h3>
+                    Timetable இன்னும் உருவாக்கப்படவில்லை
+                </h3>
+
+                <p>
+                    மேலே உங்கள் தகவல்களை உள்ளிட்டு
+                    Generate AI Timetable அழுத்துங்கள்.
+                </p>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FINAL TIMETABLE
+    ========================================== -->
+
+    <section class="final-timetable-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                05
+            </span>
+
+            <div>
+
+                <h2>
+                    🏆 Final AI Timetable
+                </h2>
+
+                <p>
+                    உருவாக்கப்பட்ட timetable-ன் முழு final view
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="final-timetable"
+            id="finalTimetable"
+        >
+
+            <div class="empty-timetable">
+
+                <div class="empty-icon">
+                    📅
+                </div>
+
+                <h3>
+                    Final timetable இங்கே தோன்றும்
+                </h3>
+
+                <p>
+                    AI timetable உருவாக்கிய பிறகு
+                    முழுமையான அட்டவணை இங்கே காட்டப்படும்.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="save-area">
+
+            <button
+                type="button"
+                id="saveTimetableBtn"
+                class="save-button"
+                disabled
+            >
+                💾 Save Timetable
+            </button>
+
+        </div>
+
+    </section>
+        <!-- =========================================
+         BUSY TIME DETAILS
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                06
+            </span>
+
+            <div>
+
+                <h2>
+                    🚫 Busy Time Details
+                </h2>
+
+                <p>
+                    Tuition, sports, work போன்ற நேரங்களை AI தவிர்க்கும்
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="busyDetailsList"
+            class="details-list"
+        >
+
+            <div class="detail-row">
+
+                <input
+                    type="text"
+                    class="detail-title"
+                    placeholder="உதாரணம்: Tuition"
+                >
+
+                <select class="detail-day">
+
+                    <option value="Monday">
+                        Monday
+                    </option>
+
+                    <option value="Tuesday">
+                        Tuesday
+                    </option>
+
+                    <option value="Wednesday">
+                        Wednesday
+                    </option>
+
+                    <option value="Thursday">
+                        Thursday
+                    </option>
+
+                    <option value="Friday">
+                        Friday
+                    </option>
+
+                    <option value="Saturday">
+                        Saturday
+                    </option>
+
+                    <option value="Sunday">
+                        Sunday
+                    </option>
+
+                </select>
+
+                <input
+                    type="time"
+                    class="detail-start"
+                >
+
+                <input
+                    type="time"
+                    class="detail-end"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="addBusyDetailBtn"
+            class="secondary-button"
+        >
+            ＋ Add Busy Time
+        </button>
+
+    </section>
+
+
+    <!-- =========================================
+         BREAK TIME DETAILS
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                07
+            </span>
+
+            <div>
+
+                <h2>
+                    ☕ Break Time Details
+                </h2>
+
+                <p>
+                    குறிப்பிட்ட break நேரங்களை timetable-ல் AI தவிர்க்கும்
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="breakDetailsList"
+            class="details-list"
+        >
+
+            <div class="detail-row">
+
+                <input
+                    type="text"
+                    class="detail-title"
+                    placeholder="உதாரணம்: Dinner"
+                >
+
+                <select class="detail-day">
+
+                    <option value="Monday">
+                        Monday
+                    </option>
+
+                    <option value="Tuesday">
+                        Tuesday
+                    </option>
+
+                    <option value="Wednesday">
+                        Wednesday
+                    </option>
+
+                    <option value="Thursday">
+                        Thursday
+                    </option>
+
+                    <option value="Friday">
+                        Friday
+                    </option>
+
+                    <option value="Saturday">
+                        Saturday
+                    </option>
+
+                    <option value="Sunday">
+                        Sunday
+                    </option>
+
+                </select>
+
+                <input
+                    type="time"
+                    class="detail-start"
+                >
+
+                <input
+                    type="time"
+                    class="detail-end"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="addBreakDetailBtn"
+            class="secondary-button"
+        >
+            ＋ Add Break Time
+        </button>
+
+    </section>
+
+
+    <!-- =========================================
+         AI INFORMATION PANEL
+    ========================================== -->
+
+    <section class="ai-info-section">
+
+        <div class="ai-info-icon">
+            🤖
+        </div>
+
+        <div>
+
+            <h2>
+                எப்படி AI Timetable உருவாகும்?
+            </h2>
+
+            <p>
+                நீங்கள் கொடுக்கும் Subjects, Priority,
+                Exam Date, School Time, Sleep Time,
+                Busy Time மற்றும் Study Time ஆகியவற்றை
+                AI பகுப்பாய்வு செய்யும்.
+            </p>
+
+            <p>
+                அதன் பிறகு Python Constraint Solver
+                conflict இல்லாத Study Sessions உருவாக்கும்.
+            </p>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         API CONFIGURATION
+    ========================================== -->
+
+    <section class="connection-section">
+
+        <div class="connection-header">
+
+            <span>
+                🔌
+            </span>
+
+            <div>
+
+                <h2>
+                    AI Server Connection
+                </h2>
+
+                <p>
+                    Local development → Render deployment
+                    இரண்டிற்கும் ஒரே அமைப்பு.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            class="connection-status"
+            id="connectionStatus"
+        >
+
+            <span class="status-dot"></span>
+
+            <span>
+                Checking AI server...
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         TOP RESULT SUMMARY
+    ========================================== -->
+
+    <section class="result-summary-section">
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                👨‍🎓
+            </span>
+
+            <div>
+
+                <span class="summary-label">
+                    Student
+                </span>
+
+                <strong id="summaryStudent">
+                    —
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                📚
+            </span>
+
+            <div>
+
+                <span class="summary-label">
+                    Subjects
+                </span>
+
+                <strong id="summarySubjects">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                ⏱️
+            </span>
+
+            <div>
+
+                <span class="summary-label">
+                    Daily Study
+                </span>
+
+                <strong id="summaryStudy">
+                    0 min
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span class="summary-icon">
+                🧠
+            </span>
+
+            <div>
+
+                <span class="summary-label">
+                    Mode
+                </span>
+
+                <strong id="summaryMode">
+                    Normal
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+        <!-- =========================================
+         SCHOOL TIMETABLE
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                08
+            </span>
+
+            <div>
+
+                <h2>
+                    🏫 School Timetable
+                </h2>
+
+                <p>
+                    School-ல் எந்த நாளில் எந்த பாடம்
+                    எந்த நேரத்தில் நடக்கிறது என்பதை சேர்க்கவும்.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="schoolTimetableList"
+            class="school-timetable-list"
+        >
+
+            <div class="school-row">
+
+                <select class="school-day">
+
+                    <option value="Monday">
+                        Monday
+                    </option>
+
+                    <option value="Tuesday">
+                        Tuesday
+                    </option>
+
+                    <option value="Wednesday">
+                        Wednesday
+                    </option>
+
+                    <option value="Thursday">
+                        Thursday
+                    </option>
+
+                    <option value="Friday">
+                        Friday
+                    </option>
+
+                </select>
+
+
+                <input
+                    type="text"
+                    class="school-subject"
+                    placeholder="Subject"
+                >
+
+
+                <input
+                    type="time"
+                    class="school-start"
+                >
+
+
+                <input
+                    type="time"
+                    class="school-end"
+                >
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="addSchoolClassBtn"
+            class="secondary-button"
+        >
+            ＋ Add School Class
+        </button>
+
+    </section>
+
+
+    <!-- =========================================
+         STUDY GOAL
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                09
+            </span>
+
+            <div>
+
+                <h2>
+                    🎯 Study Goal
+                </h2>
+
+                <p>
+                    நீங்கள் அடைய விரும்பும் study goal-ஐ AI-க்கு சொல்லுங்கள்.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="goal-box">
+
+            <label for="studyGoal">
+                உங்கள் Study Goal
+            </label>
+
+            <textarea
+                id="studyGoal"
+                rows="4"
+                placeholder="உதாரணம்: Mathematics-ல் நல்ல marks பெற வேண்டும். தினமும் revision செய்ய வேண்டும்."
+            ></textarea>
+
+        </div>
+
+
+        <div class="goal-options">
+
+            <label class="goal-option">
+
+                <input
+                    type="radio"
+                    name="studyStyle"
+                    value="balanced"
+                    checked
+                >
+
+                <span>
+                    ⚖️ Balanced
+                </span>
+
+            </label>
+
+
+            <label class="goal-option">
+
+                <input
+                    type="radio"
+                    name="studyStyle"
+                    value="exam-focused"
+                >
+
+                <span>
+                    📝 Exam Focused
+                </span>
+
+            </label>
+
+
+            <label class="goal-option">
+
+                <input
+                    type="radio"
+                    name="studyStyle"
+                    value="revision-focused"
+                >
+
+                <span>
+                    🔄 Revision Focused
+                </span>
+
+            </label>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         FINAL CHECK
+    ========================================== -->
+
+    <section class="planner-section">
+
+        <div class="section-heading">
+
+            <span class="section-number">
+                10
+            </span>
+
+            <div>
+
+                <h2>
+                    ✅ Check Your Information
+                </h2>
+
+                <p>
+                    Timetable உருவாக்குவதற்கு முன்
+                    நீங்கள் கொடுத்த தகவல்களை சரிபார்க்கவும்.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div
+            id="plannerCheck"
+            class="planner-check"
+        >
+
+            <div class="check-item">
+                <span>👨‍🎓 Student</span>
+                <strong id="checkStudent">—</strong>
+            </div>
+
+
+            <div class="check-item">
+                <span>📚 Subjects</span>
+                <strong id="checkSubjects">0</strong>
+            </div>
+
+
+            <div class="check-item">
+                <span>🏫 School</span>
+                <strong id="checkSchool">—</strong>
+            </div>
+
+
+            <div class="check-item">
+                <span>⏰ Study Time</span>
+                <strong id="checkStudyTime">—</strong>
+            </div>
+
+
+            <div class="check-item">
+                <span>🌅 Wake</span>
+                <strong id="checkWake">—</strong>
+            </div>
+
+
+            <div class="check-item">
+                <span>🌙 Sleep</span>
+                <strong id="checkSleep">—</strong>
+            </div>
+
+
+            <div class="check-item">
+                <span>🧠 Mode</span>
+                <strong id="checkMode">Normal</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================================
+         GENERATE BUTTON
+         THIS IS THE LAST INPUT ACTION
+    ========================================== -->
+
+    <section class="final-generator-section">
+
+        <div class="final-generator-content">
+
+            <span class="final-generator-icon">
+                🌀
+            </span>
+
+            <div>
+
+                <span class="final-generator-label">
+                    ALL INFORMATION READY?
+                </span>
+
+                <h2>
+                    உங்கள் AI Timetable உருவாக்க தயாரா?
+                </h2>
+
+                <p>
+                    மேலே கொடுத்துள்ள அனைத்து தகவல்களையும்
+                    AI + Constraint Solver பகுப்பாய்வு செய்து
+                    உங்களுக்கான தனிப்பட்ட timetable உருவாக்கும்.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="button"
+            id="generateBtn"
+            class="generate-button"
+        >
+            🌀 Generate AI Timetable
+        </button>
+
+
+        <div
+            class="generator-status"
+            id="generatorStatus"
+        >
+            உங்கள் தகவல்களை சரிபார்த்த பிறகு Generate செய்யுங்கள்.
+        </div>
+
+    </section>
+        <!-- =========================================
+         NAVIGATION
+    ========================================== -->
+
+    <section class="navigation-section">
+
+        <a
+            href="dashboard.html"
+            class="back-dashboard-button"
+        >
+            ← Back to Dashboard
+        </a>
+
+    </section>
+    <!-- ============================= -->
+<!-- PART 5 : HTML END -->
+<!-- ============================= -->
+
+<footer class="timetable-footer">
+    <div class="footer-line"></div>
+
+    <div class="footer-content">
+        <div class="footer-ai">
+            🤖 AI Study Planner
+        </div>
+
+        <div class="footer-title">
+            Student Digital Hub
+        </div>
+
+        <div class="footer-text">
+            Learn • Plan • Improve
+        </div>
+    </div>
+
+    <div class="footer-bottom">
+        AI-powered personalized study planning
+    </div>
+</footer>
+</main>
+</div>
+</script>
+</body>
+</html>

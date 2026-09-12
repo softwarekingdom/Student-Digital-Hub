@@ -1,0 +1,782 @@
+<!-- =========================================
+     STUDENT DIGITAL HUB
+     ASSIGNMENTS PAGE
+========================================= --><!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+>
+
+<title>Assignments | Student Digital Hub</title>
+
+<link
+    rel="stylesheet"
+    href="style.css"
+>
+
+</head><body><!-- =====================================
+     SIDEBAR
+====================================== -->
+
+<aside class="sidebar">
+
+    <div class="sidebar-logo">
+
+        <div class="logo-icon">
+            🎓
+        </div>
+
+        <div>
+            <h2>Student Hub</h2>
+            <span>Student Digital Hub</span>
+        </div>
+
+    </div>
+
+
+    <nav class="sidebar-menu">
+
+        <a
+            href="../dashboard.html"
+            class="menu-item"
+        >
+            <span>🏠</span>
+            <span>Dashboard</span>
+        </a>
+
+
+        <a
+            href="assignments.html"
+            class="menu-item active"
+        >
+            <span>📝</span>
+            <span>Assignments</span>
+        </a>
+
+
+        <a
+            href="../subjects/subjects.html"
+            class="menu-item"
+        >
+            <span>📚</span>
+            <span>Subjects</span>
+        </a>
+
+
+        <a
+            href="../goals/goals.html"
+            class="menu-item"
+        >
+            <span>🎯</span>
+            <span>Goals</span>
+        </a>
+
+
+        <a
+            href="../study-schedules/study-schedules.html"
+            class="menu-item"
+        >
+            <span>📅</span>
+            <span>Study Schedules</span>
+        </a>
+
+
+        <a
+            href="../study-progress/study-progress.html"
+            class="menu-item"
+        >
+            <span>📈</span>
+            <span>Study Progress</span>
+        </a>
+
+
+        <a
+            href="../study-sessions/study-sessions.html"
+            class="menu-item"
+        >
+            <span>⏱️</span>
+            <span>Study Sessions</span>
+        </a>
+
+
+        <a
+            href="../notifications/notifications.html"
+            class="menu-item"
+        >
+            <span>🔔</span>
+            <span>Notifications</span>
+        </a>
+
+
+        <a
+            href="../weekly-activity/weekly-activity.html"
+            class="menu-item"
+        >
+            <span>📊</span>
+            <span>Weekly Activity</span>
+        </a>
+
+
+        <a
+            href="../ai-planner/ai-planner.html"
+            class="menu-item"
+        >
+            <span>🤖</span>
+            <span>AI Planner</span>
+        </a>
+
+    </nav>
+
+
+    <div class="sidebar-bottom">
+
+        <a
+            href="../auth/profile.html"
+            class="menu-item"
+        >
+            <span>👤</span>
+            <span>Profile</span>
+        </a>
+
+
+        <button
+            type="button"
+            class="menu-item logout-btn"
+            id="logoutBtn"
+        >
+            <span>🚪</span>
+            <span>Logout</span>
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- =====================================
+     MOBILE OVERLAY
+====================================== -->
+
+<div
+    class="sidebar-overlay"
+    id="sidebarOverlay"
+></div>
+
+
+<!-- =====================================
+     MAIN CONTENT
+====================================== -->
+
+<main class="main-content">
+
+
+    <!-- TOP BAR -->
+
+    <header class="topbar">
+
+        <button
+            type="button"
+            class="mobile-menu-btn"
+            id="mobileMenuBtn"
+        >
+            ☰
+        </button>
+
+
+        <div class="topbar-title">
+
+            <h1>Assignments</h1>
+
+            <p>
+                Organize your tasks, track your progress,
+                and stay on schedule.
+            </p>
+
+        </div>
+
+
+        <div class="profile-mini">
+
+            <div class="profile-mini-info">
+
+                <strong id="studentName">
+                    Student
+                </strong>
+
+                <span id="studentGrade">
+                    Student
+                </span>
+
+            </div>
+
+
+            <div class="profile-avatar">
+
+                <img
+                    id="studentAvatar"
+                    src="../assets/images/default-avatar.png"
+                    alt="Student Profile"
+                >
+
+            </div>
+
+        </div>
+
+    </header>
+
+
+    <!-- =================================
+         SUMMARY CARDS
+    ================================== -->
+
+    <section class="stats-grid">
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                📝
+            </div>
+
+            <div class="stat-content">
+
+                <span>Total Assignments</span>
+
+                <strong id="totalAssignments">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ⏳
+            </div>
+
+            <div class="stat-content">
+
+                <span>Pending</span>
+
+                <strong id="pendingAssignments">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                🔄
+            </div>
+
+            <div class="stat-content">
+
+                <span>In Progress</span>
+
+                <strong id="progressAssignments">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ✅
+            </div>
+
+            <div class="stat-content">
+
+                <span>Completed</span>
+
+                <strong id="completedAssignments">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+
+        <div class="stat-card">
+
+            <div class="stat-icon">
+                ⚠️
+            </div>
+
+            <div class="stat-content">
+
+                <span>Overdue</span>
+
+                <strong id="overdueAssignments">
+                    0
+                </strong>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         TOOLBAR
+    ================================== -->
+
+    <section class="assignment-toolbar">
+
+
+        <div class="search-box">
+
+            <span>🔍</span>
+
+            <input
+                type="search"
+                id="assignmentSearch"
+                placeholder="Search assignments..."
+            >
+
+        </div>
+
+
+        <select id="subjectFilter">
+
+            <option value="all">
+                All Subjects
+            </option>
+
+        </select>
+
+
+        <select id="statusFilter">
+
+            <option value="all">
+                All Status
+            </option>
+
+            <option value="pending">
+                Pending
+            </option>
+
+            <option value="in-progress">
+                In Progress
+            </option>
+
+            <option value="completed">
+                Completed
+            </option>
+
+            <option value="overdue">
+                Overdue
+            </option>
+
+        </select>
+
+
+        <select id="priorityFilter">
+
+            <option value="all">
+                All Priorities
+            </option>
+
+            <option value="high">
+                High
+            </option>
+
+            <option value="medium">
+                Medium
+            </option>
+
+            <option value="low">
+                Low
+            </option>
+
+        </select>
+
+
+    </section>
+
+
+    <!-- =================================
+         ASSIGNMENTS LIST
+    ================================== -->
+
+    <section class="assignments-section">
+
+
+        <div class="section-header">
+
+            <div>
+
+                <span class="section-label">
+                    MY WORK
+                </span>
+
+                <h2>
+                    My Assignments
+                </h2>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="add-assignment-btn"
+                id="addAssignmentBtn"
+            >
+                + Add Assignment
+            </button>
+
+        </div>
+
+
+        <!-- Assignment cards will be
+             inserted by assignments.js -->
+
+        <div
+            class="assignments-list"
+            id="assignmentsList"
+        >
+
+
+            <div
+                class="empty-state"
+                id="emptyState"
+            >
+
+                <div class="empty-icon">
+                    📝
+                </div>
+
+                <h3>
+                    No assignments yet
+                </h3>
+
+                <p>
+                    Add your first assignment
+                    to start tracking your work.
+                </p>
+
+            </div>
+
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================
+         ASSIGNMENT MODAL
+    ================================== -->
+
+    <div
+        class="modal"
+        id="assignmentModal"
+        aria-hidden="true"
+    >
+
+        <div class="modal-overlay"></div>
+
+
+        <div class="modal-content">
+
+
+            <div class="modal-header">
+
+                <div>
+
+                    <span class="section-label">
+                        ASSIGNMENT DETAILS
+                    </span>
+
+                    <h2 id="modalTitle">
+                        Assignment
+                    </h2>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="modal-close"
+                    id="closeModalBtn"
+                >
+                    ×
+                </button>
+
+            </div>
+
+
+            <form
+                id="assignmentForm"
+                autocomplete="off"
+            >
+
+
+                <div class="form-group">
+
+                    <label for="assignmentTitle">
+                        Assignment Title
+                    </label>
+
+                    <input
+                        type="text"
+                        id="assignmentTitle"
+                        required
+                        placeholder="Enter assignment title"
+                    >
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="assignmentSubject">
+                            Subject
+                        </label>
+
+                        <select
+                            id="assignmentSubject"
+                            required
+                        >
+
+                            <option value="">
+                                Select Subject
+                            </option>
+
+                        </select>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="assignmentPriority">
+                            Priority
+                        </label>
+
+                        <select
+                            id="assignmentPriority"
+                            required
+                        >
+
+                            <option value="low">
+                                Low
+                            </option>
+
+                            <option
+                                value="medium"
+                                selected
+                            >
+                                Medium
+                            </option>
+
+                            <option value="high">
+                                High
+                            </option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="assignmentDescription">
+                        Description
+                    </label>
+
+                    <textarea
+                        id="assignmentDescription"
+                        rows="4"
+                        placeholder="Describe the assignment..."
+                    ></textarea>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="assignedDate">
+                            Assigned Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="assignedDate"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="dueDate">
+                            Due Date
+                        </label>
+
+                        <input
+                            type="date"
+                            id="dueDate"
+                            required
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-row">
+
+
+                    <div class="form-group">
+
+                        <label for="estimatedTime">
+                            Estimated Study Time
+                        </label>
+
+                        <input
+                            type="number"
+                            id="estimatedTime"
+                            min="1"
+                            placeholder="Minutes"
+                        >
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label for="assignmentProgress">
+                            Progress %
+                        </label>
+
+                        <input
+                            type="number"
+                            id="assignmentProgress"
+                            min="0"
+                            max="100"
+                            value="0"
+                        >
+
+                    </div>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="assignmentResource">
+                        Resource / Reference Link
+                    </label>
+
+                    <input
+                        type="url"
+                        id="assignmentResource"
+                        placeholder="https://..."
+                    >
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="assignmentNotes">
+                        My Notes
+                    </label>
+
+                    <textarea
+                        id="assignmentNotes"
+                        rows="3"
+                        placeholder="Write your personal notes..."
+                    ></textarea>
+
+                </div>
+
+
+                <div
+                    class="form-message"
+                    id="assignmentMessage"
+                ></div>
+
+
+                <div class="modal-actions">
+
+                    <button
+                        type="button"
+                        class="cancel-btn"
+                        id="cancelAssignmentBtn"
+                    >
+                        Cancel
+                    </button>
+
+
+                    <button
+                        type="submit"
+                        class="save-btn"
+                        id="saveAssignmentBtn"
+                    >
+                        Save Assignment
+                    </button>
+
+                </div>
+
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =================================
+         FOOTER
+    ================================== -->
+
+    <footer class="dashboard-footer">
+
+        <span>
+            Student Digital Hub
+        </span>
+
+        <span>
+            Learn • Plan • Grow
+        </span>
+
+    </footer>
+
+
+</main>
+
+
+<!-- =====================================
+     JAVASCRIPT
+     Will be added later
+====================================== -->
+
+
+<script src="../js/assignments.js"></script>
+<script src="style.js"></script>
+
+
+</body>
+</html>
