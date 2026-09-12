@@ -463,7 +463,7 @@ async function loginUser() {
                     function () {
 
                         window.location.replace(
-                            "/dashboard/dashboard.html"
+                            "/dashboard.html"
                         );
 
                     },
@@ -596,7 +596,7 @@ async function checkExistingSession() {
             ) {
 
                 window.location.replace(
-                    "/dashboard/dashboard.html"
+                    "/dashboard.html"
                 );
 
             } else {

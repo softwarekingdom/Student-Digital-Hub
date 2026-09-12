@@ -476,7 +476,7 @@ async function createAccount() {
                     ) {
 
                         window.location.replace(
-                            "../dashboard/dashboard.html"
+                            "/dashboard.html"
                         );
 
                     } else {
