@@ -697,7 +697,7 @@ document.addEventListener(
          * already exists.
          */
 
-        checkExistingSession();
+        // checkExistingSession();
 
     }
 );
