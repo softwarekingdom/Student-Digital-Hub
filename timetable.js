@@ -2348,6 +2348,11 @@ async function generateAITimetable() {
             result
         );
 
+        if (downloadPdfBtn) {
+            downloadPdfBtn.disabled = false;
+        }
+
+
 
         updateTimetableValidation(
             generatedTimetable
@@ -2561,7 +2566,148 @@ if (generateBtn) {
 
 }
 
+/* =========================================
+   PDF DOWNLOAD
+========================================= */
 
+const downloadPdfBtn =
+    document.getElementById("downloadPdfBtn");
+
+
+if (downloadPdfBtn) {
+
+    downloadPdfBtn.addEventListener(
+        "click",
+        function () {
+
+            if (
+                !generatedTimetable ||
+                !Array.isArray(generatedTimetable) ||
+                generatedTimetable.length === 0
+            ) {
+
+                showApiMessage(
+                    "❌ முதலில் timetable உருவாக்குங்கள்.",
+                    "error"
+                );
+
+                return;
+            }
+
+
+            try {
+
+                const {
+                    jsPDF
+                } = window.jspdf;
+
+
+                const pdf =
+                    new jsPDF();
+
+
+                pdf.setFontSize(18);
+
+                pdf.text(
+                    "AI Study Timetable",
+                    20,
+                    20
+                );
+
+
+                pdf.setFontSize(11);
+
+                pdf.text(
+                    "Student Digital Hub",
+                    20,
+                    28
+                );
+
+
+                let y = 42;
+
+
+                generatedTimetable.forEach(
+                    function (item, index) {
+
+                        if (y > 270) {
+
+                            pdf.addPage();
+
+                            y = 20;
+
+                        }
+
+
+                        pdf.setFontSize(12);
+
+                        pdf.text(
+                            `${index + 1}. ${item.day_of_week || ""}`,
+                            20,
+                            y
+                        );
+
+
+                        pdf.setFontSize(10);
+
+                        pdf.text(
+                            `Subject: ${item.subject_name || ""}`,
+                            25,
+                            y + 7
+                        );
+
+
+                        pdf.text(
+                            `Time: ${item.start_time || ""} - ${item.end_time || ""}`,
+                            25,
+                            y + 14
+                        );
+
+
+                        pdf.text(
+                            `Duration: ${item.duration_minutes || 0} minutes`,
+                            25,
+                            y + 21
+                        );
+
+
+                        pdf.text(
+                            `Activity: ${item.activity_type || ""}`,
+                            25,
+                            y + 28
+                        );
+
+
+                        y += 38;
+
+                    }
+                );
+
+
+                pdf.save(
+                    "AI-Study-Timetable.pdf"
+                );
+
+
+            } catch (error) {
+
+                console.error(
+                    "PDF generation error:",
+                    error
+                );
+
+
+                showApiMessage(
+                    "❌ PDF உருவாக்க முடியவில்லை.",
+                    "error"
+                );
+
+            }
+
+        }
+    );
+
+}
 /* ================================= */
 /* END OF TIMETABLE.JS */
 /* ================================= */

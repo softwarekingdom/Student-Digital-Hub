@@ -559,72 +559,27 @@
     </section>
 
 
-    <!-- =========================================
-         FINAL TIMETABLE
-    ========================================== -->
+<div class="save-area">
 
-    <section class="final-timetable-section">
+    <button
+        type="button"
+        id="saveTimetableBtn"
+        class="save-button"
+        disabled
+    >
+        💾 Save Timetable
+    </button>
 
-        <div class="section-heading">
+    <button
+        type="button"
+        id="downloadPdfBtn"
+        class="pdf-button"
+        disabled
+    >
+        📄 Download PDF
+    </button>
 
-            <span class="section-number">
-                05
-            </span>
-
-            <div>
-
-                <h2>
-                    🏆 Final AI Timetable
-                </h2>
-
-                <p>
-                    உருவாக்கப்பட்ட timetable-ன் முழு final view
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div
-            class="final-timetable"
-            id="finalTimetable"
-        >
-
-            <div class="empty-timetable">
-
-                <div class="empty-icon">
-                    📅
-                </div>
-
-                <h3>
-                    Final timetable இங்கே தோன்றும்
-                </h3>
-
-                <p>
-                    AI timetable உருவாக்கிய பிறகு
-                    முழுமையான அட்டவணை இங்கே காட்டப்படும்.
-                </p>
-
-            </div>
-
-        </div>
-
-
-        <div class="save-area">
-
-            <button
-                type="button"
-                id="saveTimetableBtn"
-                class="save-button"
-                disabled
-            >
-                💾 Save Timetable
-            </button>
-
-        </div>
-
-    </section>
+</div>
         <!-- =========================================
          BUSY TIME DETAILS
     ========================================== -->
@@ -1346,7 +1301,11 @@
     </div>
 </footer>
 </main>
-</div><script src="timetable.js">
+</div>
+  <script
+    src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"
+></script>
+  <script src="timetable.js">
 </script>
 </body>
 </html>

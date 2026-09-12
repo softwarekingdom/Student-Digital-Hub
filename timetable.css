@@ -2733,3 +2733,64 @@ button {
     }
 
 }
+/* =========================================
+   PDF DOWNLOAD BUTTON
+========================================= */
+
+.pdf-button {
+    width: 100%;
+    margin-top: 12px;
+    padding: 14px 20px;
+
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+
+    background: linear-gradient(
+        135deg,
+        #ff3d71,
+        #ff6b35
+    );
+
+    color: #ffffff;
+
+    font-size: 15px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        opacity 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.pdf-button:hover:not(:disabled) {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 8px 20px rgba(255, 61, 113, 0.25);
+}
+
+.pdf-button:active:not(:disabled) {
+    transform: translateY(0);
+}
+
+.pdf-button:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    .pdf-button {
+        padding: 13px 16px;
+        font-size: 14px;
+    }
+
+}
