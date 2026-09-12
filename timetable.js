@@ -866,10 +866,10 @@ function collectCompletePlannerData() {
             collectSubjects(),
 
         busy_times:
-            collectDetailedBusyTimes(),
+            collectBusyTimes(),
 
         break_times:
-            collectDetailedBreakTimes(),
+            collectBreakTimes(),
 
         school_timetable:
             collectSchoolTimetable(),
@@ -943,21 +943,6 @@ schoolTimetableList.addEventListener(
    ACTUAL API CONNECTION COMES LATER
 ========================================= */
 
-generateBtn.addEventListener(
-    "click",
-    () => {
-
-        const plannerData =
-            collectCompletePlannerData();
-
-
-        console.log(
-            "Planner data ready:",
-            plannerData
-        );
-
-    }
-);
 
 
 /* Initial check */
@@ -2229,6 +2214,8 @@ async function generateAITimetable() {
 
     try {
 
+        console.log("DEBUG: generateAITimetable() started");
+
         hideApiMessage();
 
 
@@ -2423,6 +2410,8 @@ async function saveAITimetable() {
 
     try {
 
+        console.log("DEBUG: generateAITimetable() started");
+
         hideApiMessage();
 
 
@@ -2571,77 +2560,6 @@ if (generateBtn) {
     );
 
 }
-
-
-/* ================================= */
-/* FINAL SAVE BUTTON */
-/* ================================= */
-
-if (saveTimetableBtn) {
-
-    saveTimetableBtn.replaceWith(
-        saveTimetableBtn.cloneNode(true)
-    );
-
-
-    const refreshedSaveButton =
-        document.getElementById(
-            "saveTimetableBtn"
-        );
-
-
-    refreshedSaveButton.addEventListener(
-        "click",
-        async function () {
-
-            await saveAITimetable();
-
-        }
-    );
-
-
-    saveTimetableBtn =
-        refreshedSaveButton;
-
-}
-
-
-/* ================================= */
-/* FINAL INITIALIZATION */
-/* ================================= */
-
-document.addEventListener(
-    "DOMContentLoaded",
-    async function () {
-
-        try {
-
-            await getLoggedInStudentId();
-
-
-            showApiMessage(
-                "🟢 Student account connected. AI Planner ready.",
-                "success"
-            );
-
-
-        } catch (error) {
-
-            console.warn(
-                "Student authentication not available:",
-                error.message
-            );
-
-
-            showApiMessage(
-                "🔐 Please login to use AI Timetable.",
-                "info"
-            );
-
-        }
-
-    }
-);
 
 
 /* ================================= */
