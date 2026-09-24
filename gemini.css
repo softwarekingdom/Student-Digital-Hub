@@ -1,0 +1,2026 @@
+/* =========================================================
+   STUDENT DIGITAL HUB
+   GEMINI AI
+   PREMIUM LIGHT UI
+   PART 1 / 2
+========================================================= */
+
+
+/* =========================================================
+   DESIGN SYSTEM
+========================================================= */
+
+:root {
+
+    --background:
+        #f8fafc;
+
+    --surface:
+        rgba(255,255,255,0.86);
+
+    --surface-solid:
+        #ffffff;
+
+    --text:
+        #172033;
+
+    --text-soft:
+        #526079;
+
+    --text-muted:
+        #8994a8;
+
+    --border:
+        rgba(15,23,42,0.08);
+
+    --blue:
+        #4285f4;
+
+    --blue-light:
+        #60a5fa;
+
+    --purple:
+        #8b5cf6;
+
+    --cyan:
+        #06b6d4;
+
+    --pink:
+        #ec4899;
+
+    --green:
+        #10b981;
+
+    --shadow:
+        0 12px 40px
+        rgba(15,23,42,0.08);
+
+    --shadow-large:
+        0 25px 70px
+        rgba(15,23,42,0.12);
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+* {
+
+    box-sizing:
+        border-box;
+
+    margin:
+        0;
+
+    padding:
+        0;
+
+}
+
+
+html {
+
+    width:
+        100%;
+
+    min-height:
+        100%;
+
+    scroll-behavior:
+        smooth;
+
+}
+
+
+body {
+
+    width:
+        100%;
+
+    min-height:
+        100vh;
+
+    font-family:
+        Inter,
+        Poppins,
+        Nunito,
+        Arial,
+        sans-serif;
+
+    color:
+        var(--text);
+
+    background:
+        var(--background);
+
+    overflow-x:
+        hidden;
+
+}
+
+
+button,
+textarea {
+
+    font:
+        inherit;
+
+}
+
+
+button {
+
+    cursor:
+        pointer;
+
+}
+
+
+/* =========================================================
+   PREMIUM ANIMATED BACKGROUND
+========================================================= */
+
+.gemini-app {
+
+    position:
+        relative;
+
+    min-height:
+        100vh;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    background:
+
+        radial-gradient(
+            circle at 8% 12%,
+            rgba(66,133,244,0.13),
+            transparent 25%
+        ),
+
+        radial-gradient(
+            circle at 88% 18%,
+            rgba(139,92,246,0.12),
+            transparent 27%
+        ),
+
+        radial-gradient(
+            circle at 72% 82%,
+            rgba(6,182,212,0.10),
+            transparent 25%
+        ),
+
+        linear-gradient(
+            135deg,
+            #ffffff 0%,
+            #f8fbff 45%,
+            #faf8ff 100%
+        );
+
+}
+
+
+/* =========================================================
+   FLOATING LIGHT
+========================================================= */
+
+.gemini-app::before {
+
+    content:
+        "";
+
+    position:
+        fixed;
+
+    width:
+        320px;
+
+    height:
+        320px;
+
+    top:
+        8%;
+
+    left:
+        -120px;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(96,165,250,0.12);
+
+    filter:
+        blur(70px);
+
+    pointer-events:
+        none;
+
+    animation:
+        floatLight 9s
+        ease-in-out
+        infinite;
+
+}
+
+
+.gemini-app::after {
+
+    content:
+        "";
+
+    position:
+        fixed;
+
+    width:
+        300px;
+
+    height:
+        300px;
+
+    right:
+        -100px;
+
+    bottom:
+        8%;
+
+    border-radius:
+        50%;
+
+    background:
+        rgba(167,139,250,0.12);
+
+    filter:
+        blur(75px);
+
+    pointer-events:
+        none;
+
+    animation:
+        floatLight 11s
+        ease-in-out
+        infinite
+        reverse;
+
+}
+
+
+@keyframes floatLight {
+
+    0% {
+
+        transform:
+            translate(
+                0,
+                0
+            );
+
+    }
+
+    50% {
+
+        transform:
+            translate(
+                35px,
+                -25px
+            );
+
+    }
+
+    100% {
+
+        transform:
+            translate(
+                0,
+                0
+            );
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+.chat-header {
+
+    position:
+        sticky;
+
+    top:
+        0;
+
+    z-index:
+        50;
+
+    height:
+        76px;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    justify-content:
+        space-between;
+
+    padding:
+        0 28px;
+
+    border-bottom:
+        1px solid
+        var(--border);
+
+    background:
+        rgba(255,255,255,0.78);
+
+    backdrop-filter:
+        blur(22px);
+
+    -webkit-backdrop-filter:
+        blur(22px);
+
+}
+
+
+.header-left {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        13px;
+
+}
+
+
+.back-button {
+
+    width:
+        42px;
+
+    height:
+        42px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        13px;
+
+    color:
+        var(--text);
+
+    text-decoration:
+        none;
+
+    background:
+        rgba(255,255,255,0.72);
+
+    box-shadow:
+        0 5px 18px
+        rgba(15,23,42,0.05);
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.back-button:hover {
+
+    transform:
+        translateY(-2px);
+
+    box-shadow:
+        var(--shadow);
+
+    border-color:
+        rgba(66,133,244,0.25);
+
+}
+
+
+/* =========================================================
+   GEMINI LOGO
+========================================================= */
+
+.gemini-logo {
+
+    position:
+        relative;
+
+    width:
+        46px;
+
+    height:
+        46px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border-radius:
+        15px;
+
+    font-size:
+        23px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            rgba(66,133,244,0.16),
+            rgba(139,92,246,0.16),
+            rgba(6,182,212,0.13)
+        );
+
+    box-shadow:
+        0 8px 25px
+        rgba(66,133,244,0.12);
+
+    overflow:
+        hidden;
+
+}
+
+
+.gemini-logo::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    inset:
+        -50%;
+
+    background:
+
+        conic-gradient(
+            transparent,
+            rgba(255,255,255,0.9),
+            transparent
+        );
+
+    animation:
+        logoShine 4s
+        linear
+        infinite;
+
+}
+
+
+.gemini-logo {
+
+    isolation:
+        isolate;
+
+}
+
+
+.gemini-logo::after {
+
+    content:
+        "✦";
+
+    position:
+        absolute;
+
+    z-index:
+        -1;
+
+}
+
+
+@keyframes logoShine {
+
+    from {
+
+        transform:
+            rotate(0deg);
+
+    }
+
+    to {
+
+        transform:
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =========================================================
+   HEADER INFO
+========================================================= */
+
+.header-info h1 {
+
+    font-size:
+        17px;
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        -0.3px;
+
+}
+
+
+.header-info span {
+
+    display:
+        block;
+
+    margin-top:
+        2px;
+
+    color:
+        var(--text-muted);
+
+    font-size:
+        11px;
+
+}
+
+
+/* =========================================================
+   CLEAR BUTTON
+========================================================= */
+
+.clear-button {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        7px;
+
+    padding:
+        9px 13px;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        11px;
+
+    color:
+        var(--text-soft);
+
+    background:
+        rgba(255,255,255,0.72);
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.clear-button:hover {
+
+    color:
+        #dc2626;
+
+    border-color:
+        rgba(220,38,38,0.2);
+
+    background:
+        #fff5f5;
+
+}
+
+
+/* =========================================================
+   CHAT AREA
+========================================================= */
+
+.chat-messages {
+
+    position:
+        relative;
+
+    z-index:
+        1;
+
+    flex:
+        1;
+
+    width:
+        100%;
+
+    max-width:
+        930px;
+
+    margin:
+        0 auto;
+
+    padding:
+        35px 22px 165px;
+
+}
+
+
+/* =========================================================
+   WELCOME SCREEN
+========================================================= */
+
+.welcome-screen {
+
+    min-height:
+        66vh;
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    align-items:
+        center;
+
+    justify-content:
+        center;
+
+    text-align:
+        center;
+
+    animation:
+        welcomeIn 0.7s
+        ease;
+
+}
+
+
+@keyframes welcomeIn {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(18px);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   WELCOME LOGO
+========================================================= */
+
+.welcome-logo {
+
+    position:
+        relative;
+
+    width:
+        86px;
+
+    height:
+        86px;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    margin-bottom:
+        25px;
+
+    border-radius:
+        28px;
+
+    font-size:
+        42px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #eaf2ff,
+            #f3edff,
+            #e9fbff
+        );
+
+    box-shadow:
+
+        0 20px 55px
+        rgba(66,133,244,0.13);
+
+    animation:
+        welcomeFloat 4s
+        ease-in-out
+        infinite;
+
+}
+
+
+@keyframes welcomeFloat {
+
+    0%,
+    100% {
+
+        transform:
+            translateY(0);
+
+    }
+
+    50% {
+
+        transform:
+            translateY(-7px);
+
+    }
+
+}
+
+
+/* =========================================================
+   WELCOME TEXT
+========================================================= */
+
+.welcome-screen h2 {
+
+    font-size:
+        clamp(
+            27px,
+            5vw,
+            42px
+        );
+
+    font-weight:
+        800;
+
+    letter-spacing:
+        -1.2px;
+
+    background:
+
+        linear-gradient(
+            90deg,
+            #2563eb,
+            #7c3aed,
+            #0891b2,
+            #2563eb
+        );
+
+    background-size:
+        300% auto;
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+    animation:
+        gradientText 6s
+        linear
+        infinite;
+
+}
+
+
+@keyframes gradientText {
+
+    0% {
+
+        background-position:
+            0% center;
+
+    }
+
+    50% {
+
+        background-position:
+            100% center;
+
+    }
+
+    100% {
+
+        background-position:
+            0% center;
+
+    }
+
+}
+
+
+.welcome-screen > p {
+
+    max-width:
+        570px;
+
+    margin-top:
+        12px;
+
+    color:
+        var(--text-soft);
+
+    line-height:
+        1.75;
+
+    font-size:
+        14px;
+
+}
+
+
+/* =========================================================
+   SUGGESTION GRID
+========================================================= */
+
+.suggestion-grid {
+
+    width:
+        100%;
+
+    max-width:
+        690px;
+
+    display:
+        grid;
+
+    grid-template-columns:
+        repeat(
+            2,
+            1fr
+        );
+
+    gap:
+        13px;
+
+    margin-top:
+        32px;
+
+}
+
+
+.suggestion {
+
+    position:
+        relative;
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        12px;
+
+    min-height:
+        62px;
+
+    padding:
+        15px 17px;
+
+    text-align:
+        left;
+
+    color:
+        var(--text);
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        16px;
+
+    background:
+        rgba(255,255,255,0.76);
+
+    box-shadow:
+        0 7px 25px
+        rgba(15,23,42,0.045);
+
+    overflow:
+        hidden;
+
+    transition:
+        0.3s ease;
+
+}
+
+
+.suggestion::before {
+
+    content:
+        "";
+
+    position:
+        absolute;
+
+    left:
+        0;
+
+    top:
+        0;
+
+    bottom:
+        0;
+
+    width:
+        3px;
+
+    background:
+
+        linear-gradient(
+            180deg,
+            var(--blue),
+            var(--purple),
+            var(--cyan)
+        );
+
+    transform:
+        scaleY(0);
+
+    transform-origin:
+        bottom;
+
+    transition:
+        0.3s ease;
+
+}
+
+
+.suggestion:hover {
+
+    transform:
+        translateY(-4px);
+
+    box-shadow:
+        var(--shadow);
+
+    border-color:
+        rgba(66,133,244,0.18);
+
+}
+
+
+.suggestion:hover::before {
+
+    transform:
+        scaleY(1);
+
+}
+
+
+.suggestion > span {
+
+    color:
+        var(--text-soft);
+
+    font-size:
+        14px;
+
+    font-weight:
+        700;
+
+}
+/* =========================================================
+   STUDENT DIGITAL HUB
+   GEMINI AI
+   PREMIUM LIGHT UI
+   PART 2 / 2
+========================================================= */
+
+
+/* =========================================================
+   MESSAGE
+========================================================= */
+
+.message {
+
+    display:
+        flex;
+
+    align-items:
+        flex-start;
+
+    gap:
+        12px;
+
+    margin-bottom:
+        28px;
+
+    animation:
+        messageIn 0.3s
+        ease;
+
+}
+
+
+@keyframes messageIn {
+
+    from {
+
+        opacity:
+            0;
+
+        transform:
+            translateY(10px);
+
+    }
+
+    to {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(0);
+
+    }
+
+}
+
+
+/* =========================================================
+   MESSAGE AVATAR
+========================================================= */
+
+.message-avatar {
+
+    width:
+        38px;
+
+    height:
+        38px;
+
+    flex-shrink:
+        0;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        1px solid
+        var(--border);
+
+    border-radius:
+        12px;
+
+    background:
+        rgba(255,255,255,0.9);
+
+    box-shadow:
+        0 5px 18px
+        rgba(15,23,42,0.06);
+
+}
+
+
+/* =========================================================
+   MESSAGE CONTENT
+========================================================= */
+
+.message-content {
+
+    max-width:
+        780px;
+
+    min-width:
+        0;
+
+    line-height:
+        1.75;
+
+}
+
+
+.message-name {
+
+    margin-bottom:
+        5px;
+
+    color:
+        var(--text);
+
+    font-size:
+        12px;
+
+    font-weight:
+        800;
+
+}
+
+
+.message-text {
+
+    color:
+        #39465d;
+
+    font-size:
+        14px;
+
+    white-space:
+        pre-wrap;
+
+    word-break:
+        break-word;
+
+}
+
+
+/* =========================================================
+   AI MESSAGE
+========================================================= */
+
+.ai-message .message-avatar {
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #eef5ff,
+            #f5efff
+        );
+
+}
+
+
+.ai-message .message-name {
+
+    background:
+
+        linear-gradient(
+            90deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    -webkit-background-clip:
+        text;
+
+    background-clip:
+        text;
+
+    color:
+        transparent;
+
+}
+
+
+/* =========================================================
+   USER MESSAGE
+========================================================= */
+
+.user-message {
+
+    justify-content:
+        flex-end;
+
+}
+
+
+.user-message .message-content {
+
+    max-width:
+        680px;
+
+    padding:
+        12px 17px;
+
+    border:
+        1px solid
+        rgba(66,133,244,0.13);
+
+    border-radius:
+        19px
+        19px
+        5px
+        19px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #edf5ff,
+            #f3f0ff
+        );
+
+    box-shadow:
+        0 7px 25px
+        rgba(66,133,244,0.07);
+
+}
+
+
+.user-message .message-name {
+
+    color:
+        #4f46e5;
+
+}
+
+
+.user-message .message-avatar {
+
+    order:
+        2;
+
+    background:
+        #f1f5f9;
+
+}
+
+
+/* =========================================================
+   THINKING ANIMATION
+========================================================= */
+
+.thinking {
+
+    display:
+        flex;
+
+    align-items:
+        center;
+
+    gap:
+        5px;
+
+    height:
+        25px;
+
+}
+
+
+.thinking span {
+
+    width:
+        7px;
+
+    height:
+        7px;
+
+    border-radius:
+        50%;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            var(--blue),
+            var(--purple)
+        );
+
+    animation:
+        thinking 1.25s
+        infinite;
+
+}
+
+
+.thinking span:nth-child(2) {
+
+    animation-delay:
+        0.15s;
+
+}
+
+
+.thinking span:nth-child(3) {
+
+    animation-delay:
+        0.30s;
+
+}
+
+
+@keyframes thinking {
+
+    0%,
+    60%,
+    100% {
+
+        opacity:
+            0.25;
+
+        transform:
+            translateY(0);
+
+    }
+
+    30% {
+
+        opacity:
+            1;
+
+        transform:
+            translateY(-5px);
+
+    }
+
+}
+
+
+/* =========================================================
+   INPUT AREA
+========================================================= */
+
+.input-area {
+
+    position:
+        fixed;
+
+    left:
+        0;
+
+    right:
+        0;
+
+    bottom:
+        0;
+
+    z-index:
+        40;
+
+    padding:
+        18px
+        20px
+        12px;
+
+    background:
+
+        linear-gradient(
+            transparent,
+            rgba(248,250,252,0.92) 24%,
+            rgba(248,250,252,0.98)
+        );
+
+    backdrop-filter:
+        blur(10px);
+
+}
+
+
+.chat-form {
+
+    width:
+        100%;
+
+    max-width:
+        930px;
+
+    margin:
+        0 auto;
+
+}
+
+
+/* =========================================================
+   INPUT WRAPPER
+========================================================= */
+
+.input-wrapper {
+
+    display:
+        flex;
+
+    align-items:
+        flex-end;
+
+    gap:
+        10px;
+
+    padding:
+        9px;
+
+    border:
+        1px solid
+        rgba(15,23,42,0.11);
+
+    border-radius:
+        21px;
+
+    background:
+        rgba(255,255,255,0.95);
+
+    box-shadow:
+        0 15px 50px
+        rgba(15,23,42,0.10);
+
+    transition:
+        0.25s ease;
+
+}
+
+
+.input-wrapper:focus-within {
+
+    border-color:
+        rgba(66,133,244,0.35);
+
+    box-shadow:
+
+        0 15px 55px
+        rgba(66,133,244,0.12);
+
+}
+
+
+/* =========================================================
+   TEXTAREA
+========================================================= */
+
+textarea {
+
+    flex:
+        1;
+
+    width:
+        100%;
+
+    min-height:
+        45px;
+
+    max-height:
+        180px;
+
+    resize:
+        none;
+
+    outline:
+        none;
+
+    border:
+        none;
+
+    padding:
+        12px;
+
+    color:
+        var(--text);
+
+    background:
+        transparent;
+
+    line-height:
+        1.5;
+
+}
+
+
+textarea::placeholder {
+
+    color:
+        #9aa5b5;
+
+}
+
+
+/* =========================================================
+   SEND BUTTON
+========================================================= */
+
+#sendButton {
+
+    width:
+        45px;
+
+    height:
+        45px;
+
+    flex-shrink:
+        0;
+
+    display:
+        grid;
+
+    place-items:
+        center;
+
+    border:
+        none;
+
+    border-radius:
+        15px;
+
+    color:
+        #ffffff;
+
+    font-size:
+        19px;
+
+    background:
+
+        linear-gradient(
+            135deg,
+            #4285f4,
+            #7c3aed,
+            #06b6d4
+        );
+
+    background-size:
+        200% 200%;
+
+    box-shadow:
+        0 7px 20px
+        rgba(66,133,244,0.25);
+
+    transition:
+        0.25s ease;
+
+    animation:
+        buttonGradient 5s
+        ease
+        infinite;
+
+}
+
+
+@keyframes buttonGradient {
+
+    0% {
+
+        background-position:
+            0% 50%;
+
+    }
+
+    50% {
+
+        background-position:
+            100% 50%;
+
+    }
+
+    100% {
+
+        background-position:
+            0% 50%;
+
+    }
+
+}
+
+
+#sendButton:hover {
+
+    transform:
+        translateY(-2px)
+        scale(1.04);
+
+    box-shadow:
+        0 10px 28px
+        rgba(66,133,244,0.30);
+
+}
+
+
+#sendButton:active {
+
+    transform:
+        scale(0.96);
+
+}
+
+
+#sendButton:disabled {
+
+    opacity:
+        0.45;
+
+    cursor:
+        not-allowed;
+
+    transform:
+        none;
+
+}
+
+
+/* =========================================================
+   INPUT HINT
+========================================================= */
+
+.input-hint {
+
+    max-width:
+        930px;
+
+    margin:
+        7px auto 0;
+
+    text-align:
+        center;
+
+    color:
+        #9aa5b5;
+
+    font-size:
+        10px;
+
+}
+
+
+/* =========================================================
+   ERROR / STATUS
+========================================================= */
+
+.status-message {
+
+    max-width:
+        900px;
+
+    margin:
+        4px auto 0;
+
+    text-align:
+        center;
+
+    color:
+        #dc2626;
+
+    font-size:
+        12px;
+
+}
+
+
+/* =========================================================
+   SCROLLBAR
+========================================================= */
+
+::-webkit-scrollbar {
+
+    width:
+        7px;
+
+}
+
+
+::-webkit-scrollbar-track {
+
+    background:
+        transparent;
+
+}
+
+
+::-webkit-scrollbar-thumb {
+
+    border-radius:
+        10px;
+
+    background:
+        #cbd5e1;
+
+}
+
+
+::-webkit-scrollbar-thumb:hover {
+
+    background:
+        #94a3b8;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 650px) {
+
+
+    .chat-header {
+
+        height:
+            68px;
+
+        padding:
+            0 12px;
+
+    }
+
+
+    .back-button {
+
+        width:
+            38px;
+
+        height:
+            38px;
+
+        border-radius:
+            11px;
+
+    }
+
+
+    .gemini-logo {
+
+        width:
+            40px;
+
+        height:
+            40px;
+
+        border-radius:
+            12px;
+
+        font-size:
+            20px;
+
+    }
+
+
+    .header-info h1 {
+
+        font-size:
+            15px;
+
+    }
+
+
+    .header-info span {
+
+        font-size:
+            10px;
+
+    }
+
+
+    .clear-button {
+
+        padding:
+            8px;
+
+    }
+
+
+    .clear-button span {
+
+        display:
+            none;
+
+    }
+
+
+    .chat-messages {
+
+        padding:
+            24px
+            13px
+            155px;
+
+    }
+
+
+    .welcome-screen {
+
+        min-height:
+            60vh;
+
+    }
+
+
+    .welcome-logo {
+
+        width:
+            70px;
+
+        height:
+            70px;
+
+        border-radius:
+            22px;
+
+        font-size:
+            34px;
+
+        margin-bottom:
+            20px;
+
+    }
+
+
+    .welcome-screen h2 {
+
+        font-size:
+            27px;
+
+        letter-spacing:
+            -0.7px;
+
+    }
+
+
+    .welcome-screen > p {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .suggestion-grid {
+
+        grid-template-columns:
+            1fr;
+
+        gap:
+            9px;
+
+        margin-top:
+            25px;
+
+    }
+
+
+    .suggestion {
+
+        min-height:
+            55px;
+
+        padding:
+            13px;
+
+        border-radius:
+            14px;
+
+    }
+
+
+    .message {
+
+        gap:
+            9px;
+
+        margin-bottom:
+            22px;
+
+    }
+
+
+    .message-avatar {
+
+        width:
+            33px;
+
+        height:
+            33px;
+
+        border-radius:
+            10px;
+
+    }
+
+
+    .message-text {
+
+        font-size:
+            13px;
+
+    }
+
+
+    .user-message .message-content {
+
+        padding:
+            10px 13px;
+
+    }
+
+
+    .input-area {
+
+        padding:
+            10px
+            9px
+            8px;
+
+    }
+
+
+    .input-wrapper {
+
+        padding:
+            7px;
+
+        border-radius:
+            18px;
+
+    }
+
+
+    textarea {
+
+        padding:
+            10px;
+
+        min-height:
+            43px;
+
+    }
+
+
+    #sendButton {
+
+        width:
+            43px;
+
+        height:
+            43px;
+
+        border-radius:
+            13px;
+
+    }
+
+
+    .input-hint {
+
+        font-size:
+            9px;
+
+    }
+
+}
+
+
+/* =========================================================
+   SMALL PHONES
+========================================================= */
+
+@media (max-width: 380px) {
+
+    .welcome-screen h2 {
+
+        font-size:
+            24px;
+
+    }
+
+
+    .welcome-screen > p {
+
+        font-size:
+            12px;
+
+    }
+
+
+    .suggestion {
+
+        font-size:
+            12px;
+
+    }
+
+}

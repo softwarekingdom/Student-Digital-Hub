@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="Student Digital Hub Gemini AI Chat"
+    >
+
+    <title>Gemini AI | Student Digital Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="gemini.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <main class="gemini-app">
+
+
+        <!-- =========================================
+             TOP BAR
+        ========================================== -->
+
+        <header class="chat-header">
+
+            <div class="header-left">
+
+                <a
+                    href="dashboard.html"
+                    class="back-button"
+                >
+                    ←
+                </a>
+
+
+                <div class="gemini-logo">
+                    ✨
+                </div>
+
+
+                <div class="header-info">
+
+                    <h1>
+                        Gemini AI
+                    </h1>
+
+                    <span>
+                        Student Digital Hub
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <button
+                id="clearChatBtn"
+                class="clear-button"
+                type="button"
+            >
+                🗑️
+                <span>Clear</span>
+            </button>
+
+        </header>
+
+
+
+        <!-- =========================================
+             CHAT
+        ========================================== -->
+
+        <section
+            id="chatMessages"
+            class="chat-messages"
+        >
+
+
+            <!-- WELCOME -->
+
+            <div class="welcome-screen">
+
+                <div class="welcome-logo">
+                    ✨
+                </div>
+
+                <h2>
+                    What can I help you learn?
+                </h2>
+
+                <p>
+                    Ask questions, explain lessons,
+                    solve problems and explore ideas.
+                </p>
+
+
+                <div class="suggestion-grid">
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Explain Newton's first law in simple words."
+                    >
+                        ⚡
+                        <span>
+                            Explain Physics
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Explain photosynthesis for a school student."
+                    >
+                        🌱
+                        <span>
+                            Explain Science
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Give me a simple study technique for remembering lessons."
+                    >
+                        📚
+                        <span>
+                            Study Help
+                        </span>
+                    </button>
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Teach me an interesting fact about space."
+                    >
+                        🚀
+                        <span>
+                            Explore Space
+                        </span>
+                    </button>
+
+                </div>
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             INPUT AREA
+        ========================================== -->
+
+        <section class="input-area">
+
+
+            <form
+                id="geminiForm"
+                class="chat-form"
+            >
+
+                <div class="input-wrapper">
+
+                    <textarea
+                        id="promptInput"
+                        rows="1"
+                        maxlength="8000"
+                        placeholder="Message Gemini..."
+                        autocomplete="off"
+                    ></textarea>
+
+
+                    <button
+                        id="sendButton"
+                        type="submit"
+                        aria-label="Send message"
+                    >
+                        ➤
+                    </button>
+
+                </div>
+
+            </form>
+
+
+            <p class="input-hint">
+                Gemini can make mistakes. Check important information.
+            </p>
+
+
+            <div
+                id="statusMessage"
+                class="status-message"
+                aria-live="polite"
+            ></div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <script src="gemini.js"></script>
+
+</body>
+
+</html>

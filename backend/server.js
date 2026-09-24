@@ -2,14 +2,52 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const express = require("express");
+const { GoogleGenAI } = require("@google/genai");
+const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const crypto = require("crypto");
+const { spawn } = require("child_process");
+const OpenAI = require("openai");
+
+const openai = process.env.OPENAI_API_KEY
+    ? new OpenAI({
+        apiKey: process.env.OPENAI_API_KEY
+    })
+    : null;
+
+const deepseek = process.env.DEEPSEEK_API_KEY
+    ? new OpenAI({
+        apiKey: process.env.DEEPSEEK_API_KEY,
+        baseURL: "https://api.deepseek.com"
+    })
+    : null;
 
 const {
     createClient
 } = require("@supabase/supabase-js");
 
+
+const pythonProcess = spawn("python3", ["main.py"], {
+    cwd: __dirname,
+    env: process.env
+});
+
+pythonProcess.stdout.on("data", (data) => {
+    console.log("[FastAPI]", data.toString().trim());
+});
+
+pythonProcess.stderr.on("data", (data) => {
+    console.error("[FastAPI]", data.toString().trim());
+});
+
+pythonProcess.on("error", (error) => {
+    console.error("[FastAPI] Failed to start:", error.message);
+});
+
+pythonProcess.on("exit", (code, signal) => {
+    console.log(`[FastAPI] Process exited. code=${code}, signal=${signal}`);
+});
 
 const app = express();
 
@@ -1702,6 +1740,228 @@ app.post(
 /* =========================================
    FASTAPI TIMETABLE PROXY
 ========================================= */
+
+app.post("/api/ai", async (req, res) => {
+    try {
+        const task = req.body?.task;
+        const prompt = req.body?.prompt;
+
+        if (!task || typeof task !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "AI task is required."
+            });
+        }
+
+        if (!prompt || typeof prompt !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Prompt is required."
+            });
+        }
+
+        if (task === "physics") {
+            if (!openai) {
+                return res.status(503).json({
+                    success: false,
+                    message: "OpenAI API key is not configured yet."
+                });
+            }
+
+            const response = await openai.responses.create({
+                model: "gpt-5",
+                input: prompt
+            });
+
+            return res.json({
+                success: true,
+                task: "physics",
+                model: "gpt-5",
+                response: response.output_text
+            });
+        }
+
+        if (task === "python") {
+            if (!deepseek) {
+                return res.status(503).json({
+                    success: false,
+                    message: "DeepSeek API key is not configured yet."
+                });
+            }
+
+            const response = await deepseek.chat.completions.create({
+                model: "deepseek-chat",
+                messages: [
+                    {
+                        role: "user",
+                        content: prompt
+                    }
+                ]
+            });
+
+            return res.json({
+                success: true,
+                task: "python",
+                model: "deepseek-chat",
+                response: response.choices[0].message.content
+            });
+        }
+
+        if (task === "diagram") {
+            try {
+                const response = await gemini.models.generateContent({
+                    model: "gemini-3.6-flash",
+                    contents: prompt
+                });
+
+                return res.json({
+                    success: true,
+                    task: "diagram",
+                    model: "gemini-3.6-flash",
+                    response: response.text
+                });
+
+            } catch (error) {
+                console.error("Gemini Router error:", error);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Gemini diagram request failed."
+                });
+            }
+        }
+
+        return res.status(400).json({
+            success: false,
+            message: "Unknown AI task."
+        });
+
+    } catch (error) {
+        console.error("Central AI Router error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "AI router request failed."
+        });
+    }
+});
+
+
+app.post("/api/ai/openai", async (req, res) => {
+    try {
+        if (!openai) {
+            return res.status(503).json({
+                success: false,
+                message: "OpenAI API key is not configured yet."
+            });
+        }
+
+        const prompt = req.body?.prompt;
+
+        if (!prompt || typeof prompt !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Prompt is required."
+            });
+        }
+
+        const response = await openai.responses.create({
+            model: "gpt-5",
+            input: prompt
+        });
+
+        return res.json({
+            success: true,
+            model: "gpt-5",
+            response: response.output_text
+        });
+
+    } catch (error) {
+        console.error("OpenAI API error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "OpenAI API request failed."
+        });
+    }
+});
+
+
+app.post("/api/ai/deepseek", async (req, res) => {
+    try {
+        if (!deepseek) {
+            return res.status(503).json({
+                success: false,
+                message: "DeepSeek API key is not configured yet."
+            });
+        }
+
+        const prompt = req.body?.prompt;
+
+        if (!prompt || typeof prompt !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Prompt is required."
+            });
+        }
+
+        const response = await deepseek.chat.completions.create({
+            model: "deepseek-chat",
+            messages: [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ]
+        });
+
+        return res.json({
+            success: true,
+            model: "deepseek-chat",
+            response: response.choices[0].message.content
+        });
+
+    } catch (error) {
+        console.error("DeepSeek API error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "DeepSeek API request failed."
+        });
+    }
+});
+
+
+app.post("/api/ai/gemini", async (req, res) => {
+    try {
+        const prompt = req.body?.prompt;
+
+        if (!prompt || typeof prompt !== "string") {
+            return res.status(400).json({
+                success: false,
+                message: "Prompt is required."
+            });
+        }
+
+        const response = await gemini.models.generateContent({
+            model: "gemini-3.6-flash",
+            contents: prompt
+        });
+
+        return res.json({
+            success: true,
+            model: "gemini-3.6-flash",
+            response: response.text
+        });
+    } catch (error) {
+        console.error("Gemini API error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Gemini API request failed."
+        });
+    }
+});
 
 app.use(
     "/api/timetable",

@@ -1,368 +1,627 @@
+/* =========================================
+   STUDENT DIGITAL HUB
+   COMPLETE PROFILE PAGE
+========================================= */
+
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  }
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
 :root {
---bg-primary: #f4f7fb;
---card-bg: #ffffff;
---text-primary: #172033;
---text-secondary: #687386;
---border: #dfe5ee;
---accent: #4f46e5;
---accent-dark: #3730a3;
---success: #16a34a;
---danger: #dc2626;
+    --primary: #2563eb;
+    --primary-dark: #1d4ed8;
+    --secondary: #7c3aed;
+    --background: #f3f6fb;
+    --card: #ffffff;
+    --text: #172033;
+    --muted: #667085;
+    --border: #d9e0eb;
+    --input-bg: #f9fafc;
+    --success: #16a34a;
+    --danger: #dc2626;
+    --shadow: 0 15px 40px rgba(20, 30, 55, 0.12);
 }
 
 body {
-min-height: 100vh;
-font-family: Arial, Helvetica, sans-serif;
-background: var(--bg-primary);
-color: var(--text-primary);
+    min-height: 100vh;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
 
-display: flex;
-justify-content: center;
-align-items: center;
+    background:
+        radial-gradient(
+            circle at top left,
+            rgba(37, 99, 235, 0.12),
+            transparent 35%
+        ),
+        radial-gradient(
+            circle at bottom right,
+            rgba(124, 58, 237, 0.12),
+            transparent 35%
+        ),
+        var(--background);
 
-padding: 25px 15px;
+    color: var(--text);
 
+    padding: 30px 15px;
 }
 
-/* ================================
-MAIN CONTAINER
-================================ */
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
 
 .profile-container {
-width: 100%;
-max-width: 650px;
+    width: 100%;
+    max-width: 760px;
+    margin: 0 auto;
 }
 
-/* ================================
-PROFILE CARD
-================================ */
+
+/* =========================================
+   PROFILE CARD
+========================================= */
 
 .profile-card {
-width: 100%;
-background: var(--card-bg);
+    background: var(--card);
 
-border-radius: 22px;
+    border: 1px solid rgba(217, 224, 235, 0.8);
 
-padding: 35px;
+    border-radius: 24px;
 
-box-shadow:
-    0 15px 45px rgba(23, 32, 51, 0.10);
+    padding: 32px;
 
-border: 1px solid rgba(223, 229, 238, 0.8);
-
+    box-shadow: var(--shadow);
 }
 
-/* ================================
-HEADER
-================================ */
+
+/* =========================================
+   HEADER
+========================================= */
 
 .profile-header {
-text-align: center;
-margin-bottom: 30px;
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .profile-icon {
-width: 75px;
-height: 75px;
+    width: 72px;
+    height: 72px;
 
-margin: 0 auto 15px;
+    margin: 0 auto 15px;
 
-border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-display: flex;
-align-items: center;
-justify-content: center;
+    border-radius: 50%;
 
-font-size: 34px;
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
 
-background: #eef2ff;
+    font-size: 34px;
 
+    box-shadow:
+        0 10px 25px
+        rgba(37, 99, 235, 0.25);
 }
 
 .profile-header h1 {
-font-size: 28px;
-font-weight: 700;
+    font-size: 28px;
+    line-height: 1.3;
 
-margin-bottom: 8px;
-
+    margin-bottom: 8px;
 }
 
 .profile-header p {
-color: var(--text-secondary);
-font-size: 15px;
+    color: var(--muted);
+    font-size: 15px;
 }
 
-/* ================================
-AVATAR
-================================ */
 
-.avatar-section {
-text-align: center;
-margin-bottom: 28px;
+/* =========================================
+   FORM
+========================================= */
+
+#profileForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
 }
 
-.avatar-preview {
-width: 105px;
-height: 105px;
 
-margin: 0 auto 15px;
-
-border-radius: 50%;
-
-display: flex;
-align-items: center;
-justify-content: center;
-
-background: #eef2ff;
-
-border: 4px solid #e0e7ff;
-
-font-size: 42px;
-
-overflow: hidden;
-
-}
-
-.avatar-preview img {
-width: 100%;
-height: 100%;
-
-object-fit: cover;
-
-}
-
-.avatar-section input {
-margin-bottom: 6px;
-}
-
-.avatar-section small {
-display: block;
-
-color: var(--text-secondary);
-
-font-size: 12px;
-
-}
-
-/* ================================
-FORM
-================================ */
+/* =========================================
+   FORM GROUP
+========================================= */
 
 .form-group {
-margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
 .form-group label {
-display: block;
-
-margin-bottom: 8px;
-
-font-size: 14px;
-font-weight: 600;
-
-color: var(--text-primary);
-
+    font-size: 14px;
+    font-weight: 700;
 }
 
-input,
-textarea,
-select {
-width: 100%;
+.form-group input,
+.form-group textarea,
+.form-group select {
+    width: 100%;
 
-padding: 13px 14px;
+    padding: 13px 14px;
 
-border: 1px solid var(--border);
+    border: 1px solid var(--border);
 
-border-radius: 11px;
+    border-radius: 12px;
 
-background: #ffffff;
+    background: var(--input-bg);
 
-color: var(--text-primary);
+    color: var(--text);
 
-font-size: 14px;
+    font-size: 15px;
 
-outline: none;
+    font-family: inherit;
 
-transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-
+    transition:
+        border-color 0.2s ease,
+        box-shadow 0.2s ease,
+        background 0.2s ease;
 }
 
-textarea {
-resize: vertical;
-min-height: 90px;
+.form-group textarea {
+    resize: vertical;
+    min-height: 90px;
 }
 
-select {
-cursor: pointer;
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+
+    border-color: var(--primary);
+
+    background: #ffffff;
+
+    box-shadow:
+        0 0 0 3px
+        rgba(37, 99, 235, 0.12);
 }
 
-/* ================================
-INPUT FOCUS
-================================ */
-
-input:focus,
-textarea:focus,
-select:focus {
-border-color: var(--accent);
-
-box-shadow:
-    0 0 0 3px rgba(79, 70, 229, 0.10);
-
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+    color: #98a2b3;
 }
 
-/* ================================
-BUTTON
-================================ */
 
-button {
-width: 100%;
+/* =========================================
+   AVATAR
+========================================= */
 
-padding: 14px 18px;
+.avatar-section {
+    display: flex;
+    flex-direction: column;
 
-margin-top: 8px;
+    align-items: center;
 
-border: none;
+    gap: 12px;
 
-border-radius: 12px;
+    padding: 22px;
 
-background: var(--accent);
-
-color: #ffffff;
-
-font-size: 15px;
-font-weight: 700;
-
-cursor: pointer;
-
-transition:
-    background 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-
-}
-
-button:hover {
-background: var(--accent-dark);
-
-transform: translateY(-1px);
-
-box-shadow:
-    0 8px 20px rgba(79, 70, 229, 0.20);
-
-}
-
-button:active {
-transform: translateY(0);
-}
-
-button:disabled {
-opacity: 0.65;
-cursor: not-allowed;
-transform: none;
-}
-
-/* ================================
-MESSAGE
-================================ */
-
-.profile-message {
-display: none;
-
-padding: 12px 14px;
-
-margin-bottom: 15px;
-
-border-radius: 10px;
-
-font-size: 14px;
-
-line-height: 1.5;
-
-}
-
-.profile-message.success {
-display: block;
-
-background: #ecfdf5;
-
-color: var(--success);
-
-border: 1px solid #bbf7d0;
-
-}
-
-.profile-message.error {
-display: block;
-
-background: #fef2f2;
-
-color: var(--danger);
-
-border: 1px solid #fecaca;
-
-}
-
-/* ================================
-LOADER
-================================ */
-
-.hidden {
-display: none;
-}
-
-.loader {
-display: inline-block;
-}
-
-/* ================================
-MOBILE
-================================ */
-
-@media (max-width: 600px) {
-
-body {
-    padding: 15px 10px;
-
-    align-items: flex-start;
-}
-
-.profile-card {
-    padding: 25px 18px;
+    border: 1px dashed #b8c4d6;
 
     border-radius: 18px;
-}
 
-.profile-header h1 {
-    font-size: 23px;
-}
-
-.profile-header p {
-    font-size: 14px;
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #faf8ff
+        );
 }
 
 .avatar-preview {
-    width: 90px;
-    height: 90px;
+    width: 120px;
+    height: 120px;
 
-    font-size: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border-radius: 50%;
+
+    overflow: hidden;
+
+    background:
+        linear-gradient(
+            135deg,
+            #dbeafe,
+            #ede9fe
+        );
+
+    border: 4px solid #ffffff;
+
+    box-shadow:
+        0 8px 25px
+        rgba(30, 41, 59, 0.15);
+
+    font-size: 48px;
 }
 
-input,
-textarea,
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+}
+
+.avatar-upload-btn {
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    padding: 10px 16px;
+
+    border-radius: 10px;
+
+    background: var(--primary);
+
+    color: #ffffff;
+
+    font-size: 14px;
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        background 0.2s ease;
+}
+
+.avatar-upload-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-1px);
+}
+
+.avatar-section small {
+    max-width: 450px;
+
+    text-align: center;
+
+    color: var(--muted);
+
+    font-size: 12px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   PROFILE MESSAGE
+========================================= */
+
+.profile-message {
+    min-height: 20px;
+
+    padding: 0;
+
+    font-size: 14px;
+
+    line-height: 1.5;
+}
+
+
+/* =========================================
+   USER THEME
+========================================= */
+
+.profile-theme-section {
+    margin-top: 4px;
+
+    padding: 22px;
+
+    border-radius: 18px;
+
+    border: 1px solid #dce3ef;
+
+    background:
+        linear-gradient(
+            135deg,
+            #f8fbff,
+            #faf7ff
+        );
+}
+
+.profile-theme-section h3 {
+    margin-bottom: 6px;
+
+    font-size: 20px;
+}
+
+.profile-theme-section p {
+    color: var(--muted);
+
+    font-size: 14px;
+
+    line-height: 1.5;
+
+    margin-bottom: 12px;
+}
+
+.profile-theme-select {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid var(--border);
+
+    border-radius: 12px;
+
+    background: #ffffff;
+
+    color: var(--text);
+
+    font-size: 15px;
+
+    cursor: pointer;
+
+    margin-bottom: 12px;
+}
+
+.profile-theme-select:focus {
+    outline: none;
+
+    border-color: var(--secondary);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(124, 58, 237, 0.12);
+}
+
+
+/* =========================================
+   SAVE THEME BUTTON
+========================================= */
+
+.save-theme-button {
+    width: 100%;
+
+    padding: 12px 16px;
+
+    border: none;
+
+    border-radius: 11px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--secondary),
+            var(--primary)
+        );
+
+    color: #ffffff;
+
+    font-size: 14px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.save-theme-button:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 8px 20px
+        rgba(79, 70, 229, 0.25);
+}
+
+.save-theme-button:active {
+    transform: translateY(0);
+}
+
+
+/* =========================================
+   THEME SAVE MESSAGE
+========================================= */
+
+.theme-save-message {
+    min-height: 20px;
+
+    margin-top: 10px;
+
+    margin-bottom: 0 !important;
+
+    font-size: 13px !important;
+
+    font-weight: 600;
+}
+
+
+/* =========================================
+   MAIN SUBMIT BUTTON
+========================================= */
+
+#saveProfileBtn {
+    width: 100%;
+
+    min-height: 50px;
+
+    padding: 14px 18px;
+
+    border: none;
+
+    border-radius: 13px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--primary),
+            var(--secondary)
+        );
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: 700;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 20px
+        rgba(37, 99, 235, 0.22);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease,
+        opacity 0.2s ease;
+}
+
+#saveProfileBtn:hover {
+    transform: translateY(-1px);
+
+    box-shadow:
+        0 12px 25px
+        rgba(37, 99, 235, 0.28);
+}
+
+#saveProfileBtn:active {
+    transform: translateY(0);
+}
+
+#saveProfileBtn:disabled {
+    opacity: 0.65;
+
+    cursor: not-allowed;
+
+    transform: none;
+}
+
+
+/* =========================================
+   LOADER
+========================================= */
+
+.loader {
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+
+/* =========================================
+   SELECT ARROW / INPUT CONSISTENCY
+========================================= */
+
 select {
-    padding: 12px;
+    appearance: auto;
 }
 
-button {
-    padding: 13px;
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        padding: 15px 10px;
+    }
+
+    .profile-card {
+        padding: 20px 15px;
+
+        border-radius: 18px;
+    }
+
+    .profile-header h1 {
+        font-size: 23px;
+    }
+
+    .profile-header p {
+        font-size: 14px;
+    }
+
+    .profile-icon {
+        width: 62px;
+        height: 62px;
+
+        font-size: 29px;
+    }
+
+    .avatar-section {
+        padding: 18px 12px;
+    }
+
+    .avatar-preview {
+        width: 105px;
+        height: 105px;
+    }
+
+    .profile-theme-section {
+        padding: 18px 14px;
+    }
+
+    .profile-theme-section h3 {
+        font-size: 18px;
+    }
+
+    .form-group input,
+    .form-group textarea,
+    .form-group select,
+    .profile-theme-select {
+        font-size: 14px;
+    }
+
 }
+
+
+/* =========================================
+   VERY SMALL PHONES
+========================================= */
+
+@media (max-width: 380px) {
+
+    body {
+        padding: 10px 7px;
+    }
+
+    .profile-card {
+        padding: 16px 12px;
+    }
+
+    .profile-header h1 {
+        font-size: 21px;
+    }
+
+    .avatar-upload-btn {
+        width: 100%;
+
+        text-align: center;
+    }
+
+    #saveProfileBtn {
+        font-size: 14px;
+    }
 
 }

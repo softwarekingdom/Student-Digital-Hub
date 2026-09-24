@@ -2624,6 +2624,87 @@ async function loadTamilFont() {
 }
 
 
+
+async function loadNarutoImage() {
+
+    return new Promise(function (resolve, reject) {
+
+        const image =
+            new Image();
+
+        image.onload = function () {
+            resolve(image);
+        };
+
+        image.onerror = function () {
+            reject(
+                new Error(
+                    "Naruto image could not be loaded."
+                )
+            );
+        };
+
+        image.src =
+            "assets/images/Naruto.jpg";
+
+    });
+
+}
+
+
+const PDF_THEMES = {
+    spider: {
+        name: "Spider",
+        primary: [220, 20, 60],
+        secondary: [30, 90, 180]
+    },
+
+    naruto: {
+        name: "Naruto",
+        primary: [255, 120, 0],
+        secondary: [20, 20, 20]
+    },
+
+    blossom: {
+        name: "Blossom",
+        primary: [190, 80, 170],
+        secondary: [120, 70, 160]
+    },
+
+    space: {
+        name: "Space",
+        primary: [40, 70, 150],
+        secondary: [90, 70, 180]
+    },
+
+    cyber: {
+        name: "Cyber",
+        primary: [0, 180, 220],
+        secondary: [120, 60, 220]
+    }
+};
+
+
+function getPdfTheme() {
+
+    const selector =
+        document.getElementById(
+            "pdfThemeSelect"
+        );
+
+    const selectedTheme =
+        selector
+            ? selector.value
+            : "naruto";
+
+    return (
+        PDF_THEMES[selectedTheme] ||
+        PDF_THEMES.naruto
+    );
+
+}
+
+
 /* =========================================
    PDF DOWNLOAD - TIMETABLE GRID
 ========================================= */
@@ -2663,6 +2744,9 @@ if (downloadPdfBtn) {
                 const tamilFont =
                     await loadTamilFont();
 
+                const narutoImage =
+                    await loadNarutoImage();
+
 
                 const pdf =
                     new jsPDF({
@@ -2670,6 +2754,9 @@ if (downloadPdfBtn) {
                         unit: "mm",
                         format: "a4"
                     });
+
+                const pdfTheme =
+                    getPdfTheme();
 
 
                 pdf.addFileToVFS(
@@ -2701,6 +2788,12 @@ if (downloadPdfBtn) {
                 /* ---------------------------------
                    TITLE
                 --------------------------------- */
+
+                pdf.setTextColor(
+                    pdfTheme.primary[0],
+                    pdfTheme.primary[1],
+                    pdfTheme.primary[2]
+                );
 
                 pdf.setFontSize(18);
 
@@ -2804,6 +2897,234 @@ if (downloadPdfBtn) {
 
 
                 /* ---------------------------------
+                   PDF THEME DESIGN
+                --------------------------------- */
+
+                function drawPdfThemeDesign() {
+
+                    /* BASE BACKGROUND */
+
+                    pdf.setFillColor(
+                        248,
+                        248,
+                        248
+                    );
+
+                    pdf.rect(
+                        0,
+                        0,
+                        pageWidth,
+                        pageHeight,
+                        "F"
+                    );
+
+
+                    /* THEME DECORATION */
+
+                    if (pdfTheme.name === "Spider") {
+
+                        pdf.setDrawColor(
+                            pdfTheme.primary[0],
+                            pdfTheme.primary[1],
+                            pdfTheme.primary[2]
+                        );
+
+                        pdf.setLineWidth(0.5);
+
+                        for (
+                            let i = 0;
+                            i < 8;
+                            i++
+                        ) {
+
+                            pdf.line(
+                                0,
+                                30 + (i * 25),
+                                pageWidth,
+                                30 + (i * 25)
+                            );
+
+                        }
+
+                    }
+
+
+                    else if (pdfTheme.name === "Naruto") {
+
+                        pdf.setFillColor(
+                            255,
+                            240,
+                            220
+                        );
+
+                        pdf.rect(
+                            0,
+                            0,
+                            pageWidth,
+                            28,
+                            "F"
+                        );
+
+                        pdf.addImage(
+                            narutoImage,
+                            "JPEG",
+                            pageWidth - 48,
+                            3,
+                            40,
+                            22
+                        );
+
+                    }
+
+
+                    else if (pdfTheme.name === "Blossom") {
+
+                        pdf.setFillColor(
+                            252,
+                            238,
+                            248
+                        );
+
+                        pdf.rect(
+                            0,
+                            0,
+                            pageWidth,
+                            pageHeight,
+                            "F"
+                        );
+
+                        pdf.setDrawColor(
+                            pdfTheme.primary[0],
+                            pdfTheme.primary[1],
+                            pdfTheme.primary[2]
+                        );
+
+                        pdf.setLineWidth(0.4);
+
+                        for (
+                            let i = 0;
+                            i < 10;
+                            i++
+                        ) {
+
+                            pdf.circle(
+                                10 + (i * 28),
+                                8,
+                                2,
+                                "S"
+                            );
+
+                        }
+
+                    }
+
+
+                    else if (pdfTheme.name === "Space") {
+
+                        pdf.setFillColor(
+                            235,
+                            240,
+                            255
+                        );
+
+                        pdf.rect(
+                            0,
+                            0,
+                            pageWidth,
+                            pageHeight,
+                            "F"
+                        );
+
+                        pdf.setFillColor(
+                            pdfTheme.secondary[0],
+                            pdfTheme.secondary[1],
+                            pdfTheme.secondary[2]
+                        );
+
+                        for (
+                            let i = 0;
+                            i < 18;
+                            i++
+                        ) {
+
+                            pdf.circle(
+                                8 + ((i * 37) % pageWidth),
+                                4 + ((i * 17) % 22),
+                                0.7,
+                                "F"
+                            );
+
+                        }
+
+                    }
+
+
+                    else if (pdfTheme.name === "Cyber") {
+
+                        pdf.setFillColor(
+                            232,
+                            250,
+                            255
+                        );
+
+                        pdf.rect(
+                            0,
+                            0,
+                            pageWidth,
+                            pageHeight,
+                            "F"
+                        );
+
+                        pdf.setDrawColor(
+                            pdfTheme.primary[0],
+                            pdfTheme.primary[1],
+                            pdfTheme.primary[2]
+                        );
+
+                        pdf.setLineWidth(0.3);
+
+                        for (
+                            let i = 0;
+                            i < 12;
+                            i++
+                        ) {
+
+                            pdf.line(
+                                0,
+                                28 + (i * 20),
+                                pageWidth,
+                                28 + (i * 20)
+                            );
+
+                        }
+
+                    }
+
+
+                    /* COMMON THEME LINE */
+
+                    pdf.setDrawColor(
+                        pdfTheme.primary[0],
+                        pdfTheme.primary[1],
+                        pdfTheme.primary[2]
+                    );
+
+                    pdf.setLineWidth(0.5);
+
+                    pdf.line(
+                        8,
+                        26,
+                        pageWidth - 8,
+                        26
+                    );
+
+                }
+
+
+                drawPdfThemeDesign();
+
+
+                /* ---------------------------------
                    TABLE DIMENSIONS
                 --------------------------------- */
 
@@ -2832,6 +3153,20 @@ if (downloadPdfBtn) {
                    HEADER
                 --------------------------------- */
 
+                pdf.setFillColor(
+                    pdfTheme.primary[0],
+                    pdfTheme.primary[1],
+                    pdfTheme.primary[2]
+                );
+
+                pdf.setDrawColor(
+                    pdfTheme.secondary[0],
+                    pdfTheme.secondary[1],
+                    pdfTheme.secondary[2]
+                );
+
+                pdf.setTextColor(255, 255, 255);
+
                 pdf.setFontSize(9);
 
 
@@ -2839,7 +3174,8 @@ if (downloadPdfBtn) {
                     tableX,
                     tableY,
                     timeColumnWidth,
-                    headerHeight
+                    headerHeight,
+                    "FD"
                 );
 
 
@@ -2870,7 +3206,8 @@ if (downloadPdfBtn) {
                             x,
                             tableY,
                             dayColumnWidth,
-                            headerHeight
+                            headerHeight,
+                            "FD"
                         );
 
 
