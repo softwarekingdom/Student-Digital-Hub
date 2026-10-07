@@ -6,6 +6,7 @@ const { GoogleGenAI } = require("@google/genai");
 const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
+const multer = require("multer");
 const crypto = require("crypto");
 const { spawn } = require("child_process");
 const OpenAI = require("openai");
@@ -110,6 +111,13 @@ app.use(
 );
 
 app.use(cookieParser());
+
+const upload = multer({
+    storage: multer.memoryStorage(),
+    limits: {
+        fileSize: 5 * 1024 * 1024
+    }
+});
 
 /* =========================================
    SERVE FRONTEND
@@ -1131,6 +1139,135 @@ app.get(
 
         }
 
+    }
+);
+
+
+/* =========================================
+   UPDATE PROFILE API
+========================================= */
+
+app.put(
+    "/api/auth/profile",
+    upload.single("avatar"),
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+                    success: false,
+                    authenticated: false,
+                    message: "Not authenticated."
+                });
+            }
+
+            const profileId =
+                session.profile_id;
+
+            const updateData = {
+                bio: req.body.bio || "",
+                grade: req.body.grade || "",
+                school: req.body.school || "",
+                district: req.body.district || "",
+                ambition: req.body.ambition || "",
+                updated_at: new Date().toISOString()
+            };
+
+            /* PROFILE PHOTO */
+
+            if (req.file) {
+
+                const file =
+                    req.file;
+
+                const extension =
+                    file.mimetype === "image/png"
+                        ? "png"
+                        : "jpg";
+
+                const filePath =
+                    `${profileId}/profile.${extension}`;
+
+                const {
+                    error: uploadError
+                } = await supabase.storage
+                    .from("profile-photos")
+                    .upload(
+                        filePath,
+                        file.buffer,
+                        {
+                            contentType:
+                                file.mimetype,
+                            upsert: true
+                        }
+                    );
+
+                if (uploadError) {
+
+                    console.error(
+                        "Profile photo upload error:",
+                        uploadError
+                    );
+
+                    return res.status(500).json({
+                        success: false,
+                        message:
+                            "Unable to upload profile photo."
+                    });
+                }
+
+                updateData.avatar_url =
+                    filePath;
+            }
+
+            const {
+                data: profile,
+                error
+            } = await supabase
+                .from("profiles")
+                .update(updateData)
+                .eq("id", profileId)
+                .select("*")
+                .single();
+
+            if (error) {
+
+                console.error(
+                    "Profile update error:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message:
+                        "Unable to save profile."
+                });
+            }
+
+            return res.json({
+                success: true,
+                authenticated: true,
+                profile: profile
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Profile update exception:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "Something went wrong."
+            });
+        }
     }
 );
 
