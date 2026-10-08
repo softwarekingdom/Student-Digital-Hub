@@ -2,8 +2,6 @@ const path = require("path");
 require("dotenv").config({ path: path.join(__dirname, ".env") });
 
 const express = require("express");
-const { GoogleGenAI } = require("@google/genai");
-const gemini = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const bcrypt = require("bcrypt");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
@@ -21,6 +19,13 @@ const deepseek = process.env.DEEPSEEK_API_KEY
     ? new OpenAI({
         apiKey: process.env.DEEPSEEK_API_KEY,
         baseURL: "https://api.deepseek.com"
+    })
+    : null;
+
+const groq = process.env.GROQ_API_KEY
+    ? new OpenAI({
+        apiKey: process.env.GROQ_API_KEY,
+        baseURL: "https://api.groq.com/openai/v1"
     })
     : null;
 
@@ -1271,6 +1276,175 @@ app.put(
     }
 );
 
+
+/* =========================================
+   USER THEME API
+========================================= */
+
+/* GET SAVED THEME */
+
+app.get(
+    "/api/auth/theme",
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+                    success: false,
+                    authenticated: false,
+                    message: "Not authenticated."
+                });
+            }
+
+            const {
+                data: profile,
+                error
+            } = await supabase
+                .from("profiles")
+                .select("theme")
+                .eq("id", session.profile_id)
+                .single();
+
+            if (error) {
+
+                console.error(
+                    "Theme load error:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message:
+                        "Unable to load theme."
+                });
+            }
+
+            return res.json({
+                success: true,
+                authenticated: true,
+                theme: profile?.theme || "default"
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Theme load exception:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "Something went wrong."
+            });
+        }
+    }
+);
+
+
+/* SAVE THEME */
+
+app.put(
+    "/api/auth/theme",
+    async function (req, res) {
+
+        try {
+
+            const session =
+                await getCurrentSession(req);
+
+            if (!session) {
+
+                return res.status(401).json({
+                    success: false,
+                    authenticated: false,
+                    message: "Not authenticated."
+                });
+            }
+
+            const allowedThemes = [
+                "default",
+                "blue",
+                "purple",
+                "pink",
+                "space",
+                "cyber",
+                "naruto"
+            ];
+
+            const selectedTheme =
+                req.body?.theme;
+
+            if (
+                !allowedThemes.includes(
+                    selectedTheme
+                )
+            ) {
+
+                return res.status(400).json({
+                    success: false,
+                    message:
+                        "Invalid theme."
+                });
+            }
+
+            const {
+                data: profile,
+                error
+            } = await supabase
+                .from("profiles")
+                .update({
+                    theme: selectedTheme,
+                    updated_at:
+                        new Date().toISOString()
+                })
+                .eq("id", session.profile_id)
+                .select("theme")
+                .single();
+
+            if (error) {
+
+                console.error(
+                    "Theme save error:",
+                    error
+                );
+
+                return res.status(500).json({
+                    success: false,
+                    message:
+                        "Unable to save theme."
+                });
+            }
+
+            return res.json({
+                success: true,
+                authenticated: true,
+                theme:
+                    profile.theme
+            });
+
+        } catch (error) {
+
+            console.error(
+                "Theme save exception:",
+                error
+            );
+
+            return res.status(500).json({
+                success: false,
+                message:
+                    "Something went wrong."
+            });
+        }
+    }
+);
+
+
 /* =========================================
    ASSIGNMENTS API
 ========================================= */
@@ -1945,25 +2119,37 @@ app.post("/api/ai", async (req, res) => {
         }
 
         if (task === "diagram") {
+            if (!groq) {
+                return res.status(503).json({
+                    success: false,
+                    message: "Groq API key is not configured yet."
+                });
+            }
+
             try {
-                const response = await gemini.models.generateContent({
-                    model: "gemini-3.6-flash",
-                    contents: prompt
+                const response = await groq.chat.completions.create({
+                    model: "openai/gpt-oss-120b",
+                    messages: [
+                        {
+                            role: "user",
+                            content: prompt
+                        }
+                    ]
                 });
 
                 return res.json({
                     success: true,
                     task: "diagram",
-                    model: "gemini-3.6-flash",
-                    response: response.text
+                    model: "openai/gpt-oss-120b",
+                    response: response.choices[0].message.content
                 });
 
             } catch (error) {
-                console.error("Gemini Router error:", error);
+                console.error("Groq Router error:", error);
 
                 return res.status(500).json({
                     success: false,
-                    message: "Gemini diagram request failed."
+                    message: "Groq diagram request failed."
                 });
             }
         }
@@ -2071,6 +2257,13 @@ app.post("/api/ai/deepseek", async (req, res) => {
 
 app.post("/api/ai/gemini", async (req, res) => {
     try {
+        if (!groq) {
+            return res.status(503).json({
+                success: false,
+                message: "Groq API key is not configured yet."
+            });
+        }
+
         const prompt = req.body?.prompt;
 
         if (!prompt || typeof prompt !== "string") {
@@ -2080,22 +2273,28 @@ app.post("/api/ai/gemini", async (req, res) => {
             });
         }
 
-        const response = await gemini.models.generateContent({
-            model: "gemini-3.6-flash",
-            contents: prompt
+        const response = await groq.chat.completions.create({
+            model: "openai/gpt-oss-120b",
+            messages: [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ]
         });
 
         return res.json({
             success: true,
-            model: "gemini-3.6-flash",
-            response: response.text
+            model: "openai/gpt-oss-120b",
+            response: response.choices[0].message.content
         });
+
     } catch (error) {
-        console.error("Gemini API error:", error);
+        console.error("Groq API error:", error);
 
         return res.status(500).json({
             success: false,
-            message: "Gemini API request failed."
+            message: "Groq API request failed."
         });
     }
 });

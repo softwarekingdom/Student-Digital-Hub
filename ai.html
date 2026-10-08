@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <meta
+        name="description"
+        content="StudyMate AI - Student Digital Hub AI Study Assistant"
+    >
+
+    <title>StudyMate AI | Student Digital Hub</title>
+
+    <link
+        rel="stylesheet"
+        href="css/ai.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <main class="ai-app">
+
+
+        <!-- =========================================
+             TOP BAR
+        ========================================== -->
+
+        <header class="chat-header">
+
+
+            <div class="header-left">
+
+
+                <a
+                    href="dashboard.html"
+                    class="back-button"
+                    aria-label="Back to dashboard"
+                >
+                    ←
+                </a>
+
+
+                <div class="ai-logo">
+                    🤖
+                </div>
+
+
+                <div class="header-info">
+
+                    <h1>
+                        StudyMate AI
+                    </h1>
+
+                    <span>
+                        Student Digital Hub
+                    </span>
+
+                </div>
+
+
+            </div>
+
+
+            <div class="header-right">
+
+
+                <div class="model-status">
+
+                    <span class="status-dot"></span>
+
+                    <span>
+                        GPT-OSS 120B
+                    </span>
+
+                </div>
+
+
+                <button
+                    id="clearChatBtn"
+                    class="clear-button"
+                    type="button"
+                >
+                    🗑️
+                    <span>Clear</span>
+                </button>
+
+
+            </div>
+
+
+        </header>
+
+
+
+        <!-- =========================================
+             CHAT
+        ========================================== -->
+
+        <section
+            id="chatMessages"
+            class="chat-messages"
+            aria-live="polite"
+        >
+
+
+            <!-- =====================================
+                 WELCOME SCREEN
+            ====================================== -->
+
+            <div class="welcome-screen">
+
+
+                <div class="welcome-logo">
+                    🤖
+                </div>
+
+
+                <h2>
+                    What can I help you learn?
+                </h2>
+
+
+                <p>
+                    Ask questions, explain lessons,
+                    solve problems and explore ideas.
+                </p>
+
+
+
+                <!-- SUGGESTIONS -->
+
+                <div class="suggestion-grid">
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Explain Newton's first law in simple words."
+                        type="button"
+                    >
+
+                        ⚡
+
+                        <span>
+                            Explain Physics
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Explain photosynthesis for a school student."
+                        type="button"
+                    >
+
+                        🌱
+
+                        <span>
+                            Explain Science
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Give me a simple study technique for remembering lessons."
+                        type="button"
+                    >
+
+                        📚
+
+                        <span>
+                            Study Help
+                        </span>
+
+                    </button>
+
+
+
+                    <button
+                        class="suggestion"
+                        data-prompt="Teach me an interesting fact about space."
+                        type="button"
+                    >
+
+                        🚀
+
+                        <span>
+                            Explore Space
+                        </span>
+
+                    </button>
+
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+
+        <!-- =========================================
+             INPUT AREA
+        ========================================== -->
+
+        <section class="input-area">
+
+
+            <form
+                id="aiForm"
+                class="chat-form"
+            >
+
+
+                <div class="input-wrapper">
+
+
+                    <textarea
+                        id="promptInput"
+                        rows="1"
+                        maxlength="8000"
+                        placeholder="Message StudyMate..."
+                        autocomplete="off"
+                    ></textarea>
+
+
+
+                    <button
+                        id="sendButton"
+                        type="submit"
+                        aria-label="Send message"
+                    >
+                        ➤
+                    </button>
+
+
+                </div>
+
+
+            </form>
+
+
+
+            <p class="input-hint">
+                StudyMate AI can make mistakes. Check important information.
+            </p>
+
+
+
+            <div
+                id="statusMessage"
+                class="status-message"
+                aria-live="polite"
+            ></div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <script src="js/ai.js"></script>
+
+
+</body>
+
+</html>
