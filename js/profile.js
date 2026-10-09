@@ -412,3 +412,86 @@ document.addEventListener("DOMContentLoaded", () => {
     loadProfile();
 
 });
+
+/* ========================================
+   PROFILE THEME API FIX
+   ======================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+    const themeSelect = document.getElementById("profileThemeSelect");
+    const saveThemeButton = document.getElementById("saveThemeBtn");
+    const themeMessage = document.getElementById("themeSaveMessage");
+
+    if (!themeSelect || !saveThemeButton) {
+        console.error("Theme controls not found.");
+        return;
+    }
+
+    async function loadSavedTheme() {
+        try {
+            const response = await fetch("/api/auth/theme", {
+                method: "GET",
+                credentials: "include"
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || "Unable to load saved theme.");
+            }
+
+            themeSelect.value = data.theme || "default";
+        } catch (error) {
+            console.error("Load theme failed:", error);
+
+            if (themeMessage) {
+                themeMessage.textContent =
+                    "Could not load saved theme. Please refresh and try again.";
+            }
+        }
+    }
+
+    saveThemeButton.addEventListener("click", async () => {
+        const selectedTheme = themeSelect.value;
+
+        saveThemeButton.disabled = true;
+
+        if (themeMessage) {
+            themeMessage.textContent = "Saving theme...";
+        }
+
+        try {
+            const response = await fetch("/api/auth/theme", {
+                method: "PUT",
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    theme: selectedTheme
+                })
+            });
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(data.message || "Theme save failed.");
+            }
+
+            if (themeMessage) {
+                themeMessage.textContent = "Theme saved successfully!";
+            }
+        } catch (error) {
+            console.error("Save theme failed:", error);
+
+            if (themeMessage) {
+                themeMessage.textContent =
+                    "Theme could not be saved. Please log in again and retry.";
+            }
+        } finally {
+            saveThemeButton.disabled = false;
+        }
+    });
+
+    loadSavedTheme();
+});
