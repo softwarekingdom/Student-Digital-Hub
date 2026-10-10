@@ -29,6 +29,17 @@ const groq = process.env.GROQ_API_KEY
     })
     : null;
 
+const openrouter = process.env.OPENROUTER_API_KEY
+    ? new OpenAI({
+        apiKey: process.env.OPENROUTER_API_KEY,
+        baseURL: "https://openrouter.ai/api/v1",
+        defaultHeaders: {
+            "HTTP-Referer": "https://student-digital-hub.onrender.com",
+            "X-Title": "Student Digital Hub"
+        }
+    })
+    : null;
+
 const {
     createClient
 } = require("@supabase/supabase-js");
@@ -2093,65 +2104,107 @@ app.post("/api/ai", async (req, res) => {
         }
 
         if (task === "python") {
-            if (!deepseek) {
-                return res.status(503).json({
-                    success: false,
-                    message: "DeepSeek API key is not configured yet."
-                });
+            const messages = [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ];
+
+            if (groq) {
+                try {
+                    const response = await groq.chat.completions.create({
+                        model: "openai/gpt-oss-120b",
+                        messages
+                    });
+
+                    return res.json({
+                        success: true,
+                        task: "python",
+                        provider: "groq",
+                        model: "openai/gpt-oss-120b",
+                        response: response.choices[0].message.content
+                    });
+                } catch (error) {
+                    console.error("Groq Python AI failed; trying OpenRouter:", error.message);
+                }
             }
 
-            const response = await deepseek.chat.completions.create({
-                model: "deepseek-chat",
-                messages: [
-                    {
-                        role: "user",
-                        content: prompt
-                    }
-                ]
-            });
+            if (openrouter) {
+                try {
+                    const response = await openrouter.chat.completions.create({
+                        model: "openrouter/free",
+                        messages
+                    });
 
-            return res.json({
-                success: true,
-                task: "python",
-                model: "deepseek-chat",
-                response: response.choices[0].message.content
+                    return res.json({
+                        success: true,
+                        task: "python",
+                        provider: "openrouter",
+                        model: response.model || "openrouter/free",
+                        response: response.choices[0].message.content
+                    });
+                } catch (error) {
+                    console.error("OpenRouter Python AI failed:", error.message);
+                }
+            }
+
+            return res.status(503).json({
+                success: false,
+                message: "Python AI is unavailable. Check Groq and OpenRouter configuration or limits."
             });
         }
 
         if (task === "diagram") {
-            if (!groq) {
-                return res.status(503).json({
-                    success: false,
-                    message: "Groq API key is not configured yet."
-                });
+            const messages = [
+                {
+                    role: "user",
+                    content: prompt
+                }
+            ];
+
+            if (groq) {
+                try {
+                    const response = await groq.chat.completions.create({
+                        model: "openai/gpt-oss-120b",
+                        messages
+                    });
+
+                    return res.json({
+                        success: true,
+                        task: "diagram",
+                        provider: "groq",
+                        model: "openai/gpt-oss-120b",
+                        response: response.choices[0].message.content
+                    });
+                } catch (error) {
+                    console.error("Groq Diagram AI failed; trying OpenRouter:", error.message);
+                }
             }
 
-            try {
-                const response = await groq.chat.completions.create({
-                    model: "openai/gpt-oss-120b",
-                    messages: [
-                        {
-                            role: "user",
-                            content: prompt
-                        }
-                    ]
-                });
+            if (openrouter) {
+                try {
+                    const response = await openrouter.chat.completions.create({
+                        model: "openrouter/free",
+                        messages
+                    });
 
-                return res.json({
-                    success: true,
-                    task: "diagram",
-                    model: "openai/gpt-oss-120b",
-                    response: response.choices[0].message.content
-                });
-
-            } catch (error) {
-                console.error("Groq Router error:", error);
-
-                return res.status(500).json({
-                    success: false,
-                    message: "Groq diagram request failed."
-                });
+                    return res.json({
+                        success: true,
+                        task: "diagram",
+                        provider: "openrouter",
+                        model: response.model || "openrouter/free",
+                        response: response.choices[0].message.content
+                    });
+                } catch (error) {
+                    console.error("OpenRouter Diagram AI failed:", error.message);
+                }
             }
+
+            return res.status(503).json({
+                success: false,
+                message: "Diagram AI is unavailable. Check provider configuration or limits."
+            });
         }
 
         return res.status(400).json({
