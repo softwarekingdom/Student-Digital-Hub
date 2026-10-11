@@ -2308,48 +2308,78 @@ app.post("/api/ai/deepseek", async (req, res) => {
 });
 
 
+
 app.post("/api/ai/gemini", async (req, res) => {
-    try {
-        if (!groq) {
-            return res.status(503).json({
-                success: false,
-                message: "Groq API key is not configured yet."
-            });
-        }
+    const prompt = req.body?.prompt;
 
-        const prompt = req.body?.prompt;
-
-        if (!prompt || typeof prompt !== "string") {
-            return res.status(400).json({
-                success: false,
-                message: "Prompt is required."
-            });
-        }
-
-        const response = await groq.chat.completions.create({
-            model: "openai/gpt-oss-120b",
-            messages: [
-                {
-                    role: "user",
-                    content: prompt
-                }
-            ]
-        });
-
-        return res.json({
-            success: true,
-            model: "openai/gpt-oss-120b",
-            response: response.choices[0].message.content
-        });
-
-    } catch (error) {
-        console.error("Groq API error:", error);
-
-        return res.status(500).json({
+    if (!prompt || typeof prompt !== "string" || !prompt.trim()) {
+        return res.status(400).json({
             success: false,
-            message: "Groq API request failed."
+            message: "Prompt is required."
         });
     }
+
+    const messages = [
+        {
+            role: "user",
+            content: prompt.trim()
+        }
+    ];
+
+    // 1. Try Groq first
+    if (groq) {
+        try {
+            const result = await groq.chat.completions.create({
+                model: "openai/gpt-oss-120b",
+                messages
+            });
+
+            const answer = result.choices?.[0]?.message?.content;
+
+            if (typeof answer === "string" && answer.trim()) {
+                return res.json({
+                    success: true,
+                    provider: "groq",
+                    model: "openai/gpt-oss-120b",
+                    response: answer
+                });
+            }
+
+            console.error("Groq returned an empty response.");
+        } catch (error) {
+            console.error("Groq failed; trying OpenRouter:", error.message);
+        }
+    }
+
+    // 2. Fall back to OpenRouter
+    if (openrouter) {
+        try {
+            const result = await openrouter.chat.completions.create({
+                model: "openrouter/free",
+                messages
+            });
+
+            const answer = result.choices?.[0]?.message?.content;
+
+            if (typeof answer === "string" && answer.trim()) {
+                return res.json({
+                    success: true,
+                    provider: "openrouter",
+                    model: result.model || "openrouter/free",
+                    response: answer
+                });
+            }
+
+            console.error("OpenRouter returned an empty response.");
+        } catch (error) {
+            console.error("OpenRouter AI error:", error.message);
+        }
+    }
+
+    return res.status(503).json({
+        success: false,
+        message: "StudyMate AI is temporarily unavailable. Please try again later."
+    });
 });
 
 app.use(
