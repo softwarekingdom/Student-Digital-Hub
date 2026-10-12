@@ -2455,6 +2455,158 @@ app.use(
     }
 );
 
+/* =========================================
+   STUDENT XP API
+========================================= */
+
+/* GET XP SUMMARY */
+
+app.get("/api/xp/summary", async function (req, res) {
+    try {
+        const session = await getCurrentSession(req);
+
+        if (!session) {
+            return res.status(401).json({
+                success: false,
+                message: "Not authenticated."
+            });
+        }
+
+        const { data, error } = await supabase
+            .from("student_xp")
+            .select("total_xp, current_level, updated_at")
+            .eq("profile_id", session.profile_id)
+            .maybeSingle();
+
+        if (error) {
+            console.error("XP summary error:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Unable to load XP summary."
+            });
+        }
+
+        return res.json({
+            success: true,
+            total_xp: data?.total_xp ?? 0,
+            current_level: data?.current_level ?? 1,
+            updated_at: data?.updated_at ?? null
+        });
+    } catch (error) {
+        console.error("XP summary exception:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong."
+        });
+    }
+});
+
+
+/* GET XP HISTORY */
+
+app.get("/api/xp/history", async function (req, res) {
+    try {
+        const session = await getCurrentSession(req);
+
+        if (!session) {
+            return res.status(401).json({
+                success: false,
+                message: "Not authenticated."
+            });
+        }
+
+        const { data, error } = await supabase
+            .from("xp_transactions")
+            .select("id, source_type, source_id, amount, description, created_at")
+            .eq("profile_id", session.profile_id)
+            .order("created_at", { ascending: false })
+            .limit(50);
+
+        if (error) {
+            console.error("XP history error:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Unable to load XP history."
+            });
+        }
+
+        return res.json({
+            success: true,
+            history: data || []
+        });
+    } catch (error) {
+        console.error("XP history exception:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong."
+        });
+    }
+});
+
+
+/* GET ACHIEVEMENT CATALOGUE */
+
+app.get("/api/xp/achievements", async function (req, res) {
+    try {
+        const session = await getCurrentSession(req);
+
+        if (!session) {
+            return res.status(401).json({
+                success: false,
+                message: "Not authenticated."
+            });
+        }
+
+        const { data, error } = await supabase
+            .from("achievements")
+            .select("id, code, title, description, achievement_level, requirement_type, requirement_value, reward_xp")
+            .order("achievement_level", { ascending: true })
+            .order("title", { ascending: true });
+
+        if (error) {
+            console.error("Achievement catalogue error:", error);
+            return res.status(500).json({
+                success: false,
+                message: "Unable to load achievements."
+            });
+        }
+
+        const { data: earned, error: earnedError } = await supabase
+            .from("student_achievements")
+            .select("achievement_id, unlocked_at")
+            .eq("profile_id", session.profile_id);
+
+        if (earnedError) {
+            console.error("Student achievements error:", earnedError);
+            return res.status(500).json({
+                success: false,
+                message: "Unable to load earned achievements."
+            });
+        }
+
+        const earnedMap = new Map(
+            (earned || []).map(item => [
+                item.achievement_id,
+                item.unlocked_at
+            ])
+        );
+
+        return res.json({
+            success: true,
+            achievements: (data || []).map(item => ({
+                ...item,
+                unlocked: earnedMap.has(item.id),
+                unlocked_at: earnedMap.get(item.id) || null
+            }))
+        });
+    } catch (error) {
+        console.error("Achievements API exception:", error);
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong."
+        });
+    }
+});
 
 /* =========================================
    API 404

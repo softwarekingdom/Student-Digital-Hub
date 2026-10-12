@@ -1,0 +1,390 @@
+/* ========================================
+   STUDENT DIGITAL HUB
+   DASHBOARD JAVASCRIPT
+   ======================================== */
+
+document.addEventListener("DOMContentLoaded", () => {
+
+    console.log("Student Digital Hub Dashboard loaded.");
+async function loadDashboardProfile() {
+
+    try {
+
+        const response = await fetch(
+            "/api/auth/profile",
+            {
+                method: "GET",
+                credentials: "include"
+            }
+        );
+
+
+        if (!response.ok) {
+
+            console.error(
+                "Profile request failed:",
+                response.status
+            );
+
+            return;
+        }
+
+
+        const data =
+            await response.json();
+
+
+        if (!data.success) {
+
+            console.error(
+                "Profile loading failed:",
+                data.message
+            );
+
+            return;
+        }
+
+
+        const profile =
+            data.profile;
+
+
+        if (!profile) {
+            return;
+        }
+
+
+        /* ------------------------------
+           Profile Elements
+           ------------------------------ */
+
+        const studentName =
+            document.getElementById(
+                "dashboardStudentName"
+            );
+
+
+        const studentGrade =
+            document.getElementById(
+                "dashboardStudentGrade"
+            );
+
+
+        const greeting =
+            document.getElementById(
+                "dashboardGreeting"
+            );
+
+
+        /* ------------------------------
+           Real Name
+           ------------------------------ */
+
+        const realName =
+            profile.username ||
+            "Student";
+
+
+        if (studentName) {
+
+            studentName.textContent =
+                realName;
+
+        }
+
+
+        /* ------------------------------
+           Real Grade
+           ------------------------------ */
+
+        const realGrade =
+            profile.grade ||
+            "Student";
+
+
+        if (studentGrade) {
+
+            studentGrade.textContent =
+                realGrade;
+
+        }
+
+/* ------------------------------
+   Profile Photo
+   ------------------------------ */
+
+const profileImage =
+    document.getElementById(
+        "dashboardProfileImage"
+    );
+
+
+if (profileImage) {
+
+    const avatarUrl =
+        profile.avatar_url;
+
+
+    if (
+        avatarUrl &&
+        avatarUrl.trim() !== ""
+    ) {
+
+        profileImage.src =
+            avatarUrl;
+
+    } else {
+
+        profileImage.src =
+            "assets/images/default-avatar.png";
+
+    }
+
+}
+        /* ------------------------------
+           Welcome Greeting
+           ------------------------------ */
+
+        if (greeting) {
+
+            greeting.textContent =
+                `Welcome back, ${realName}!`;
+
+        }
+
+
+        console.log(
+            "Dashboard profile loaded successfully."
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "Dashboard profile error:",
+            error
+        );
+
+    }
+
+}
+  /* ========================================
+   DYNAMIC GREETING
+   ======================================== */
+
+const welcomeLabel =
+    document.querySelector(
+        ".welcome-label"
+    );
+
+
+function updateDashboardGreeting() {
+
+    if (!welcomeLabel) {
+        return;
+    }
+
+
+    const currentHour =
+        new Date().getHours();
+
+
+    let greetingText;
+
+
+    if (currentHour >= 5 && currentHour < 12) {
+
+        greetingText =
+            "Good morning 👋";
+
+    } else if (
+        currentHour >= 12 &&
+        currentHour < 17
+    ) {
+
+        greetingText =
+            "Good afternoon 👋";
+
+    } else if (
+        currentHour >= 17 &&
+        currentHour < 22
+    ) {
+
+        greetingText =
+            "Good evening 👋";
+
+    } else {
+
+        greetingText =
+            "Good night 👋";
+
+    }
+
+
+    welcomeLabel.textContent =
+        greetingText;
+
+}
+
+
+updateDashboardGreeting();
+    const logoutButton =
+        document.getElementById("logoutButton");
+
+
+    if (logoutButton) {
+
+        logoutButton.addEventListener("click", async () => {
+
+            const confirmLogout =
+                confirm("Are you sure you want to logout?");
+
+            if (!confirmLogout) {
+                return;
+            }
+
+            try {
+
+                const response = await fetch(
+                    "/api/auth/logout",
+                    {
+                        method: "POST",
+                        credentials: "include"
+                    }
+                );
+
+                if (response.ok) {
+
+                    window.location.href =
+                        "login.html";
+
+                } else {
+
+                    alert(
+                        "Logout failed. Please try again."
+                    );
+
+                }
+
+            } catch (error) {
+
+                console.error(
+                    "Logout error:",
+                    error
+                );
+
+                alert(
+                    "Unable to connect to the server."
+                );
+            }
+
+        });
+
+    }
+
+});
+/* ========================================
+   DASHBOARD HEADER
+   ======================================== */
+
+const notificationButton =
+    document.getElementById("notificationButton");
+
+const notificationBadge =
+    document.getElementById("notificationBadge");
+
+
+if (notificationButton) {
+
+    notificationButton.addEventListener(
+        "click",
+        () => {
+
+            console.log(
+                "Notifications clicked."
+            );
+
+        }
+    );
+
+}
+/* ========================================
+   STUDY OVERVIEW
+   ======================================== */
+
+const subjectsCount =
+    document.getElementById("subjectsCount");
+
+const assignmentsCount =
+    document.getElementById("assignmentsCount");
+
+const goalsCount =
+    document.getElementById("goalsCount");
+
+const studyTimeValue =
+    document.getElementById("studyTimeValue");
+
+
+/*
+ * Real data will be connected
+ * during Phase 4.
+ *
+ * Until then, "--" is displayed
+ * instead of fake numbers.
+ */
+/* ========================================
+   TODAY'S STUDY
+   ======================================== */
+
+const todayStudyList =
+    document.getElementById("todayStudyList");
+
+const todayStudyEmpty =
+    document.getElementById("todayStudyEmpty");
+
+
+/*
+ * Real timetable data will be loaded
+ * during the database integration phase.
+ *
+ * For now, the empty state is displayed.
+ */
+/* ========================================
+   STUDY PROGRESS
+   ======================================== */
+
+const studyProgressList =
+    document.getElementById("studyProgressList");
+
+const studyProgressEmpty =
+    document.getElementById("studyProgressEmpty");
+
+
+/*
+ * Real subject progress will be
+ * loaded from the database later.
+ *
+ * No fake percentages are used.
+ */
+/* ========================================
+   GOALS PREVIEW
+   ======================================== */
+
+const dashboardGoalsList =
+    document.getElementById(
+        "dashboardGoalsList"
+    );
+
+const dashboardGoalsEmpty =
+    document.getElementById(
+        "dashboardGoalsEmpty"
+    );
+
+
+/*
+ * Real goals will be loaded
+ * from the database during
+ * Phase 4.
+ *
+ * No fake goal data is used.
+ */
