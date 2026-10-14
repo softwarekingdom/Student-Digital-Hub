@@ -2612,6 +2612,121 @@ app.get("/api/xp/achievements", async function (req, res) {
    API 404
 ========================================= */
 
+app.get("/api/community/me", async (req, res) => {
+    try {
+        const session = await getCurrentSession(req);
+
+        if (!session || !session.profile_id) {
+            return res.status(401).json({
+                success: false,
+                message: "Please log in to access the community."
+            });
+        }
+
+        const { data: profile, error: profileError } = await supabase
+            .from("profiles")
+            .select("id, full_name, username, avatar_url, grade")
+            .eq("id", session.profile_id)
+            .maybeSingle();
+
+        if (profileError) {
+            console.error("Community profile error:", profileError);
+            return res.status(500).json({
+                success: false,
+                message: "Could not load your profile."
+            });
+        }
+
+        if (!profile) {
+            return res.status(404).json({
+                success: false,
+                message: "Student profile not found."
+            });
+        }
+
+        const { data: existing, error: lookupError } = await supabase
+            .from("community_student_ids")
+            .select("chat_id")
+            .eq("profile_id", profile.id)
+            .maybeSingle();
+
+        if (lookupError) {
+            console.error("Chat ID lookup error:", lookupError);
+            return res.status(500).json({
+                success: false,
+                message: "Could not load your Chat ID."
+            });
+        }
+
+        let chatId = existing?.chat_id || null;
+
+        for (let attempt = 0; !chatId && attempt < 5; attempt++) {
+            const candidate = crypto
+                .randomInt(1000000000, 10000000000)
+                .toString();
+
+            const { data: created, error: createError } = await supabase
+                .from("community_student_ids")
+                .insert({
+                    profile_id: profile.id,
+                    chat_id: candidate
+                })
+                .select("chat_id")
+                .single();
+
+            if (!createError && created) {
+                chatId = created.chat_id;
+                break;
+            }
+
+            const { data: raced, error: raceError } = await supabase
+                .from("community_student_ids")
+                .select("chat_id")
+                .eq("profile_id", profile.id)
+                .maybeSingle();
+
+            if (!raceError && raced) {
+                chatId = raced.chat_id;
+                break;
+            }
+
+            if (createError?.code !== "23505") {
+                console.error("Chat ID creation error:", createError);
+                return res.status(500).json({
+                    success: false,
+                    message: "Could not create your Chat ID."
+                });
+            }
+        }
+
+        if (!chatId) {
+            return res.status(500).json({
+                success: false,
+                message: "Could not generate a Chat ID. Please try again."
+            });
+        }
+
+        return res.json({
+            success: true,
+            student: {
+                id: profile.id,
+                fullName: profile.full_name,
+                username: profile.username,
+                chatId,
+                avatarUrl: profile.avatar_url || null,
+                grade: profile.grade || null
+            }
+        });
+    } catch (error) {
+        console.error("Community me API error:", error);
+        return res.status(500).json({
+            success: false,
+            message: "An unexpected server error occurred."
+        });
+    }
+});
+
+
 app.use(
     "/api",
     function (req, res) {
