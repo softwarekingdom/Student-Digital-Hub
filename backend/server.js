@@ -8,7 +8,9 @@ const multer = require("multer");
 const crypto = require("crypto");
 const { spawn } = require("child_process");
 const OpenAI = require("openai");
-
+const {
+    startCommunityWebSocketServer
+} = require("./community-ws");
 const openai = process.env.OPENAI_API_KEY
     ? new OpenAI({
         apiKey: process.env.OPENAI_API_KEY
@@ -2775,33 +2777,15 @@ app.use(
 );
 
 
+
 /* =========================================
    START SERVER
 ========================================= */
 
-app.listen(
+startCommunityWebSocketServer({
+    app,
     PORT,
-    function () {
-
-        console.log(
-            "======================================"
-        );
-
-        console.log(
-            "🎓 Student Digital Hub"
-        );
-
-        console.log(
-            "🔐 Custom Authentication Backend"
-        );
-
-        console.log(
-            `🚀 Server running on port ${PORT}`
-        );
-
-        console.log(
-            "======================================"
-        );
-
-    }
-);
+    getCurrentSession,
+    supabase,
+    SESSION_COOKIE
+});
