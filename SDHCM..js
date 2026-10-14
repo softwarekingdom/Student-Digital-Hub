@@ -1,11 +1,17 @@
-
 "use strict";
 
 document.addEventListener("DOMContentLoaded", () => {
-    const chatIdElement = document.getElementById("studentChatId");
-    const copyButton = document.getElementById("copyIdBtn");
-    const hintElement = document.getElementById("idHint");
-    const statusElement = document.getElementById("statusMessage");
+    const chatIdElement =
+        document.getElementById("studentChatId");
+
+    const copyButton =
+        document.getElementById("copyIdBtn");
+
+    const hintElement =
+        document.getElementById("idHint");
+
+    const statusElement =
+        document.getElementById("statusMessage");
 
     if (
         !chatIdElement ||
@@ -13,45 +19,120 @@ document.addEventListener("DOMContentLoaded", () => {
         !hintElement ||
         !statusElement
     ) {
-        console.error("SDH Community: Required UI elements are missing.");
+        console.error(
+            "SDH Community: Required UI elements are missing."
+        );
         return;
     }
 
-    function getValidChatId() {
-        const id = chatIdElement.textContent.trim();
-
-        // Only accept exactly 10 digits.
-        return /^\d{10}$/.test(id) ? id : null;
-    }
+    let studentChatId = "";
 
     function updateCopyButton() {
-        copyButton.disabled = !getValidChatId();
+        copyButton.disabled =
+            !/^\d{10}$/.test(studentChatId);
     }
 
-    copyButton.addEventListener("click", async () => {
-        const chatId = getValidChatId();
-
-        if (!chatId) {
-            statusElement.textContent =
-                "Your Student Chat ID has not been assigned yet.";
-            return;
-        }
+    async function loadStudentChatId() {
+        chatIdElement.textContent = "Loading...";
+        hintElement.textContent =
+            "Fetching your Student Chat ID securely...";
+        statusElement.textContent = "";
 
         try {
-            await navigator.clipboard.writeText(chatId);
-            statusElement.textContent = "Student Chat ID copied.";
-        } catch (error) {
+            const response = await fetch(
+                "/api/community/me",
+                {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Accept": "application/json"
+                    }
+                }
+            );
+
+            const data = await response.json();
+
+            if (!response.ok || !data.success) {
+                throw new Error(
+                    data.message ||
+                    "Unable to load your student profile."
+                );
+            }
+
+            const student = data.student;
+            const chatId = String(
+                student?.chatId ?? ""
+            );
+
+            if (!/^\d{10}$/.test(chatId)) {
+                chatIdElement.textContent =
+                    "Not assigned yet";
+
+                hintElement.textContent =
+                    "Your Student Chat ID is missing or invalid.";
+
+                statusElement.textContent =
+                    "Please contact the SDH administrator.";
+
+                return;
+            }
+
+            studentChatId = chatId;
+            chatIdElement.textContent = chatId;
+
+            hintElement.textContent =
+                "Your secure 10-digit Student Chat ID.";
+
             statusElement.textContent =
-                "Copy failed. Please copy your ID manually.";
+                "Student Chat ID loaded successfully.";
+
+            updateCopyButton();
+
+        } catch (error) {
+            console.error(
+                "SDH Community profile error:",
+                error
+            );
+
+            chatIdElement.textContent =
+                "Unable to load";
+
+            hintElement.textContent =
+                "We could not retrieve your Student Chat ID.";
+
+            statusElement.textContent =
+                error.message === "Failed to fetch"
+                    ? "Connection failed. Check the server and API URL."
+                    : error.message ||
+                      "Please log in again and retry.";
+
+            studentChatId = "";
+            updateCopyButton();
         }
-    });
+    }
 
-    // No fake ID is generated in the frontend.
-    updateCopyButton();
+    copyButton.addEventListener(
+        "click",
+        async () => {
+            if (!/^\d{10}$/.test(studentChatId)) {
+                statusElement.textContent =
+                    "Your Student Chat ID is unavailable.";
+                return;
+            }
 
-    hintElement.textContent =
-        "Your unique 10-digit ID will appear after secure backend integration.";
+            try {
+                await navigator.clipboard.writeText(
+                    studentChatId
+                );
 
-    statusElement.textContent =
-        "Community Chat preview loaded. Chat services are not connected yet.";
+                statusElement.textContent =
+                    "Student Chat ID copied.";
+            } catch (error) {
+                statusElement.textContent =
+                    "Copy failed. Please copy the ID manually.";
+            }
+        }
+    );
+
+    loadStudentChatId();
 });
