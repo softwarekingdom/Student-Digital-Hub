@@ -2602,3 +2602,27 @@ html[data-theme="cyber"] .dashboard-nav-link.active {
     }
 
 }
+/* Community Navigation Link */
+.dashboard-nav-link[href="SDHCM.html"] {
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.dashboard-nav-link[href="SDHCM.html"]:hover {
+    background: rgba(0, 255, 200, 0.12);
+    color: #00ffc8;
+    transform: translateX(4px);
+}
+
+/* Community Icon */
+.dashboard-nav-link[href="SDHCM.html"] .nav-icon {
+    font-size: 20px;
+}
+
+/* Mobile Friendly */
+@media (max-width: 768px) {
+    .dashboard-nav-link[href="SDHCM.html"]:hover {
+        transform: none;
+    }
+}

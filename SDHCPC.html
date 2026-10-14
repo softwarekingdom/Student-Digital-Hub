@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d1b">
+    <title>SDH Private Chat</title>
+    <link rel="stylesheet" href="SDHCPC.css">
+    <script src="SDHCPC.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="SDHCM.html">🎓 Student <strong>Digital Hub</strong></a>
+        <a class="back-link" href="SDHCM.html">← Community</a>
+    </header><main class="container">
+    <section class="hero">
+        <p class="eyebrow">SDH · STUDENT COMMUNITY</p>
+        <h1>Private <span>Chat</span></h1>
+        <p>Connect respectfully. Protect your privacy. Stay safe.</p>
+    </section>
+
+    <section class="safety-banner">
+        <span class="safety-icon">🛡️</span>
+        <div>
+            <h2>Your safety comes first</h2>
+            <p>Never share personal or account information. Read the Community Chat Rules before connecting.</p>
+        </div>
+    </section>
+
+    <section class="panel connect-panel">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">CONNECT WITH SOMEONE YOU KNOW</p>
+                <h2>Find a Student</h2>
+            </div>
+            <span class="step-label">STEP 01</span>
+        </div>
+
+        <form id="connectForm">
+            <label for="studentIdInput">10-digit Student Chat ID</label>
+            <div class="connect-row">
+                <input id="studentIdInput" type="text"
+                    inputmode="numeric" maxlength="10"
+                    autocomplete="off" placeholder="Enter Student Chat ID"
+                    required>
+                <button class="button primary" type="submit">Send Request →</button>
+            </div>
+            <p class="help-text">Only send requests to students you know. Both students must accept before chatting.</p>
+            <p id="connectStatus" class="status" role="status"></p>
+        </form>
+    </section>
+
+    <section class="panel requests-panel">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">CONNECTIONS</p>
+                <h2>Chat Requests</h2>
+            </div>
+            <span class="count" id="requestCount">0</span>
+        </div>
+
+        <div class="empty-state" id="requestEmpty">
+            <span>✉️</span>
+            <h3>No chat requests yet</h3>
+            <p>Incoming and outgoing requests will appear here after backend integration.</p>
+        </div>
+        <div id="requestList" hidden></div>
+        <p class="preview-note">Preview only — requests are not connected yet.</p>
+    </section>
+
+    <section class="panel chat-panel">
+        <div class="chat-header">
+            <div class="student-info">
+                <div class="avatar">👤</div>
+                <div>
+                    <h2>Private Conversation</h2>
+                    <p><span class="status-dot"></span> <span id="onlineStatus">Not connected</span></p>
+                </div>
+            </div>
+            <button id="leaveChatBtn" class="button danger"
+                type="button" disabled>Leave Chat</button>
+        </div>
+
+        <div class="temporary-notice">
+            🔒 <p><strong>Temporary chat:</strong> Messages are intended to remain in temporary server memory only. They may disappear when either participant leaves or the server restarts. Do not rely on this chat to preserve important information.</p>
+        </div>
+
+        <div class="messages" id="messageArea" aria-live="polite">
+            <div class="chat-placeholder" id="chatPlaceholder">
+                <span>💬</span>
+                <h3>Your conversation will appear here</h3>
+                <p>Both students must accept the request and be online before messaging is enabled.</p>
+            </div>
+        </div>
+
+        <form class="composer" id="messageForm">
+            <label class="visually-hidden" for="messageInput">Write a message</label>
+            <textarea id="messageInput" rows="1" maxlength="1000"
+                placeholder="Messaging is not connected yet..." disabled></textarea>
+            <button id="sendButton" class="button primary send-button"
+                type="submit" disabled aria-label="Send message">➤</button>
+        </form>
+        <p class="composer-help">Be respectful. Never share personal data, passwords or verification codes.</p>
+    </section>
+
+    <section class="panel rules-panel">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">PLEASE READ BEFORE CHATTING</p>
+                <h2>Community Chat Rules</h2>
+            </div>
+            <span class="rules-icon">📜</span>
+        </div>
+
+        <ol class="rules-list">
+            <li><strong>Personal Data Privacy:</strong> Do not share personal information such as your home address, phone number, school timetable, passwords, verification codes, or financial details. Student Digital Hub is not responsible for misuse or harm arising from information you voluntarily disclose, to the extent permitted by applicable law.</li>
+
+            <li><strong>Respectful Communication:</strong> Do not use unnecessary, abusive, insulting, sexually inappropriate, or otherwise unsuitable language.</li>
+
+            <li><strong>No Harassment or Bullying:</strong> Threats, bullying, intimidation, stalking, hate speech, and repeated unwanted messages are not allowed.</li>
+
+            <li><strong>No Harmful or Illegal Content:</strong> Do not send content intended to threaten, exploit, defraud, or harm another person, or content that violates applicable law.</li>
+
+            <li><strong>Respect Consent:</strong> A private chat may begin only after both students accept the request. Respect a student's decision to decline, stop, or leave a conversation.</li>
+
+            <li><strong>Block and Report:</strong> Use the Block or Report controls if you experience or notice abuse. Reports may require review when the reporting service is available.</li>
+
+            <li><strong>Protect Account Security:</strong> Never share passwords, one-time codes, login links, or another person's account details.</li>
+
+            <li><strong>Temporary Messages:</strong> Chat messages are not intended to be stored permanently. Messages may be deleted when either participant leaves the chat or when the server restarts. Do not assume messages can be recovered.</li>
+
+            <li><strong>No Impersonation:</strong> Do not pretend to be another student, use another person's ID, or mislead others about who you are.</li>
+
+            <li><strong>Report Misuse:</strong> Report inappropriate conduct and leave unsafe conversations. Blocking or reporting does not guarantee that all misuse can be prevented.</li>
+
+            <li><strong>Respect Others' Privacy:</strong> Do not copy, publish, or forward another person's messages or personal information without their permission.</li>
+
+            <li><strong>Use the Service Responsibly:</strong> Do not spam, send malicious links, attempt to access another student's chat, or interfere with the service.</li>
+        </ol>
+
+        <label class="agreement">
+            <input id="rulesAccepted" type="checkbox">
+            <span>I have read and agree to follow the Community Chat Rules.</span>
+        </label>
+        <p id="rulesStatus" class="help-text" role="status">
+            The chat service is not connected yet. This checkbox records your preview choice only.
+        </p>
+    </section>
+
+    <section class="panel safety-panel">
+        <div>
+            <p class="section-kicker">YOUR CONTROL</p>
+            <h2>Safety Actions</h2>
+            <p>These controls will work after secure backend integration.</p>
+        </div>
+        <div class="action-buttons">
+            <button id="blockBtn" class="button outline" type="button" disabled>⛔ Block Student</button>
+            <button id="reportBtn" class="button outline report" type="button" disabled>⚑ Report Concern</button>
+        </div>
+        <p id="safetyStatus" class="status" role="status"></p>
+    </section>
+
+    <p class="footer-note">Student Digital Hub · Connect responsibly. Protect each other.</p>
+</main>
+
+<dialog id="safetyDialog">
+    <form method="dialog" class="dialog-content">
+        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+        <p class="section-kicker">STUDENT SAFETY</p>
+        <h2 id="dialogTitle">Safety Action</h2>
+        <p id="dialogText"></p>
+
+        <label id="reportReasonLabel" for="reportReason" hidden>
+            Briefly describe your concern. Do not include sensitive personal data.
+        </label>
+        <textarea id="reportReason" rows="3" maxlength="500"
+            placeholder="Describe the concern..." hidden></textarea>
+
+        <div class="dialog-actions">
+            <button class="button outline" value="cancel">Cancel</button>
+            <button class="button primary" id="dialogConfirmBtn" type="button">Continue</button>
+        </div>
+        <p id="dialogStatus" class="status" role="status"></p>
+    </form>
+</dialog>
+
+<footer class="bottom-footer">
+    <a href="SDHCM.html">← Back to Community</a>
+    <span>Private Chat · Frontend Preview</span>
+</footer>
+
+</body>
+</html>

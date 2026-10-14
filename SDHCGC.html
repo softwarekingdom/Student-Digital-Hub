@@ -1,0 +1,218 @@
+<!DOCTYPE html><html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d1b">
+    <title>SDH Group Chat</title>
+    <link rel="stylesheet" href="SDHCGC.css">
+    <script src="SDHCGC.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="SDHCM.html">
+            <span class="brand-icon">🎓</span>
+            <span>Student <strong>Digital Hub</strong></span>
+        </a>
+        <a class="back-link" href="SDHCM.html">← Community</a>
+    </header><main class="container">
+    <section class="hero">
+        <p class="eyebrow">SDH · STUDENT COMMUNITY</p>
+        <h1>Group <span>Chat</span></h1>
+        <p>Meet students. Share ideas. Learn together safely.</p>
+    </section>
+
+    <section class="safety-banner">
+        <span class="safety-icon">🛡️</span>
+        <div>
+            <h2>A safer student community</h2>
+            <p>Only eligible students should appear in your online list. Respect privacy, consent and the Community Chat Rules.</p>
+        </div>
+    </section>
+
+    <section class="panel profile-panel">
+        <div class="profile-icon">👤</div>
+        <div class="profile-content">
+            <p class="section-kicker">YOUR COMMUNITY STATUS</p>
+            <h2 id="myStatusTitle">Not connected</h2>
+            <p id="myStatusText">Sign in through SDH to check your community eligibility.</p>
+        </div>
+        <span class="status-badge" id="connectionBadge">Offline</span>
+    </section>
+
+    <section class="panel online-panel">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">DISCOVER STUDENTS</p>
+                <h2>Online Students</h2>
+                <p class="section-description">
+                    The connected service will show only eligible online students.
+                </p>
+            </div>
+            <span class="count-badge" id="onlineCount">0 online</span>
+        </div>
+
+        <div class="filter-row">
+            <label for="studentSearch">Search display names</label>
+            <input id="studentSearch" type="search"
+                maxlength="40" placeholder="Search students..."
+                autocomplete="off">
+        </div>
+
+        <div class="list-state" id="onlineEmpty">
+            <span class="empty-icon">👥</span>
+            <h3>No online students available</h3>
+            <p>Real online students will appear here after secure backend integration.</p>
+        </div>
+
+        <div class="student-list" id="studentList" hidden></div>
+
+        <p class="preview-note">
+            Preview only — no student identities or online statuses are being fetched.
+        </p>
+    </section>
+
+    <section class="panel group-panel">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">YOUR CONVERSATION</p>
+                <h2>Group Room</h2>
+            </div>
+            <span class="room-badge" id="roomStatus">Not joined</span>
+        </div>
+
+        <div class="room-info">
+            <span class="room-icon">💬</span>
+            <div>
+                <h3 id="roomTitle">Student Group Room</h3>
+                <p id="roomDescription">
+                    Select an eligible online student to request a connection.
+                    A group room will be available when the service is connected.
+                </p>
+            </div>
+        </div>
+
+        <div class="temporary-notice">
+            <span>🔒</span>
+            <p><strong>Temporary messages:</strong> Messages are intended to stay in server memory only. They may disappear when a participant leaves or the server restarts. Do not share personal information.</p>
+        </div>
+
+        <div class="messages" id="messageArea" aria-live="polite">
+            <div class="chat-placeholder" id="chatPlaceholder">
+                <span>🌐</span>
+                <h3>Your group conversation will appear here</h3>
+                <p>Group messaging will be enabled after secure backend integration.</p>
+            </div>
+        </div>
+
+        <form class="composer" id="messageForm">
+            <label class="visually-hidden" for="messageInput">Write a group message</label>
+            <textarea id="messageInput" rows="1" maxlength="1000"
+                placeholder="Group messaging is not connected yet..."
+                disabled></textarea>
+            <button id="sendButton" class="button primary send-button"
+                type="submit" disabled aria-label="Send message">➤</button>
+        </form>
+        <p class="composer-help">
+            Be respectful. Never share personal data, passwords or verification codes.
+        </p>
+    </section>
+
+    <section class="panel rules-panel">
+        <div class="section-heading">
+            <div>
+                <p class="section-kicker">REQUIRED COMMUNITY GUIDELINES</p>
+                <h2>Group Chat Rules</h2>
+            </div>
+            <span class="rules-icon">📜</span>
+        </div>
+
+        <ol class="rules-list">
+            <li><strong>Personal Data Privacy:</strong> Do not share your home address, phone number, school timetable, passwords, verification codes or financial information. Student Digital Hub is not responsible for misuse or harm arising from information you voluntarily disclose, to the extent permitted by applicable law.</li>
+
+            <li><strong>Respectful Communication:</strong> Do not use unnecessary, abusive, insulting, sexually inappropriate or otherwise unsuitable language.</li>
+
+            <li><strong>No Harassment or Bullying:</strong> Threats, bullying, intimidation, stalking, hate speech and repeated unwanted messages are prohibited.</li>
+
+            <li><strong>No Harmful or Illegal Content:</strong> Do not share content intended to threaten, exploit, defraud or harm another person, or content that violates applicable law.</li>
+
+            <li><strong>Respect Privacy:</strong> Do not publish, forward or expose another student's personal information or messages without permission.</li>
+
+            <li><strong>No Impersonation:</strong> Do not pretend to be another student or mislead members about your identity.</li>
+
+            <li><strong>No Spam or Malicious Links:</strong> Do not flood the room with messages, send suspicious links or attempt to disrupt the service.</li>
+
+            <li><strong>Respect Consent:</strong> Do not pressure anyone to join a room, reply to a message or share personal information.</li>
+
+            <li><strong>Block and Report:</strong> Report inappropriate conduct and block users when these features are available. Do not retaliate against someone who reports a concern.</li>
+
+            <li><strong>Temporary Messages:</strong> Messages are not intended to be stored permanently. They may be deleted when a participant leaves the room or the server restarts.</li>
+
+            <li><strong>Keep Conversations Appropriate:</strong> Group chat is for respectful student interaction and learning. Content that makes others feel unsafe or uncomfortable is not allowed.</li>
+
+            <li><strong>Use the Service Responsibly:</strong> Do not attempt to bypass access restrictions, view hidden student data or access a group without authorization.</li>
+        </ol>
+
+        <label class="agreement">
+            <input id="rulesAccepted" type="checkbox">
+            <span>I have read and agree to follow the Group Chat Rules.</span>
+        </label>
+
+        <p class="help-text" id="rulesStatus" role="status">
+            This is a frontend preview. Your choice is not saved to an account.
+        </p>
+    </section>
+
+    <section class="panel safety-panel">
+        <div>
+            <p class="section-kicker">YOUR CONTROL</p>
+            <h2>Safety Actions</h2>
+            <p>These controls will work after backend integration.</p>
+        </div>
+
+        <div class="action-buttons">
+            <button id="leaveGroupBtn" class="button danger"
+                type="button" disabled>Leave Group</button>
+            <button id="blockBtn" class="button outline"
+                type="button" disabled>⛔ Block Student</button>
+            <button id="reportBtn" class="button outline report"
+                type="button" disabled>⚑ Report Concern</button>
+        </div>
+
+        <p id="safetyStatus" class="status" role="status"></p>
+    </section>
+
+    <p class="footer-note">
+        Student Digital Hub · Learn together. Connect responsibly.
+    </p>
+</main>
+
+<dialog id="safetyDialog">
+    <form method="dialog" class="dialog-content">
+        <button class="dialog-close" value="cancel" aria-label="Close">×</button>
+        <p class="section-kicker">STUDENT SAFETY</p>
+        <h2 id="dialogTitle">Safety Action</h2>
+        <p id="dialogText"></p>
+
+        <label id="reportReasonLabel" for="reportReason" hidden>
+            Briefly describe the concern. Do not include sensitive personal data.
+        </label>
+        <textarea id="reportReason" rows="3" maxlength="500"
+            placeholder="Describe the concern..." hidden></textarea>
+
+        <div class="dialog-actions">
+            <button class="button outline" value="cancel">Cancel</button>
+            <button class="button primary" id="dialogConfirmBtn" type="button">
+                Continue
+            </button>
+        </div>
+        <p id="dialogStatus" class="status" role="status"></p>
+    </form>
+</dialog>
+
+<footer class="bottom-footer">
+    <a href="SDHCM.html">← Back to Community</a>
+    <span>Group Chat · </span>
+</footer>
+
+</body>
+</html>

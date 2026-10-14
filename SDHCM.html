@@ -1,0 +1,94 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d1b">
+    <title>SDH Community Chat</title>
+    <link rel="stylesheet" href="SDHCM.css">
+    <script src="SDHCM.js" defer></script>
+</head>
+<body>
+    <header class="topbar">
+        <a class="brand" href="dashboard.html">
+            <span class="brand-icon">🎓</span>
+            <span>Student <strong>Digital Hub</strong></span>
+        </a>
+        <a class="back-link" href="dashboard.html">← Dashboard</a>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <span class="eyebrow">SDH • STUDENT COMMUNITY</span>
+            <h1>Community <span>Chat</span></h1>
+            <p>Connect with friends. Learn together. Stay safe.</p>
+        </section>
+
+        <section class="id-card" aria-labelledby="id-heading">
+            <div class="id-icon">🪪</div>
+            <div class="id-content">
+                <p class="small-label" id="id-heading">YOUR STUDENT CHAT ID</p>
+                <div class="id-number" id="studentChatId">Not assigned yet</div>
+                <p class="hint" id="idHint">
+                    Your unique 10-digit ID will be assigned by SDH securely.
+                </p>
+            </div>
+            <button id="copyIdBtn" class="copy-btn" type="button" disabled>
+                Copy ID
+            </button>
+        </section>
+
+        <section class="chat-options">
+            <article class="chat-card private-card">
+                <div class="card-icon">💬</div>
+                <span class="card-tag">YOUR FRIENDS</span>
+                <h2>Private Chat</h2>
+                <p>
+                    Chat privately with people you know using their
+                    10-digit Student Chat ID.
+                </p>
+                <a class="primary-btn" href="SDHCPC.html">
+                    Open Private Chat <span>→</span>
+                </a>
+            </article>
+
+            <article class="chat-card group-card">
+                <div class="card-icon">👥</div>
+                <span class="card-tag">STUDENT COMMUNITY</span>
+                <h2>Group Chat</h2>
+                <p>
+                    Find eligible students who are online and join
+                    temporary group conversations.
+                </p>
+                <a class="primary-btn" href="SDHCGC.html">
+                    Open Group Chat <span>→</span>
+                </a>
+            </article>
+        </section>
+
+        <section class="privacy-card">
+            <div class="privacy-icon">🛡️</div>
+            <div>
+                <h3>Your privacy matters</h3>
+                <p>
+                    Chat messages are designed to stay in temporary server
+                    memory, not the Supabase database. They should disappear
+                    when the chat session ends.
+                </p>
+                <p class="privacy-note">
+                    Never share passwords, verification codes, your home
+                    address or other sensitive personal information.
+                </p>
+            </div>
+        </section>
+
+        <p class="status-message" id="statusMessage" role="status"
+           aria-live="polite"></p>
+    </main>
+
+    <footer class="footer">
+        <p>Student Digital Hub · Learn safely, connect responsibly.</p>
+    </footer>
+</body>
+</html>
